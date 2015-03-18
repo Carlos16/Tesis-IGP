@@ -1,0 +1,55 @@
+
+
+\subsection{Modelos Matem\'aticos \emph{Depredador-Presa}}
+
+El uso de modelos matem\'aticos para describir la din\'amica poblacional de un conjunto de especies que se relacionan mediante interacciones depredador-presa, se remonta a los trabajos de Lotka y Volterra\citep{gotelliprimer}, los cuales independientemente describieron los cambios en la abundancia poblacional de un depredador $C$ y una presa $R$ mediante el siguiente sistema de ecuaciones diferenciales : 
+
+\begin{equation}\label{eq:LV}
+\begin{aligned}
+&\dot{R} = R(r - \alpha C)\\
+&\dot{C} = C(e\alpha - q) 
+\end{aligned}
+\end{equation}
+
+El sistema \eqref{eq:LV} es conocido como \emph{sistema de ecuaciones depredador-presa Lotka-Volterra} y se puede extender f\'acilmente a un sistema de $n$ especies identificadas con $\{1,2, \ldots ,n\}$ de la siguiente manera:
+\begin{equation}\label{eq:LVGen}
+\dot{X_i}  = X_i(b_i - d_i + \sum_{j}^n \alpha_{ij} X_j)
+\end{equation}
+
+Donde $X_i$ representa la abundancia en n\'umeros o biomasa de la especie $i$, $b_i$ la tasa intr\'inseca de producci\'on de masa(individuos), $d_i$ la tasa de p\'erdida de masa(individuos) y $\alpha_{ij}$ se puede interpretar como la p\'erdida(ganancia) de masa(individuos) debido a interacciones con las dem\'as especies presentes en el h\'abitat.
+
+Por lo general se asume que :
+\begin{itemize}
+\item $\alpha_{ij}$ es una constante.
+\item $\alpha_{ii} < 0 $ si $X_i$ es un recurso basal, a diferencia de la formulaci\'on original en este caso se asume que existe \emph{denso dependencia instant\'anea} entre los individuos de una poblaci\'on de presas.
+\item $\alpha_{ii} = 0 $ si $X_i$ es un depredador, es decir no existe \emph{denso dependencia instan\'anea} entre individuos de una poblaci\'on de depredadores.
+\item $b_i = 0$ si $X_i$ es un depredador, ya que los depredadores no pueden subsistir en ausencia de presas.
+\end{itemize}
+Modelos como \eqref{eq:LVGen} son llamados \emph{modelos tipo Lotka-Volterra}.
+
+
+El modelo depredador-presa \emph{Lotka-Volterra},pese a sus evidentes limitaciones,ha jugado(y sigue jugando) un papel importante en el desarrollo de la teor\'ia en ecolog\'ia y form\'o la base para el desarrollo de modelos que incorporan caracter\'isticas con mayor fundamento biol\'ogico.
+
+
+\subsection{ M\'odulo IGP}
+
+En teor\'ia de redes tr\'oficas, se denomina \emph{community modules} a un conjunto peque\~no de especies que interact\'uan entre s\'i y cuyo patr\'on de interacci\'on ha sido encontrado en diversos ecosistemas(citar holt). Entre ellos el m\'odulo de \emph{depredaci\'on dentro del clan}(IGP por sus siglas en ingl\'es) fue descrito por primera vez por \cite{polis1989ecology} envuelve tres especies: un recurso basal, un depredador intermedio y un depredador tope.Ambos depredadores consumen al recurso y ademas el depredador intermedio es consumido por el depredador tope. Este sistema pese a tener solo $3$ especies incorpora diversos tipos de interacci\'on \emph{depredaci\'on, competencia aparente, competencia por explotaci\'on y mutualismo indirecto}. Esto se describe gr\'aficamente en la figura ~\ref{fig:IGP}
+\begin{figure}[h]
+\input{IGPPicture.tex}
+\caption{M\'odulo \textbf{IGP}}
+\label{fig:IGP}
+\end{figure}
+
+Adem\'as este sistema es el menor(en el sentido de n\'umero de especies) en el cual podemos encontrar 2 \emph{caminos de ensamblaje}.
+\begin{figure}[h]
+\input{IGPAssembly.tex}
+\caption{\emph{Caminos de ensamblaje} para el m\'odulo \textbf{IGP}}
+\label{fig:IGPAssembly}
+\end{figure}
+Numerosos ejemplos son citados en \cite{polis1989ecology}, algunos de los cuales se presentan en la siguiente tabla:
+\improvement{HACER LA TABLA!}
+
+
+\subsection{Cadenas Tr\'oficas}
+
+

@@ -1,3 +1,15 @@
 *.pdf
 *.csv
 *.txt
+*.html
+*.aux
+*.out
+*.blg
+*.lof
+*.log
+*.tdo
+*.toc
+*.bbl
+*.gz
+*.tex~
+*.bib~

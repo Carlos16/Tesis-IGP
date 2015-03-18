@@ -1,0 +1,323 @@
+---
+title: "Body size-Data analysis"
+author: "Carlos"
+date: "Tuesday, March 17, 2015"
+output: html_document
+---
+```{r}
+library(knitr)
+opts_chunk$set(warning = FALSE)
+```
+
+#Read data
+
+```{r}
+#Read data
+#bodysizes<-read.delim('bodysizes_2008.txt')
+#explore structure
+#str(bodysizes)
+
+```
+
+##subset a particular dataset
+
+Subset the food web for the benguela ecosystem and save it for future use
+```{r}
+#benguela <- subset(bodysizes,Geographic.location == "Africa, Benguela ecosystem")
+#write.csv(benguela,'benguela.csv',row.names = FALSE)
+```
+
+```{r}
+benguela<-read.csv('benguela.csv',na.string=-999)
+```
+
+##Format data for inputing into Igraph
+
+```{r}
+# Put the columns in icols to the start of the dataframe
+ReorderColumns<-function(DF,icols){
+  cols <- c(icols,names(DF)[-which(names(DF) %in% icols)])
+  DF <- DF[cols]
+  return(DF)
+}
+
+icols <- c("Common.name.s..resource","Common.name.s..consumer")
+
+benguela<-ReorderColumns(benguela,icols)
+
+```
+
+```{r}
+library(igraph)
+#create graph
+G <- graph.data.frame(benguela)
+plot(G)
+```
+
+##Finding IGP modules
+
+```{r}
+
+findIGPs<-function(G){
+  FocusVertices <- V(G)[degree(G,mode="out") >=2]
+  IGPs <- findModules(FocusVertices,G)
+  return(IGPs)
+}
+
+findModules<-function(V,G){
+  Modules <- c()
+  for(resource in V){
+    Modules<-append(Modules,IGPmod(G,resource))
+  }
+  return(Modules)
+}  
+IGPmod<-function(G,resource){
+  Predators <- neighborhood(G,1,nodes = resource,mode ="out")
+  IGPs <- c()
+  n <- length(Predators[[1]])
+  for(i in 2:n){
+    IGPs<-append(IGPs,findIGPrey(resource,i,Predators,G))
+  }
+  return(IGPs)
+}
+
+findIGPrey<-function(resource,predindex,Predators,G){
+  pIGPs<-c()
+  NeighPred <- neighborhood(G,1, nodes = Predators[[1]][predindex],mode="out")
+  for(p in Predators[[1]][-c(1,predindex)]){
+    if(p %in% NeighPred[[1]]){
+      pIGPs<-append(pIGPs,list(c(resource,Predators[[1]][predindex],p)))
+    }
+  }
+  return(pIGPs)
+}
+```
+
+```{r}
+IGPs<-findIGPs(G)
+```
+
+##Finding body size ratios within IGP modules
+For the three species of an IGP module , *R,C,P* we will find :  
+$$
+\begin{equation}
+\begin{aligned}
+k_{RC} := \frac{m_R}{m_C} \\
+k_{CP} := \frac{m_C}{m_P} 
+\end{aligned}
+\end{equation}
+$$
+```{r}
+
+##Finding size ratios for the IGP modules
+
+findIGPsizeRatios <- function(IGPs,G){
+  log10.K_RC<-c()
+  log10.K_CP<-c()
+  log10.m_P <-c()
+  for(i in 1:length(IGPs)){
+    SR <- getsizeRatios(G,IGPs[i][[1]])
+    log10.K_RC[i] = log10(SR[1])
+    log10.K_CP[i] = log10(SR[2])
+    log10.m_P[i] = log10(SR[3])
+  }
+  
+  return(data.frame(log10.K_RC,log10.K_CP,log10.m_P))
+}
+
+getsizeRatios<-function(G,igpL){
+  SR<-c()
+  igpEdges = getIGPedges(G,igpL)
+  for(edge in igpEdges){
+    E <- E(G)[edge]
+    
+    SR<-append(SR,c(1/E$Consumer.resource.body.mass.ratio))
+  }
+  
+  m_P =E(G)[igpEdges[2]]$Mean.mass..g..consumer
+  SR[3] <- m_P
+  return(SR)
+  
+}
+
+getIGPedges<-function(G,igpL){
+  edgeInd<-c()
+  for(i in 1:2){
+    edgeInd<-append(edgeInd,c(igpL[i],igpL[i+1]))
+  }
+  edges<-get.edge.ids(G,edgeInd)
+  return(edges)
+}
+```
+
+
+```{r}
+SR <- findIGPsizeRatios(IGPs,G)
+
+SR$m_pInt <- as.factor(floor(SR$log10.m_P))
+```
+
+
+##Exploratory Plots
+
+code to plot regression equation taken from <http://stackoverflow.com/questions/7549694/ggplot2-adding-regression-line-equation-and-r2-on-graph>
+
+```{r}
+lm_eqn = function(m) {
+
+  l <- list(a = format(coef(m)[1], digits = 2),
+      b = format(abs(coef(m)[2]), digits = 2),
+      r2 = format(summary(m)$r.squared, digits = 3));
+
+  if (coef(m)[2] >= 0)  {
+    eq <- substitute(italic(y) == a + b %.% italic(x)*","~~italic(r)^2~"="~r2,l)
+  } else {
+    eq <- substitute(italic(y) == a - b %.% italic(x)*","~~italic(r)^2~"="~r2,l)    
+  }
+
+  as.character(as.expression(eq));                 
+}
+
+```
+
+```{r}
+
+library(ggplot2)
+reg1<-lm(log10.K_RC~log10.K_CP , data = SR)
+summary(reg1)
+plot <- ggplot(SR,aes(log10.K_CP,log10.K_RC)) + geom_point(aes(color=m_pInt))+labs(x = expression("log "* K[CP]), y = expression("log "* K[RC])) + geom_smooth(method="lm",col="red") +theme_bw(base_size = 10) 
+
+plot + annotate("text", x = -6 , y = -5, label = lm_eqn(reg1), colour="black", size = 5, parse=TRUE)
+
+```
+
+#Automatizing all the job
+
+```{r}
+getIGPSizeRatios <- function(Data,Location,icols,Shabitat = FALSE){
+  Subdata <- Data[Data$Geographic.location == Location,]
+  if(class(Shabitat) != "logical"){
+    Subdata<-Subdata[Subdata$Specific.habitat == Shabitat,]
+  }
+  Subdata <- ReorderColumns(Subdata,icols)
+  G_Subdata <- graph.data.frame(Subdata)
+  IGPs <- findIGPs(G_Subdata)
+  SR <- findIGPsizeRatios(IGPs,G_Subdata)
+  
+  SR$m_pInt <- as.factor(floor(SR$log10.m_P))
+  
+  reg1<-lm(log10.K_RC~log10.K_CP , data = SR)
+  print(summary(reg1))
+  
+  ##Plotting
+  plot <- ggplot(SR[complete.cases(SR$log10.m_P),],aes(log10.K_CP,log10.K_RC)) + geom_point(aes(col = m_pInt))+
+          labs(x = expression("log "* K[CP] ), y = expression("log "* K[RC])) + 
+          geom_smooth(method="lm",col="red") +theme_bw(base_size = 10)+
+          annotate("text", x = min(SR$log10.K_CP) + 1 , y = min(SR$log10.K_RC)+1,
+                   label = lm_eqn(reg1), colour="black", size = 3, parse=TRUE)
+  print(plot)
+  return(SR)
+}
+
+```
+
+#Silkwood Park food web
+```{r , warning=FALSE}
+bodysizes<-read.csv('bodysizes.csv',na.string = -999)
+bodysizes<-bodysizes[complete.cases(bodysizes$Geographic.location),]
+
+Silwood<-getIGPSizeRatios(bodysizes,"Country: United Kingdom; UTM: 51.24'N, 0.34'W; Silwood Park, Berkshire",c("Taxonomy.resource","Taxonomy.consumer"))
+```
+  
+#Tuesday lake
+
+```{r}
+TL<-getIGPSizeRatios(bodysizes,"Country: United States of America; UTM: 89.32'W, 46.13'N; Tuesday Lake, Michigan ",c("Taxonomy.resource","Taxonomy.consumer"))
+```
+
+#Broadstone stream
+
+```{r}
+Broadstone<-getIGPSizeRatios(bodysizes,"Country: United Kingdom; UTM: 51.05'N, 0.03'E; Broadstone Stream in Sussex",c("Taxonomy.resource","Taxonomy.consumer"))
+```
+
+#NorthYorkshire
+
+```{r}
+NorthYorkshire<-getIGPSizeRatios(bodysizes,"Country: United Kingdom; UTM: 53.40'N, 0.59'W; Skipwith Common, North Yorkshire",c("Taxonomy.resource","Taxonomy.consumer"))
+```
+
+#Nevada Mountains
+
+```{r}
+Nevada<-getIGPSizeRatios(bodysizes,"Country: United States of America; John Muir Wilderness Area and Kings Canyon National Park, Sierra Nevada mountains, California",c("Taxonomy.resource","Taxonomy.consumer"))
+```
+
+#Weddell Sea
+
+```{r}
+Weddell<-getIGPSizeRatios(bodysizes,"Antarctica: Eastern Weddell Sea",c("Taxonomy.resource","Taxonomy.consumer"))
+```
+
+#Mill Stream UK
+
+```{r}
+Mill<-getIGPSizeRatios(bodysizes,"Country: United Kingdom; the River Frome, Dorset;  UTM: 50.40'N, 2.11'W",c("Taxonomy.resource","Taxonomy.consumer"))
+```
+
+#Parasitoid community
+
+```{r}
+ParaC<-getIGPSizeRatios(bodysizes,"Country: United Kingdom",c("Taxonomy.resource","Taxonomy.consumer"))
+```
+
+#Grand Caricaie 
+
+##Grand caricaie mown marsh dominated by Cladetium
+
+```{r,cache=TRUE}
+GrandCaricaie1<-getIGPSizeRatios(bodysizes,"Country: Switzerland; Lake Neuchâtel",c("Taxonomy.resource","Taxonomy.consumer"),Shabitat = "Grand Caricaie; marsh dominated by Cladietum marisci, mown; Clmown1")
+
+```
+
+
+##Grand caricaie marsh dominated by Schoneus mown
+
+```{r, cache=TRUE}
+GrandCaricaie2<-getIGPSizeRatios(bodysizes,"Country: Switzerland; Lake Neuchâtel",c("Taxonomy.resource","Taxonomy.consumer"),Shabitat = "Grand Caricaie; marsh dominated by Schoenus nigricans, mown; Scmown2;")
+```
+
+#Agregate all data sets
+
+```{r}
+total<-rbind(SR,Silwood,TL,Broadstone,NorthYorkshire,Nevada,Weddell,Mill,ParaC,GrandCaricaie1)
+```
+
+##Plot total
+
+```{r}
+total$m_pInt <- factor(floor(total$log10.m_P))
+reg<-lm(log10.K_RC~log10.K_CP,data=total)
+summary(reg)
+plot <- ggplot(total[complete.cases(total$log10.m_P),],aes(log10.K_CP,log10.K_RC)) + 
+        geom_point(aes(col = m_pInt))+
+        labs(x = expression("log "* K[CP] ), y = expression("log "* K[RC])) + 
+        geom_smooth(method="lm",col="red") +theme_bw(base_size = 10) 
+
+plot + annotate("text", x = min(total$log10.K_CP) + 2 , y = min(total$log10.K_RC)+2, 
+                  label = lm_eqn(reg), colour="black", size = 3, parse=TRUE)
+
+```
+
+##Linear model
+
+$$
+\log_{10}(k_{RC}^i) \approx a_0 + a_1\log_{10}(k_{CP}^i) + a_2\log_{10}(m_P^i) 
+$$
+```{r}
+reg2 <- lm(log10.K_RC~log10.K_CP+log10.m_P ,data = total[complete.cases(total$log10.m_P),])
+summary(reg2)
+```
+
+
+

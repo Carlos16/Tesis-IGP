@@ -1,0 +1,283 @@
+\section{METODOLOGIA}
+
+\subsection{Modelaci\'on matem\'atica}
+
+
+
+Tomando como base el m\'odulo de tres especies  IGP - \emph{Intraguild predation}-(descrito en \citealt{polis1989ecology,polis1992intraguild}),usamos un modelo matem\'atico\citep{holt1997theoretical} para describir las interacciones entre las especies componentes(Recurso, consumidor intermedio(IG prey) y depredador tope(IG Predator) ). Este m\'odulo ha sido sugerido como un sistema de complejidad suficiente para incorporar distintos mecanimos que provocan variaci\'on en la longitud de las cadenas tr\'oficas : Inserci\'on, Adici\'on y Omnivorismo \citep{TP2007proximate}.
+\subsubsection{Forma general}
+La din\'amica del systema est\'a gobernada ,de forma general,por el siguiente sistema de ecuaciones diferenciales: \\
+Sea $ N= (N_1,N_2,N_3) = (\dot{R} , \dot{C} , \dot{P})  $
+\begin{equation}\label{eq:Gsystem}
+\begin{aligned}
+&\dot{R} = F(R) -G(R,C)-H_{\R}(R,C,P)  \\
+&\dot{C} = \epsilon_1 G(R,C)-H_{\C}(R,C,P) - q_2 C  \\
+&\dot{P} = \epsilon_2 H_{\R}(R,C,P) +\epsilon_3 H_{\C}(R,C,P) -q_1 P
+\end{aligned}
+\end{equation}
+\subsubsection*{Donde:}
+\begin{tabular}{l@{:}p{5.8in}}
+$R$\ &   Densidad de biomasa del recurso $R$.\\
+$C$\ &  Densidad de biomasa del consumidor intermedio(IG prey) $C$.\\
+$P$\ &  Densidad de biomasa del depredador tope(IG predator) $P$.\\
+$F$\ &  Funci\'on que describe la din\'amica poblacional del recurso $R$ en ausencia de depredadores.\\
+$G$\ &  Funci\'on que describe la depredaci\'on ejercida por el consumidor $C$ sobre el recurso $R$.\\
+$H_{\R}$\ &  Funci\'on que describe la depredaci\'on ejercida por el depredador tope $P$ sobre el recurso $R$.\\
+$H_{\C}$\ &  Funci\'on que describe la depredaci\'on ejercida por el depredador tope $P$ sobre el consumidor $C$.\\
+$\epsilon_1$\ &  Eficiencia de conversi\'on de biomasa del recurso $R$ en biomasa del consumidor intermedio $C$.\\
+$\epsilon_2$\ &  Eficiencia de conversi\'on de biomasa del recurso $R$ en biomasa del depredador tope $P$.\\
+$\epsilon_3$\ &  Eficiencia de conversi\'on de biomasa del consumidor $C$ en biomasa del depredador tope $P$.\\
+$q_1$\ &  Tasa de p\'erdida de biomasa por unidad de masa del consumidor intermedio $C$.\\
+$q_2$\ &  Tasa de p\'erdida de biomasa por unidad de masa del depredador tope $P$.\\
+\end{tabular}
+\subsubsection{Forma espec\'ifica  \emph{Lotka-Volterra}}
+En este caso asumimos que el recurso tiene un crecimiento log\'istico y que la tasa de consumci\'on per c\'apita de biomasa escala linearmente con la densidad de biomasa del recurso, i.e. usamos una respuesta funcional Tipo I \citep{gotelliprimer}.\\
+Esta forma es una modificaci\'on del modelo Lotka-Volterra \citep{gotelliprimer}.\\
+\mbox{}\\
+Definimos:
+\begin{equation}\label{eq:p1}
+\begin{aligned}
+&r := r(m_r,T_r,\vartheta_r)&\\ 
+&K := K(m_r,T_r,\vartheta_r)&\\
+&\alpha_{1} := \alpha_{1}(m_\R,m_c,T_r,T_c,D_r,f_\C,\vartheta_r,\vartheta_c)&\\
+&\alpha_{2} := \alpha_{2}(m_\R,m_\PP,T_r,T_p,D_r,f_{\PP_2},\vartheta_r,\vartheta_p)&\\
+&\alpha_{3} := \alpha_{3}(m_\C,m_\PP,T_c,T_p,D_c,f_{\PP_3},\vartheta_c,\vartheta_p)& \\
+&q_1 := q_1(m_c,T_c,\vartheta_c)& \\ 
+&q_2 := q_2(m_p,T_p,\vartheta_p)&\\
+&F(R):= rR(1-R/K)& \\
+&G(R,C):= (\alpha_1/m_c)RC &\\ 
+&H_{\R}(R,C,P):= (\alpha_2/m_p)PR&\\
+&H_{\C}(R,C,P):= (\alpha_2/m_p)PC&
+\end{aligned}
+\end{equation}
+
+Reemplazando \eqref{eq:p1} en \eqref{eq:Gsystem} tenemos:
+
+\
+\begin{equation}
+\begin{aligned} 
+\dot{R} &= R\left[r(1-R/K)- (\alpha_{1}/m_\C) C -(\alpha_{2}/m_\PP) P \right] \\
+\dot{C} &= C \left[\epsilon_1 (\alpha_{1}/m_\C) R - (\alpha_{3} /m_\PP) P - q_1\right] \\
+\dot{P} &= P \left[\frac{1}{m_\PP}\left(\epsilon_2 \alpha_{2}R + \epsilon_3 \alpha_{3}C \right) - q_2 \right]
+\end{aligned}
+\end{equation}
+
+\subsubsection*{Donde:}
+\begin{longtable}{l@{:}p{5.8in}}
+$r$  \ & Tasa intr\'inseca de producci\'on de biomasa del Recurso $R$.\\
+$K$  \  &Capacidad de carga (en biomasa) del recurso $R$.\\
+$\alpha_1$  \ & Tasa per c\'apita de b\'usqueda y captura de biomasa del depredador intermedio $C$ sobre  el recurso basal $R$.\\
+$\alpha_2$ \ & Tasa per c\'apita de b\'usqueda y captura de biomasa del depredador tope $P$ sobre  el recurso basal $R$.\\
+$\alpha_3$ \  &Tasa per c\'apita de b\'usqueda y captura de biomasa del depredador tope $P$ sobre  el depredador intermedio $C$.\\
+$m_\R$  \ & Masa de un individuo ``t\'ipico'' del recurso $R$.\\
+$m_\C$  \ & Masa de un individuo ``t\'ipico'' del consumidor intermedio $C$.\\
+$m_\textit{\tiny P}$  \ & masa de un individuo ``t\'ipico'' del depredador tope $P$.\\
+$T_J$ \ & Temperatura corporal promedio de la especie $J$. $J = P,C,R$ \\
+$\vartheta_J$ \ & Clase metab\'olica de la especie $J$ . $J = P,C,R$ \\
+$f_\C$ \ & Estrategia de forrajeo de la consumidor intermedio $C$ .\\
+$f_{\PP_2}$ \ & Estrategia de forrajeo del depredador tope $P$ sobre $R$ .\\
+$f_{\PP_3}$ \ & Estrategia de forrajeo del depredador tope $P$ sobre $C$ .\\
+
+\end{longtable}
+
+Los par\'ametros y funciones no mencionados mantienen la descripci\'on dada en el caso general.
+\subsubsection{Parametrizaci\'on}
+Usamos relaciones alom\'etricas derivadas previamente en la literatura basadas en relaciones biomec\'anicas y bioenerg\'eticas \citep{savage2004predominance,brown2004toward,west1997general,savage2004effects,pawar2012dimensionality,mcgill2006allometric,peters1986ecological,kiltie2000scaling,yodzis1992body} para exponer expl\'icitamente la variaci\'on de los par\'ametros de los modelos usados con respecto a la masa corporal de las especies interactuantes,  si bien la temperatura se puede incluir expl\'icitamente en estas relaciones (v\'ease \citealt{brown2004toward,savage2004effects}) nos centraremos \'unicamente en la masa corporal y dejaremos los efectos de la temperatura para un futuro trabajo. \improvement{agregar un cuadro de los valores de constantes usadas}
+
+\subsubsection{Par\'ametros intra-poblacionales}
+Usando las relaciones definidas en \cite{savage2004effects} tenemos:
+\begin{equation}\label{eq:params3}
+\begin{aligned}
+&r = r_0m_\R^{\beta_\R - 1} \\
+&q_1=q_{0,1}m_\C^{\beta_\C - 1} \\
+&q_2= q_{0,2}m_\PP^{\beta_\PP -1}\\
+&K= K_{0}m_\R^{1-\beta_\R}
+\end{aligned}
+\end{equation}
+
+$\beta_J$ es el exponente que describe la variaci\'on de la tasa metab\'olica a nivel de individuo con la masa de la especie $J$, cuyo valor ha sido descrito entre $2/3 - 1$ siendo $3/4$ el asociado a una tasa metab\'olica basal y valores superiores , a tasas metab\'olicas en actividad\citep{pawar2012dimensionality,west1997general,savage2004predominance}. $J = P,C,R$ \\
+$r_0,q_{0,1},q_{0,2}$ y $K_0$ son constantes que dependen de la temperatura y la clase metab\'olica de las especies( e.g. endotermos o ectotermos) , $K_0$ a su ves depende de la productividad del ambiente\citep{pawar2012dimensionality}.
+\subsubsection{Par\'amatros inter-poblacionales}
+Usando las relaciones definidas en \citep{pawar2012dimensionality,kiltie2000scaling,mcgill2006allometric,bejan2006unifying} tenemos una relaci\'on para $\alpha$  la tasa p\'ercapita de b\'usqueda(tasa de encuentro potencial) y captura de biomasa de recurso $j$ por parte de un depredador $i$, la cual depende del \'area buscada $S_A$ y la tasa de \'exito en la captura $\aleph$ :  \improvement{agregar figuras,elegir mejores palabras}
+
+\begin{equation}\label{eq:alfa}
+\begin{aligned}
+ \alpha & =  S_A*\aleph \\
+ S_A &=  A_D * v_r \\
+A_D &=  \begin{cases} 2d & \text{si } D_j = 2 \\ \pi d^2 & \text{si } D_j = 3 \end{cases}\\
+v_r &= \sqrt{v_i^2 +v_j^2}\\
+\aleph &= \Pi(k_{ji})
+\end{aligned}
+\end{equation}
+A continuaci\'on detallamos cada componente de \eqref{eq:alfa}:\\
+
+$A_D$ se deriva del hecho que el la regi\'on de detecci\'on del depredador $i$ es una ($D_j-1$)-esfera independientemente de la forma de detecci\'on\citep{pawar2012dimensionality}.Donde $D_i$ es la dimensi\'on la cual se desarrolla la interacci\'on,la dimensi\'on del espacio en el cual se distribuye el recurso $i$.
+$v_r$ es la velocidad relativa presente entre el $i$ y $j$ , que se interpreta como el promedio poblacional de la rapidez con la cual convergen $i$ y $j$ en el h\'abitat \citep[supinfo.]{pawar2012dimensionality} , la forma dada en \eqref{eq:alfa} asume un movimiento aleatorio por parte de ambas especies, el cual ha sido descrito previamente \citep{okubo2001diffusion}.\\
+En \cite{pawar2012dimensionality} describen la variaci\'on de la velocidad para una especie $v$ respecto a cambios en su masa corporal de la siguiente manera:
+\begin{equation}\label{eq:vel}
+\begin{aligned}
+&v \propto \frac{B_0 m^\beta}{Fuerza}\\
+&Fuerza \propto m^{\beta_F} \\
+&v = v_0m^{\beta - \beta_F}
+\end{aligned}
+\end{equation}
+$v_0$ es una constante que depende del taxa y del modo de locomoci\'on y la constante y la constante metab\'olica $B_0$.\\ \improvement{mejorar que poner, considerar referir anexos}
+
+$k_{ji}= m_j/m_i$ es el raz\'on de la masa del recurso con respecto al depredador , y $\Pi \in [0,1]$ y  puede tomar distintas formas\citep{weitz2006size}, en este trabajo se exploraron las siguientes(figura \ref{fig:efficiency}): 
+\begin{equation}\label{eq:sr}
+\Pi(k_{ji}) =
+\begin{cases}
+a\\
+\frac{a}{1+k_{ji}^\phi} \\
+\end{cases}
+\end{equation}
+
+$a \in [0,1] $ es una constante que determina la m\'axima eficiencia en la captura y $\phi > 0 $ determina la forma del decaimiento de $\Pi$ con respecto a $k_{ij}$, note que $Pi \to 0$ , si $k_{ij} \to \infty$ y $Pi \to a $, si $k_{ij} \to 0$.
+
+\begin{figure}
+\begin{center}
+ \includegraphics[width=0.7\textwidth]{captefficiency.pdf}
+ \caption[formas para $\aleph$]{Las tres formas usadas para describir la relaci\'on entre $\aleph$ y $k_{ji}$}
+ \label{fig:efficiency} 
+\end{center}
+\end{figure}
+
+$d$ es el radio de detecci\'on m\'aximo a la cual un depredador de un tama\~no percibe a la presa, la relaci\'on con el tama\~no corporal se desprende de:\\ Sea $\eta$ la agudeza visual del depredador $j$ y $\theta$ el \'angulo de resoluci\'on \improvement{agregar figura}:
+\begin{equation}\label{eq:d}
+\begin{aligned}
+\tan{\theta/2} &= \frac{L_{j}}{d} \\
+\theta &= \frac{1}{\eta} \\
+\eta & = c_a L_i^{b_a} \\
+M &= c_{lm}L^{b_{lm}} 
+\end{aligned}
+\end{equation}
+\subsubsection*{Donde:}
+$L_i , L_j$ son las longitudes corporales del recurso $i$ y depredador $j$ respectivamente. \\
+$b_{lm} \approx 3 $ y $c_{lm}$ es una constante que depende de la forma y densidad de la especie \citep{peters1986ecological,mcgill2006allometric}. \\
+$b_a \approx 1 $ y $c_a$ varia dependiendo del grupo taxon\'omico y el ambiente \citep{kiltie2000scaling} .\\
+\cite{pawar2012dimensionality} derivan $d$ de la siguiente relaci\'on:
+\[ d = d_0(m_im_j)^{p_d} \]
+La cual es una aproximaci\'on plausible derivada de \eqref{eq:d} y es la que nostros usamos.\\
+Realizando algunas simplificaciones en \eqref{eq:alfa} se llega a obtener la siguiente forma para $\alpha$ \improvement{referir anexos}
+\begin{equation}\label{eq:p4}
+\begin{aligned}
+&\alpha_1= \alpha_{0,1}m_\C^{p_v+2p_d(D_R-1)}f(k_{\RC})\\
+&\alpha_2= \alpha_{0,2}m_\PP^{p_v+2p_d(D_R-1)}f(k_{\RP})\\
+&\alpha_3= \alpha_{0,3} m_\PP^{p_v+2p_d(D_C-1)}f(k_{\CP})\\
+\end{aligned}
+\end{equation}
+\subsubsection*{Donde:}
+$p_v$ y $p_d$ son exponentes que controlan como escala la velocidad de un individuo  y la distancia de reacci\'on con el tama\~no corporal, respectivamente. El valor de $p_d$ var\'ia ligeramente con la dimensi\'on en la cual se desarrolla la interacci\'on \citep{pawar2012dimensionality}.\\
+La funci\'on $f$ incorpora tanto los cambios sobre $S_A$ como $\aleph$ respecto a $k$ y a su vez es dependiente de la estrategia de forrajeo(Fm) del depredador donde tres casos son considerados\citep{pawar2012dimensionality}.
+\begin{itemize}
+\item Captura activa ($Ac$).
+\item Pastoreo ($Gr$).
+\item Captura pasiva-\textit{Sit and wait}.($Sw$) 
+\end{itemize}
+
+\begin{equation}\label{eq:fkr}
+f(k_{ji}) = 
+\begin{cases}
+\sqrt{1+k_{ji}^{2p_v}}k_{ji}^{(D_j-1)p_d} \Pi(k_{ji}) & Fm = Ac\\
+k_{ji}^{p_v+(D_j-1)p_d}\Pi(k_{ji}) & Fm =Gr\\
+k_{ji}^{(D_j-1)p_d}\Pi(k_{ji}) & Fm = Sw\\
+\end{cases}
+\end{equation}
+
+Para el caso de Pastoreo se usar\'a la primera forma descrita para $\Pi$ en \eqref{eq:sr} y en los dos otros casos la segunda forma.
+
+\subsection{An\'alisis}
+Todos los an\'alisis descritos a continuaci\'on se desarrollar\'an para ambos modelos y con distintas combinaciones de dimensi\'on del habitat, estrategia de forrajeo,nivel de productividad ambiental basal y $\Pi$.\\
+Dada la parametrizaci\'on empleada el espacio param\'etrico se reduce a tres ejes : $k_\RC,k_\CP, m_p$(note que $k_\RP = k_\RC k_\CP$), se analizar\'an dos casos:
+\begin{enumerate}
+\item Supondremos que $k_\RC = k_\CP$, lo cual ha sido sugerido previamente \citep{peters1986ecological,brown2004toward}.\label{equalsizeratios}
+\item La suposici\'on anterior se relajar\'a y se analizar\'an ciertos valores de masa de depredador $m_p$
+\end{enumerate}
+
+\improvement{agregar un diagrama de todas las combinacione usadas}
+\subsubsection{Criterios de Invasibilidad}
+Se delimitaron zonas dentro del espacio param\'etrico donde era posible la invasi\'on de una de las especies sobre un sistema receptor(debido a esto se les denomina \emph{criterios de invasibilidad}), para el sistema que estamos analizando los siguientes escenarios son posibles: \improvement{agregar figuras de cada escenario}
+\begin{itemize}
+\item $R$ invade un sistema \emph{vac\'io}.
+\item $C$ invade un sistema conformado solo por $R$.
+\item $P$ invade un sistema conformado solo por $R$.
+\item $P$ invade un sistema conformado por $R$ y $C$.
+\item $C$ invade un sistema conformado por $R$ y $P$.
+\end{itemize}
+En los 3 primeros escenarios la variaci\'on de la Longitud de la cadena tr\'ofica involucra al mecanismo de \textit{adici\'on} y en el \'ultimo escenario el mecanismo involucrado es el de \textit{inserci\'on}.\\
+
+La derivaci\'on de estos criterios asume lo siguiente:
+\begin{itemize}
+\item \emph{El sistema receptor se ha encontrado aislado por suficiente tiempo como para alcanzar un estado asimpt\'otico y que dicho estado es un punto de equilibrio}.\\Esta suposici\'on es plausible ya que se espera que los eventos de inmigraci\'on de $C$ y $P$ no coincidan y que la separaci\'on entre ambos sea relativamente larga.
+\item \emph{La invasi\'on se considera exitosa si es que el crecimiento inicial del invasor es positivo}
+\end{itemize}
+
+Se calcularon 5 criterios de invasibilidad $\mathbf{I_{\R},I_{\C \to \R},I_{\PP \to \R},I_{\PP \to \C-\R},I_{\C \to \PP-\R}}$ y se asoci\'o a cada uno la zona del espacio param\'etrico explorado donde se cumplen, denotada $\mathbf{Z(I)}$ para alguno de los criterios $\mathbf{I}$.
+
+Un ejemplo de la forma de calcular estos criterios se detalla a continuaci\'on, y los dem\'as se especifican en \ref{subsec:CI} \improvement{dar link a apendices}
+
+\myparagraph{P $\to$ C-R}
+
+\begin{equation} \mathbf{IC_{\PP \to \C-\R}} := \dot{P} >0 \iff \epsilon_2\alpha_2\hat{R}_2 + \epsilon_3\alpha_3\hat{C}_2 > q_2 m_P \end{equation}
+
+Donde:
+\begin{equation}
+\begin{aligned}
+\hat{R}_2 &= \frac{q_1 m_C}{\epsilon_1 \alpha_1} \\
+\hat{C}_2 &=  r(\frac{m_C}{\alpha_1}) \left[ 1 - \frac{q_1 m_C}{\epsilon_1 \alpha_1 K} \right] 
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\mathbf{Z(I_{\PP \to \C-\R})} := \{ v \in \mathbf{Z(I_{\C \to \R})} / \dot{P}(v) > 0 \}
+\end{equation}
+
+
+\subsubsection{Zonas de Coexistencia}
+Se delimitaron zonas dentro del espacio param\'etrico donde el triple equilibrio $\mathbf{X} = (R^*,C^*,P^*)$ fuese positivo, $\mathbf{X}$ tiene la propiedad de que $N(\mathbf{X}) = 0$. Para ambos modelos lo que se obtiene es :
+\begin{equation}\label{eq:Equilibrio}
+D:= \{ (R,C,P) \in \mathbf{R}^3_+ / N((R,C,P)) = 0 \}
+\end{equation}
+
+En nuestro caso las expresiones para el equilibrio son(el c\'alculo se detalla en \ref{subsec:equil}):
+\begin{flalign}
+R^* &= \frac{K(\epsilon_3 m_C ( \alpha_2 q_1 + \alpha_3 r) - \alpha_1 m_P q_2)}{D}& \\
+C^* &= \frac{K\alpha_1 \alpha_2 \epsilon_1 m_P q_2 - K \alpha_2 \epsilon_2 m_C ( \alpha_2 q_1 + \alpha_3 r) + \alpha_3 m_C m_P q_2 r} {\alpha_3 D} \\
+P^* &= \frac{m_P(K \alpha_1 m_C(\alpha_2 \epsilon_2 q_1 + \alpha_3 \epsilon_1 \epsilon_3 r) - (K \alpha_1^2 \epsilon_1 m_P q_2 + \alpha_3 \epsilon_3 m_C^2 q_1 r)}{\alpha_3 m_C D }
+\end{flalign}
+Donde:
+\begin{equation}
+D = K \alpha_1 \alpha_2 (\epsilon_1 \epsilon_3 - \epsilon_2 ) + \alpha_3 \epsilon_3 m_C r
+\end{equation}
+Manipulando algebraicamente $C^*$ y $P^*$ se deriva que la condici\'on para que $R^*,C^*,P^*$ pertenzca a $R^3_+$ es que se cumplan $I_{\C \to \PP-\R}$ y $I_{\PP \to \C-\R}$ en el caso que $D >0$ y que no se cumplan ambos en caso que $D<0$. Si $D = 0$ el sistema no posee equilibrio.
+
+\subsubsection{Estabilidad Din\'amica}
+En cada regi\'on de coexistencia se distinguieron entre puntos estables e inestables,el procedimiento se detalla en \ref{subsec:stab},y se determin\'o :
+\begin{equation}\label{eq:estabreg}
+D_{estab} = \{ (R,C,P) \in D / (R,C,P) \mbox{ es localmente estable} \}
+\end{equation}
+
+\subsubsection{M\'axima longitud y grado de Omnivorismo}
+La Posici\'on tr\'ofica esta definida por \citep{TP2007proximate}:
+\begin{equation} TP_j = \sum_{i \in G}^n (1+TP_i) p_i  \end{equation} donde $G$ es el cojunto de todas las presas del depredador $j$ ,$TP_i$ es la posici\'on tr\'ofica de la especie $i$ y $p_i$ es la proporci\'on de la biomasa total ingerida por el depredador $j$ que deriva de la especie $i$ tal que $ \sum_{i \in G} p_i =1 $.
+La m\'axima posici\'on tr\'ofica (\textbf{MTP}) es el mayor valor de \textbf{TP} encontrado en el sistema.\\
+
+
+En nuestro caso calculamos \textbf{MTP} dentro de la zona de coexistencia siguiendo:
+\begin{equation} \mathbf{TP}= \frac{2 I_R + 3 I_C}{I_R+I_C} \end{equation}
+Donde:
+\begin{itemize}
+\item $I_R$ = biomasa de Recurso basal ingerida.
+\item $I_C$ = biomasa de Consumidor intermedio ingerida.
+\end{itemize}
+El grado de omnivor\'ismo $\mathbf{O}$ se define como \citep{TP2007proximate}:
+\begin{equation} \mathbf{O}= \frac{I_R}{I_R+I_C} \end{equation}
+
+Fuera de la zona de coexistencia, consideramos que \textbf{MTP} toma los valores de 1 y 2 respectivamente, dependiendo si es que alguno de los consumidores puede invadir, la identidad de dicho consumidor depender\'a de: 
+\begin{itemize}
+\item El subsistema formado por el invasor y el recurso basal es no invasible,ejem: $C$ puede invadir a $R$ y $P$ no puede invadir a $C-R$.
+\item El consumidor es el \'unico en poder invadir.
+\item Ambos consumidores pueden invadir pero uno de ellos tiene un mayor crecimiento con el recurso.
+\end{itemize}
+
+\subsubsection{An\'alisis de datos}

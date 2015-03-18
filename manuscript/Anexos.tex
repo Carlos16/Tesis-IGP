@@ -1,0 +1,139 @@
+\subsection{Derivaci\'on de Criterios y Zonas de Invasibilidad}\label{subsec:CI}
+
+En lo sucesivo $\mathbf{A}$ denota toda la zona par\'ametrica explorada,en nuestro caso 
+\begin{enumerate}
+\item $\mathbf{A} = [-14,6] \times [-10,5]$ , $k_{\CP} = k_{\RC}$
+\item $\mathbf{A} = [-10,5] \times [-10,5]$ , $k_{\CP} \not= k_{\RC}$
+\end{enumerate}
+
+\subsubsection{R}
+El sistema se reduce a:
+\begin{equation}
+\dot{R}= rR(1-R/K)
+\end{equation}
+
+Por lo tanto el criterio de invasibilidad para R , $\mathbf{IC_\R}$ es:
+
+\begin{equation}\label{eq:ICR}
+\mathbf{IC_\R} := \dot{R} > 0 \iff r > 0
+\end{equation}
+
+\begin{equation}
+\mathbf{Z(I_{\R})} := \{ v \in \mathbf{A} / \dot{R}(v)>0 \}
+\end{equation}
+
+\subsubsection{C $\to$ R}
+El sistema se reduce a :
+\begin{equation}
+\begin{aligned}
+\dot{R} &= R\left[r(1-R/K)- (\alpha_{1}/m_C) C \right] \\
+\dot{C} &= C \left[\epsilon_1 (\alpha_{1}/m_C) R  -q_1 \right]
+\end{aligned}
+\end{equation}
+
+
+\begin{equation} \mathbf{IC_{\C \to \R}} := \dot{C} >0 \iff \epsilon_1(\alpha_1/m_C)\hat{R}_1 > q_1  \end{equation}
+Donde $\hat{R}_1 = K$ entonces:
+\begin{equation} \mathbf{IC_{\C \to \R}} := \epsilon_1(\alpha_1/m_C) K > q_1 \end{equation}
+            
+\begin{equation}
+\mathbf{Z(I_{\C \to \R})} := \{v \in Z(I_{\R}) / \dot{C}(v) > 0\}
+\end{equation}
+
+
+\subsubsection{P $\to$ R}
+El sistema es similar al caso anterior, intercambiando $P$ por $C$.
+
+\begin{equation} \mathbf{IC_{\PP \to \R}} := \dot{P}>0 \iff \epsilon_2(\alpha_2/m_P) K > q_2 \end{equation}
+
+\begin{equation}
+\mathbf{Z(I_{\PP \to \R})} := \{v \in Z(I_{\R}) / \dot{P}(v) > 0\}
+\end{equation}
+
+            
+\subsubsection{P $\to$ C-R}
+
+\begin{equation} \mathbf{IC_{\PP \to \C-\R}} := \dot{P} >0 \iff \epsilon_2\alpha_2\hat{R}_2 + \epsilon_3\alpha_3\hat{C}_2 > q_2 m_P \end{equation}
+
+Donde:
+\begin{equation}
+\begin{aligned}
+\hat{R}_2 &= \frac{q_1 m_C}{\epsilon_1 \alpha_1} \\
+\hat{C}_2 &=  r(\frac{m_C}{\alpha_1}) \left[ 1 - \frac{q_1 m_C}{\epsilon_1 \alpha_1 K} \right] 
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\mathbf{Z(I_{\PP \to \C-\R})} := \{v \in Z(I_{\C \to \R}) / \dot{P}(v) > 0\}
+\end{equation}
+
+
+\subsubsection{C $\to$ P-R}
+
+\begin{equation} \mathbf{IC_{\C \to \PP-\R}} := \dot{C}>0 \iff \epsilon_1(\alpha_1/m_C)\hat{R} - (\alpha_3/m_P)\hat{P}> q_1 \end{equation}
+Donde:
+\begin{equation}
+\begin{aligned}
+\hat{R} & = \frac{q_2 m_P}{\epsilon_2 \alpha_2} \\
+\hat{P} & = r(\frac{m_P}{\alpha_2}) \left[ 1- \frac{q_2 m_P}{\epsilon_2 \alpha_2 K} \right]
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\mathbf{Z(I_{\C \to \PP-\R})} := \{v \in Z(I_{\PP \to \R}) / \dot{C}(v) > 0\}
+\end{equation}
+
+
+El c\'alculo expl\'icito de los bordes de cada zona, se reduce a calcular los zeros de las funciones asociadas a ellos; para llevar a cabo esto se uso el algoritmo de optimizaci\'on brentq el cual esta incorporado en el paquete SciPy de Python.
+
+
+\subsection{Calculo de Equilibrio para un modelo Lotka-Volterra}\label{subsec:equil}
+El c\'alculo del equilibrio se reduce a la soluci\'on del siguiente sistema linear:
+\begin{equation}
+\begin{pmatrix}
+r/K & \alpha_1/m_c & \alpha_2/m_p \\
+(\alpha_1/m_c)\epsilon_1& 0 & -\alpha_3/m_p \\
+\alpha_2 \epsilon_2 & \alpha_3 \epsilon_3 & 0
+\end{pmatrix}
+\begin{pmatrix}
+R^* \\
+C^* \\
+P^* 
+\end{pmatrix}
+=
+\begin{pmatrix}
+r \\
+q_1 \\
+q_2 m_p
+\end{pmatrix}
+\end{equation}
+
+Para solucionarlo usamos la regla de Kramer, en el caso D = 0 el sistema no presenta soluci\'on no trivial.
+
+\subsection{Estabilidad Din\'amica}\label{subsec:stab}
+En general,podemos determinar la estabilidad local de un punto de equilibrio analizando el valor de los autovalores de la versi\'on linearizada del sistema \eqref{eq:Gsystem}. \citep{yodzis1989introduction}
+Usemos la siguiente notaci\'on : $ \frac{\partial F_i}{\partial J} = F_{ij} $
+
+\begin{equation} \label{eq:linver}
+A = \begin{pmatrix}
+\left. F_{1R} \right|_{x=\mathbf{X}}& \left.F_{1C}\right|_{x=\mathbf{X}}&\left.F_{1P}\right|_{x=\mathbf{X}}\\
+\left. F_{2R}\right|_{x=\mathbf{X}}& \left.F_{2C}\right|_{x=\mathbf{X}}&\left.F_{2P}\right|_{x=\mathbf{X}}\\
+\left. F_{3R}\right|_{x=\mathbf{X}}& \left.F_{3C}\right|_{x=\mathbf{X}}&\left.F_{3P}\right|_{x=\mathbf{X}}\\
+\end{pmatrix}
+\end{equation}
+
+El Polinomio caracter\'istico $P(t)$ cuyas ra\'ices $\lambda$ son los autovalores de $A$ es :
+
+\begin{equation}
+\begin{aligned}
+& Sea \ F^*_{1J} = \left. F_{1J}\right|_{x=\mathbf{X}} \\
+&P(t) = det(A-tI) = - t^3 + a_1t^2 + a_2 t + a3 \\
+& a_1 = tr(A) = F^*_{1R}  + F^*_{2C} + F^*_{3P} \\
+& a_2 =  -(F^*_{1R}(F^*_{2C}+F^*_{3P}) + F^*_{2C}F^*_{3P} - F^*_{3C}F^*_{2P} - F^*_{1P}F^*_{3R} + F^*_{1C}F^*_{2R}) \\
+& a_3 = det(A) 
+\end{aligned}
+\end{equation}
+El sistema se considera localmente estable \citep{yodzis1989introduction} si :
+\begin{equation}\label{eq:estab}
+\Re(\lambda) < 0 , \forall  \lambda
+\end{equation}
