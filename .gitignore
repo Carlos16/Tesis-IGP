@@ -1,5 +1,6 @@
 *.pdf
 *.csv
+*.html
 *.txt
 *.aux
 *.out
@@ -15,4 +16,10 @@
 *.gitignore~
 *.py~
 *.pyc
-
+*~
+*.idx
+*.ilg
+*.ind
+*.sty
+*.ist
+*.cls
