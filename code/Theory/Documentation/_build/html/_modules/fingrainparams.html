@@ -1,0 +1,403 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>fingrainparams &mdash; Tesis 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Tesis 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Tesis 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for fingrainparams</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">coarsegrainparams</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">inva_fcl_stab</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">Eq</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">Dynamics</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Matrix</span><span class="p">,</span><span class="n">sqrt</span>
+
+<div class="viewcode-block" id="construct_param_dict"><a class="viewcode-back" href="../Model-Construction/fingrainparams.html#fingrainparams.construct_param_dict">[docs]</a><span class="k">def</span> <span class="nf">construct_param_dict</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">):</span>
+    <span class="c">###scaling constants</span>
+    <span class="n">w</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;w&#39;</span><span class="p">]</span>
+    <span class="n">pd</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;pd&#39;</span><span class="p">]</span> <span class="c"># in 3D and 0.21 in 2D</span>
+    <span class="n">pv</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;pv&#39;</span><span class="p">]</span>
+    <span class="n">Er</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;Er&#39;</span><span class="p">]</span> <span class="p">;</span><span class="n">Ek</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;Ek&#39;</span><span class="p">]</span>
+    <span class="n">ER</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;ER&#39;</span><span class="p">];</span><span class="n">EC</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;EC&#39;</span><span class="p">];</span><span class="n">EP</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;EP&#39;</span><span class="p">];</span>
+    <span class="n">Eq1</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;Eq1&#39;</span><span class="p">];</span><span class="n">Eq2</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;Eq2&#39;</span><span class="p">]</span>
+
+
+    <span class="c">#capture success function</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">]</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;c&#39;</span><span class="p">]</span>
+    <span class="n">formC</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;formC&#39;</span><span class="p">]</span>
+    <span class="n">formPC</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;formPC&#39;</span><span class="p">]</span>
+    <span class="n">formPR</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;formPR&#39;</span><span class="p">]</span>
+    
+    <span class="c">###variables</span>
+    <span class="n">TR</span><span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;TR&#39;</span><span class="p">]</span> <span class="p">;</span><span class="n">TC</span><span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;TC&#39;</span><span class="p">];</span><span class="n">TP</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;TP&#39;</span><span class="p">];</span><span class="n">D_R</span><span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;D_R&#39;</span><span class="p">];</span> <span class="n">D_C</span><span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;D_C&#39;</span><span class="p">]</span>
+    <span class="n">K_RP</span><span class="o">=</span><span class="n">K_RC</span><span class="o">*</span><span class="n">K_CP</span>
+    <span class="n">fmC</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;fmC&#39;</span><span class="p">];</span><span class="n">thermyR</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;thermyR&#39;</span><span class="p">]</span>
+    <span class="n">thermyC</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;thermyC&#39;</span><span class="p">];</span><span class="n">thermyP</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;thermyP&#39;</span><span class="p">]</span>
+    <span class="n">fmPR</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;fmPR&#39;</span><span class="p">]</span>
+    <span class="n">fmPC</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;fmPC&#39;</span><span class="p">]</span>
+    <span class="n">m_C</span> <span class="o">=</span> <span class="n">K_CP</span><span class="o">*</span><span class="n">m_P</span><span class="p">;</span><span class="n">m_R</span> <span class="o">=</span> <span class="n">K_RP</span><span class="o">*</span><span class="n">m_P</span>
+    <span class="c">###normalization constants and boltzmann constant</span>
+    <span class="n">r0</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;r0&#39;</span><span class="p">]</span>
+    <span class="n">k0</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;k0&#39;</span><span class="p">]</span> <span class="c"># will depend on the productivity of the habitat</span>
+    <span class="n">alfa01</span> <span class="o">=</span> <span class="n">alfa02</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;alfa012&#39;</span><span class="p">]</span>  <span class="c"># will depedend on the dimension of the habitat </span>
+    <span class="n">alfa03</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;alfa03&#39;</span><span class="p">]</span>
+    <span class="n">d0</span><span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;d0&#39;</span><span class="p">]</span>
+    <span class="n">q10</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;q10&#39;</span><span class="p">];</span><span class="n">q20</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;q20&#39;</span><span class="p">];</span>
+    <span class="n">v0R</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;v0R&#39;</span><span class="p">];</span><span class="n">v0C</span> <span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;v0C&#39;</span><span class="p">];</span><span class="n">v0P</span> <span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;v0P&#39;</span><span class="p">];</span><span class="n">k</span> <span class="o">=</span> <span class="n">b_k</span>
+    <span class="n">t_h0C</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;t_h0C&#39;</span><span class="p">];</span><span class="n">t_h0P</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;t_h0P&#39;</span><span class="p">]</span> 
+
+    <span class="c">##efficience values, later check </span>
+    <span class="c">##for the sensibility of the results to changes in it</span>
+    <span class="n">e_1</span><span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;e_1&#39;</span><span class="p">];</span><span class="n">e_2</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_2&#39;</span><span class="p">];</span><span class="n">e_3</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_3&#39;</span><span class="p">]</span>
+    
+    <span class="c">#intrapopulation parameters</span>
+    <span class="n">q1</span><span class="o">=</span><span class="n">set_q1</span><span class="p">(</span><span class="n">q10</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">Eq1</span><span class="p">,</span><span class="n">TR</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">q2</span><span class="o">=</span><span class="n">set_q2</span><span class="p">(</span><span class="n">q20</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">Eq2</span><span class="p">,</span><span class="n">TC</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">K</span><span class="o">=</span><span class="n">set_K</span><span class="p">(</span><span class="n">k0</span><span class="p">,</span><span class="n">m_R</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">Ek</span><span class="p">,</span><span class="n">TR</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">r</span><span class="o">=</span><span class="n">set_r</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span><span class="n">m_R</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">Er</span><span class="p">,</span><span class="n">TR</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+
+    <span class="c">#interpopulation parameters</span>
+    <span class="n">alfa1</span><span class="o">=</span><span class="n">set_alfa</span><span class="p">(</span><span class="n">m_C</span><span class="p">,</span><span class="n">alfa01</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">pv</span><span class="p">,</span><span class="n">pd</span><span class="p">,</span><span class="n">TR</span><span class="p">,</span><span class="n">TC</span><span class="p">,</span><span class="n">ER</span><span class="p">,</span><span class="n">EC</span><span class="p">,</span><span class="n">D_R</span><span class="p">,</span><span class="n">v0R</span><span class="p">,</span><span class="n">v0C</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">alfa</span><span class="p">,</span><span class="n">fmC</span><span class="p">,</span><span class="n">thermyR</span><span class="p">,</span><span class="n">thermyC</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">formC</span><span class="p">)</span>
+    <span class="n">alfa2</span><span class="o">=</span><span class="n">set_alfa</span><span class="p">(</span><span class="n">m_P</span><span class="p">,</span><span class="n">alfa02</span><span class="p">,</span><span class="n">K_RP</span><span class="p">,</span><span class="n">pv</span><span class="p">,</span><span class="n">pd</span><span class="p">,</span><span class="n">TR</span><span class="p">,</span><span class="n">TP</span><span class="p">,</span><span class="n">ER</span><span class="p">,</span><span class="n">EP</span><span class="p">,</span><span class="n">D_R</span><span class="p">,</span><span class="n">v0R</span><span class="p">,</span><span class="n">v0P</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">alfa</span><span class="p">,</span><span class="n">fmPR</span><span class="p">,</span><span class="n">thermyR</span><span class="p">,</span><span class="n">thermyP</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">formPR</span><span class="p">)</span>
+    <span class="n">alfa3</span><span class="o">=</span><span class="n">set_alfa</span><span class="p">(</span><span class="n">m_P</span><span class="p">,</span><span class="n">alfa03</span><span class="p">,</span><span class="n">K_CP</span><span class="p">,</span><span class="n">pv</span><span class="p">,</span><span class="n">pd</span><span class="p">,</span><span class="n">TC</span><span class="p">,</span><span class="n">TP</span><span class="p">,</span><span class="n">EC</span><span class="p">,</span><span class="n">EP</span><span class="p">,</span><span class="n">D_C</span><span class="p">,</span><span class="n">v0C</span><span class="p">,</span><span class="n">v0P</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">alfa</span><span class="p">,</span><span class="n">fmPC</span><span class="p">,</span><span class="n">thermyC</span><span class="p">,</span><span class="n">thermyP</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">formPC</span><span class="p">)</span>
+
+    <span class="n">t_hp</span> <span class="o">=</span> <span class="n">set_th</span><span class="p">(</span><span class="n">t_h0P</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">EP</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">TP</span><span class="p">)</span>
+    <span class="n">t_hc</span> <span class="o">=</span> <span class="n">set_th</span><span class="p">(</span><span class="n">t_h0C</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">EC</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">TC</span><span class="p">)</span>
+    <span class="n">param_dict</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;q1&#39;</span><span class="p">:</span><span class="n">q1</span><span class="p">,</span><span class="s">&#39;q2&#39;</span><span class="p">:</span><span class="n">q2</span><span class="p">,</span><span class="s">&#39;K&#39;</span><span class="p">:</span><span class="n">K</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">:</span><span class="n">r</span><span class="p">,</span><span class="s">&#39;alfa1&#39;</span><span class="p">:</span><span class="n">alfa1</span><span class="p">,</span><span class="s">&#39;alfa2&#39;</span><span class="p">:</span><span class="n">alfa2</span><span class="p">,</span><span class="s">&#39;alfa3&#39;</span><span class="p">:</span><span class="n">alfa3</span><span class="p">,</span><span class="s">&#39;t_hp&#39;</span><span class="p">:</span><span class="n">t_hp</span><span class="p">,</span><span class="s">&#39;t_hc&#39;</span><span class="p">:</span><span class="n">t_hc</span><span class="p">}</span>
+       
+    <span class="k">return</span> <span class="n">param_dict</span>
+</div>
+<div class="viewcode-block" id="construct_equilibrium"><a class="viewcode-back" href="../Model-Construction/fingrainparams.html#fingrainparams.construct_equilibrium">[docs]</a><span class="k">def</span> <span class="nf">construct_equilibrium</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="n">par_dict</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">):</span>
+
+    <span class="c">#intrapopulation parameters</span>
+    <span class="n">q1</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;q1&#39;</span><span class="p">]</span>
+    <span class="n">q2</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;q2&#39;</span><span class="p">]</span>
+    <span class="n">q1_0</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;q10&#39;</span><span class="p">]</span>
+    <span class="n">q2_0</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;q20&#39;</span><span class="p">]</span>
+    <span class="n">hC_0</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;t_h0C&#39;</span><span class="p">]</span>
+    <span class="n">hP_0</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;t_h0P&#39;</span><span class="p">]</span>
+    
+    <span class="n">K</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;K&#39;</span><span class="p">]</span>
+    <span class="n">r</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;r&#39;</span><span class="p">]</span>
+    
+    <span class="n">m_C</span> <span class="o">=</span> <span class="n">K_CP</span><span class="o">*</span><span class="n">m_P</span>
+
+    <span class="c">#interpopulation parameters</span>
+    <span class="n">alfa1</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;alfa1&#39;</span><span class="p">]</span>
+    <span class="n">alfa2</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;alfa2&#39;</span><span class="p">]</span>
+    <span class="n">alfa3</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;alfa3&#39;</span><span class="p">]</span>
+    <span class="n">t_hc</span> <span class="o">=</span> <span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;t_hc&#39;</span><span class="p">]</span>
+    <span class="n">t_hp</span> <span class="o">=</span> <span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;t_hp&#39;</span><span class="p">]</span>
+    <span class="n">e_1</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_1&#39;</span><span class="p">]</span>
+    <span class="n">e_2</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_2&#39;</span><span class="p">]</span>
+    <span class="n">e_3</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_3&#39;</span><span class="p">]</span>
+    
+
+    <span class="c">## Equilibrium values</span>
+    <span class="c">###Sc2</span>
+    <span class="n">R_eq_s2</span> <span class="o">=</span> <span class="n">set_R_eq_s</span><span class="p">(</span><span class="n">m_C</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">e_1</span><span class="p">)</span>
+    <span class="n">C_eq_s2</span> <span class="o">=</span> <span class="n">set_C_eq_s</span><span class="p">(</span><span class="n">m_C</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">e_1</span><span class="p">)</span>
+
+    <span class="n">R_eq_s2RM</span><span class="p">,</span> <span class="n">C_eq_s2RM</span> <span class="o">=</span> <span class="n">set_R_C_eq_sRM</span><span class="p">(</span><span class="n">m_C</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q1_0</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">t_hc</span><span class="p">,</span><span class="n">hC_0</span><span class="p">)</span>
+
+    <span class="c">###Sc3</span>
+    <span class="n">R_eq_s3</span> <span class="o">=</span> <span class="n">set_R_eq_s</span><span class="p">(</span><span class="n">m_P</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">e_2</span><span class="p">)</span>
+    <span class="n">P_eq_s3</span> <span class="o">=</span> <span class="n">set_C_eq_s</span><span class="p">(</span><span class="n">m_P</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">e_2</span><span class="p">)</span>
+
+    <span class="n">R_eq_s3RM</span> <span class="p">,</span> <span class="n">P_eq_s3RM</span> <span class="o">=</span> <span class="n">set_R_C_eq_sRM</span><span class="p">(</span><span class="n">m_P</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">q2_0</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">t_hp</span><span class="p">,</span><span class="n">hP_0</span><span class="p">)</span>
+    <span class="c">###full system</span>
+    <span class="n">R_eq</span> <span class="o">=</span> <span class="n">set_R_eq</span><span class="p">(</span><span class="n">m_P</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">)</span>
+    <span class="n">C_eq</span> <span class="o">=</span> <span class="n">set_C_eq</span><span class="p">(</span><span class="n">m_P</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">)</span>
+    <span class="n">P_eq</span> <span class="o">=</span> <span class="n">set_P_eq</span><span class="p">(</span><span class="n">m_P</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">)</span>
+    
+    <span class="n">D</span> <span class="o">=</span> <span class="n">setD</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">r</span><span class="p">)</span>
+    <span class="n">DBound</span><span class="o">=</span> <span class="n">setDBound</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">r</span><span class="p">)</span>
+    <span class="c">#Roots for Req</span>
+    <span class="n">R1</span> <span class="o">=</span> <span class="n">setRoot1</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">t_hc</span><span class="p">,</span><span class="n">t_hp</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">q2_0</span><span class="p">,</span><span class="n">q1_0</span><span class="p">,</span><span class="n">hC_0</span><span class="p">,</span><span class="n">hP_0</span><span class="p">)</span>
+    <span class="n">Dis</span> <span class="o">=</span> <span class="n">setDis</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">t_hc</span><span class="p">,</span><span class="n">t_hp</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">q2_0</span><span class="p">,</span><span class="n">q1_0</span><span class="p">,</span><span class="n">hC_0</span><span class="p">,</span><span class="n">hP_0</span><span class="p">)</span>
+    <span class="n">bR</span> <span class="o">=</span> <span class="n">setb_R</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">t_hc</span><span class="p">,</span><span class="n">t_hp</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">q2_0</span><span class="p">,</span><span class="n">q1_0</span><span class="p">,</span><span class="n">hC_0</span><span class="p">,</span><span class="n">hP_0</span><span class="p">)</span>
+    <span class="n">denR</span> <span class="o">=</span> <span class="n">setden_R</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">t_hc</span><span class="p">,</span><span class="n">t_hp</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">q2_0</span><span class="p">,</span><span class="n">q1_0</span><span class="p">,</span><span class="n">hC_0</span><span class="p">,</span><span class="n">hP_0</span><span class="p">)</span>
+
+    <span class="n">R2</span> <span class="o">=</span> <span class="p">(</span><span class="n">bR</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">Dis</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">denR</span><span class="p">)</span>
+    <span class="n">R3</span> <span class="o">=</span> <span class="p">(</span><span class="n">bR</span> <span class="o">-</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">Dis</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">denR</span><span class="p">)</span>
+    
+    
+    
+    <span class="n">eq_dict</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;R_eq_s2&#39;</span><span class="p">:</span><span class="n">R_eq_s2</span><span class="p">,</span><span class="s">&#39;C_eq_s2&#39;</span><span class="p">:</span><span class="n">C_eq_s2</span><span class="p">,</span><span class="s">&#39;R_eq_s3&#39;</span><span class="p">:</span><span class="n">R_eq_s3</span><span class="p">,</span><span class="s">&#39;P_eq_s3&#39;</span><span class="p">:</span><span class="n">P_eq_s3</span><span class="p">,</span><span class="s">&#39;R_eq&#39;</span><span class="p">:</span><span class="n">R_eq</span><span class="p">,</span><span class="s">&#39;C_eq&#39;</span><span class="p">:</span><span class="n">C_eq</span><span class="p">,</span><span class="s">&#39;P_eq&#39;</span><span class="p">:</span><span class="n">P_eq</span><span class="p">,</span>
+             <span class="s">&#39;R_eq_s2RM&#39;</span><span class="p">:</span><span class="n">R_eq_s2RM</span><span class="p">,</span><span class="s">&#39;C_eq_s2RM&#39;</span><span class="p">:</span><span class="n">C_eq_s2RM</span><span class="p">,</span><span class="s">&#39;R_eq_s3RM&#39;</span><span class="p">:</span><span class="n">R_eq_s3RM</span><span class="p">,</span><span class="s">&#39;P_eq_s3RM&#39;</span><span class="p">:</span><span class="n">P_eq_s3RM</span><span class="p">,</span><span class="s">&#39;R1&#39;</span><span class="p">:</span><span class="n">R1</span><span class="p">,</span><span class="s">&#39;Discriminant&#39;</span><span class="p">:</span><span class="n">Dis</span><span class="p">,</span><span class="s">&#39;R2&#39;</span><span class="p">:</span><span class="n">R2</span><span class="p">,</span><span class="s">&#39;R3&#39;</span><span class="p">:</span><span class="n">R3</span><span class="p">,</span><span class="s">&#39;bR&#39;</span><span class="p">:</span><span class="n">bR</span><span class="p">,</span><span class="s">&#39;denR&#39;</span><span class="p">:</span><span class="n">denR</span><span class="p">,</span><span class="s">&#39;D&#39;</span> <span class="p">:</span> <span class="n">D</span><span class="p">,</span><span class="s">&#39;DBound&#39;</span><span class="p">:</span><span class="n">DBound</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">eq_dict</span>
+
+
+</div>
+<div class="viewcode-block" id="construct_inv_boundaries"><a class="viewcode-back" href="../Model-Construction/fingrainparams.html#fingrainparams.construct_inv_boundaries">[docs]</a><span class="k">def</span> <span class="nf">construct_inv_boundaries</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="n">par_dict</span><span class="p">,</span><span class="n">eq_dict</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">):</span>
+    <span class="c">#intrapop params</span>
+    <span class="n">q1</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;q1&#39;</span><span class="p">]</span>
+    <span class="n">q2</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;q2&#39;</span><span class="p">]</span>
+    <span class="n">K</span> <span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;K&#39;</span><span class="p">]</span>
+    <span class="n">m_C</span><span class="o">=</span> <span class="n">K_CP</span><span class="o">*</span><span class="n">m_P</span>
+    <span class="n">q1_0</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;q10&#39;</span><span class="p">]</span>
+    <span class="n">q2_0</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;q20&#39;</span><span class="p">]</span>
+    <span class="n">hC_0</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;t_h0C&#39;</span><span class="p">]</span>
+    <span class="n">hP_0</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;t_h0P&#39;</span><span class="p">]</span>
+
+    <span class="c">#interpop params</span>
+    <span class="n">alfa1</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;alfa1&#39;</span><span class="p">]</span>
+    <span class="n">alfa2</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;alfa2&#39;</span><span class="p">]</span>
+    <span class="n">alfa3</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;alfa3&#39;</span><span class="p">]</span>
+    <span class="n">e_1</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_1&#39;</span><span class="p">]</span>
+    <span class="n">e_2</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_2&#39;</span><span class="p">]</span>
+    <span class="n">e_3</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_3&#39;</span><span class="p">]</span>
+    
+
+    <span class="n">t_hc</span> <span class="o">=</span> <span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;t_hc&#39;</span><span class="p">]</span>
+    <span class="n">t_hp</span> <span class="o">=</span> <span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;t_hp&#39;</span><span class="p">]</span>
+
+
+    <span class="c">#eq values</span>
+
+    <span class="c">#L-V</span>
+    <span class="n">R_eq_s2</span> <span class="o">=</span> <span class="n">eq_dict</span><span class="p">[</span><span class="s">&#39;R_eq_s2&#39;</span><span class="p">]</span>
+    <span class="n">C_eq_s2</span> <span class="o">=</span> <span class="n">eq_dict</span><span class="p">[</span><span class="s">&#39;C_eq_s2&#39;</span><span class="p">]</span>
+    <span class="n">P_eq_s3</span> <span class="o">=</span> <span class="n">eq_dict</span><span class="p">[</span><span class="s">&#39;P_eq_s3&#39;</span><span class="p">]</span>
+    <span class="n">R_eq_s3</span> <span class="o">=</span> <span class="n">eq_dict</span><span class="p">[</span><span class="s">&#39;R_eq_s3&#39;</span><span class="p">]</span>
+    <span class="c">#R-M</span>
+    <span class="n">R_eq_s2RM</span> <span class="o">=</span> <span class="n">eq_dict</span><span class="p">[</span><span class="s">&#39;R_eq_s2RM&#39;</span><span class="p">]</span>
+    <span class="n">C_eq_s2RM</span> <span class="o">=</span> <span class="n">eq_dict</span><span class="p">[</span><span class="s">&#39;C_eq_s2RM&#39;</span><span class="p">]</span>
+    <span class="n">R_eq_s3RM</span> <span class="o">=</span> <span class="n">eq_dict</span><span class="p">[</span><span class="s">&#39;R_eq_s3RM&#39;</span><span class="p">]</span>
+    <span class="n">P_eq_s3RM</span> <span class="o">=</span> <span class="n">eq_dict</span><span class="p">[</span><span class="s">&#39;P_eq_s3RM&#39;</span><span class="p">]</span>
+    
+    <span class="c">##Invasibility boundaries</span>
+
+    <span class="c">#L-V</span>
+    <span class="n">I_C_s2</span> <span class="o">=</span> <span class="n">set_I_C_s2</span><span class="p">(</span><span class="n">e_1</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
+    <span class="n">I_P_s3</span> <span class="o">=</span> <span class="n">set_I_P_s3</span><span class="p">(</span><span class="n">e_2</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q2</span><span class="p">)</span>
+    <span class="n">I_P_s4</span> <span class="o">=</span> <span class="n">set_I_P_s4</span><span class="p">(</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">R_eq_s2</span><span class="p">,</span><span class="n">C_eq_s2</span><span class="p">)</span>
+    <span class="n">I_C_s5</span> <span class="o">=</span> <span class="n">set_I_C_s5</span><span class="p">(</span><span class="n">e_1</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">R_eq_s3</span><span class="p">,</span><span class="n">P_eq_s3</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
+
+
+    
+    <span class="c">#R-M</span>
+    <span class="n">I_C_s2RM</span> <span class="o">=</span> <span class="n">set_I_C_s2RM</span><span class="p">(</span><span class="n">e_1</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">hC_0</span><span class="p">,</span><span class="n">q1_0</span><span class="p">)</span>
+    <span class="n">I_P_s3RM</span> <span class="o">=</span> <span class="n">set_I_P_s3RM</span><span class="p">(</span><span class="n">e_2</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">hP_0</span><span class="p">,</span><span class="n">q2_0</span><span class="p">)</span>
+    <span class="n">I_P_s4RM</span> <span class="o">=</span> <span class="n">set_I_P_s4RM</span><span class="p">(</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">R_eq_s2RM</span><span class="p">,</span><span class="n">C_eq_s2RM</span><span class="p">,</span><span class="n">hP_0</span><span class="p">,</span><span class="n">q2_0</span><span class="p">)</span>
+    <span class="n">I_C_s5RM</span> <span class="o">=</span> <span class="n">set_I_C_s5RM</span><span class="p">(</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">R_eq_s3RM</span><span class="p">,</span><span class="n">P_eq_s3RM</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">t_hc</span><span class="p">,</span><span class="n">q1_0</span><span class="p">,</span><span class="n">q2_0</span><span class="p">,</span><span class="n">hP_0</span><span class="p">,</span><span class="n">hC_0</span><span class="p">)</span>    
+
+    <span class="n">inv_dict</span><span class="o">=</span> <span class="p">{</span><span class="s">&#39;I_C_s2&#39;</span><span class="p">:</span><span class="n">I_C_s2</span><span class="p">,</span><span class="s">&#39;I_P_s3&#39;</span><span class="p">:</span><span class="n">I_P_s3</span><span class="p">,</span><span class="s">&#39;I_P_s4&#39;</span><span class="p">:</span><span class="n">I_P_s4</span><span class="p">,</span><span class="s">&#39;I_C_s5&#39;</span><span class="p">:</span><span class="n">I_C_s5</span><span class="p">,</span>
+               <span class="s">&#39;I_C_s2RM&#39;</span><span class="p">:</span><span class="n">I_C_s2RM</span><span class="p">,</span><span class="s">&#39;I_P_s3RM&#39;</span><span class="p">:</span><span class="n">I_P_s3RM</span><span class="p">,</span><span class="s">&#39;I_P_s4RM&#39;</span><span class="p">:</span><span class="n">I_P_s4RM</span><span class="p">,</span><span class="s">&#39;I_C_s5RM&#39;</span><span class="p">:</span><span class="n">I_C_s5RM</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">inv_dict</span>
+</div>
+<div class="viewcode-block" id="Trophic_position"><a class="viewcode-back" href="../Model-Construction/fingrainparams.html#fingrainparams.Trophic_position">[docs]</a><span class="k">def</span> <span class="nf">Trophic_position</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="n">par_dict</span><span class="p">,</span><span class="n">eq_dict</span><span class="p">,</span><span class="n">m_P</span><span class="p">):</span>
+    
+    <span class="n">R_eq</span> <span class="o">=</span> <span class="n">eq_dict</span><span class="p">[</span><span class="s">&#39;R_eq&#39;</span><span class="p">]</span>
+    <span class="n">alfa2</span> <span class="o">=</span> <span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;alfa2&#39;</span><span class="p">]</span>
+    <span class="n">q2</span> <span class="o">=</span> <span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;q2&#39;</span><span class="p">]</span>
+    <span class="n">e_2</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;e_2&#39;</span><span class="p">]</span>
+    
+    <span class="c">#Trophic position in the coexistence domain</span>
+    <span class="n">MTP_C</span><span class="o">=</span> <span class="n">set_MTP_C</span><span class="p">(</span><span class="n">R_eq</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">e_2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">MTP_C</span>
+    </div>
+<div class="viewcode-block" id="Stability"><a class="viewcode-back" href="../Model-Construction/fingrainparams.html#fingrainparams.Stability">[docs]</a><span class="k">def</span> <span class="nf">Stability</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="n">par_dict</span><span class="p">,</span><span class="n">eq_dict</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">):</span>
+    <span class="c">#intrapop params</span>
+    <span class="n">K</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;K&#39;</span><span class="p">]</span>
+    <span class="n">r</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;r&#39;</span><span class="p">]</span>
+    <span class="n">m_C</span> <span class="o">=</span> <span class="n">K_CP</span><span class="o">*</span><span class="n">m_P</span>
+    <span class="c">#interpop params</span>
+    <span class="n">alfa1</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;alfa1&#39;</span><span class="p">]</span>
+    <span class="n">alfa2</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;alfa2&#39;</span><span class="p">]</span>
+    <span class="n">alfa3</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;alfa3&#39;</span><span class="p">]</span>
+    <span class="n">e_1</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_1&#39;</span><span class="p">]</span>
+    <span class="n">e_2</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_2&#39;</span><span class="p">]</span>
+    <span class="n">e_3</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_3&#39;</span><span class="p">]</span>
+    <span class="c">#equilibrium</span>
+    <span class="n">R_eq</span><span class="o">=</span> <span class="n">eq_dict</span><span class="p">[</span><span class="s">&#39;R_eq&#39;</span><span class="p">]</span>
+    <span class="n">C_eq</span> <span class="o">=</span> <span class="n">eq_dict</span><span class="p">[</span><span class="s">&#39;C_eq&#39;</span><span class="p">]</span>
+    <span class="n">P_eq</span> <span class="o">=</span> <span class="n">eq_dict</span><span class="p">[</span><span class="s">&#39;P_eq&#39;</span><span class="p">]</span>
+    
+    
+    <span class="c">##Stability</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">set_D</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">r</span><span class="p">)</span>
+    <span class="n">a1</span> <span class="o">=</span> <span class="n">set_a1</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">R_eq</span><span class="p">,</span><span class="n">K</span><span class="p">)</span>
+    <span class="n">a2</span> <span class="o">=</span> <span class="n">set_a2</span><span class="p">(</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">C_eq</span><span class="p">,</span><span class="n">R_eq</span><span class="p">,</span><span class="n">P_eq</span><span class="p">)</span>
+    <span class="n">a3</span> <span class="o">=</span> <span class="n">set_a3</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">C_eq</span><span class="p">,</span><span class="n">R_eq</span><span class="p">,</span><span class="n">P_eq</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+    <span class="n">hd2</span> <span class="o">=</span> <span class="n">set_hdet2</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span><span class="n">a2</span><span class="p">,</span><span class="n">a3</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">hd2</span>
+</div>
+<div class="viewcode-block" id="Jacobian"><a class="viewcode-back" href="../Model-Construction/fingrainparams.html#fingrainparams.Jacobian">[docs]</a><span class="k">def</span> <span class="nf">Jacobian</span><span class="p">(</span><span class="n">dR</span><span class="p">,</span><span class="n">dC</span><span class="p">,</span><span class="n">dP</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">P</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">([</span><span class="n">dR</span><span class="p">,</span><span class="n">dC</span><span class="p">,</span><span class="n">dP</span><span class="p">])</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">([</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">P</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">X</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Jacobian2"><a class="viewcode-back" href="../Model-Construction/fingrainparams.html#fingrainparams.Jacobian2">[docs]</a><span class="k">def</span> <span class="nf">Jacobian2</span><span class="p">(</span><span class="n">dX</span><span class="p">,</span><span class="n">dY</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">):</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">([</span><span class="n">dX</span><span class="p">,</span><span class="n">dY</span><span class="p">])</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">([</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">A</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="setJacobianDict"><a class="viewcode-back" href="../Model-Construction/fingrainparams.html#fingrainparams.setJacobianDict">[docs]</a><span class="k">def</span> <span class="nf">setJacobianDict</span><span class="p">(</span><span class="n">DynamicsDict</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">P</span><span class="p">):</span>
+    <span class="n">dRLV</span> <span class="o">=</span> <span class="n">DynamicsDict</span><span class="p">[</span><span class="s">&#39;dRLV&#39;</span><span class="p">]</span>
+    <span class="n">dCLV</span> <span class="o">=</span> <span class="n">DynamicsDict</span><span class="p">[</span><span class="s">&#39;dCLV&#39;</span><span class="p">]</span>
+    <span class="n">dPLV</span> <span class="o">=</span> <span class="n">DynamicsDict</span><span class="p">[</span><span class="s">&#39;dPLV&#39;</span><span class="p">]</span>
+    <span class="n">dRRM</span> <span class="o">=</span> <span class="n">DynamicsDict</span><span class="p">[</span><span class="s">&#39;dRRM&#39;</span><span class="p">]</span>
+    <span class="n">dCRM</span> <span class="o">=</span> <span class="n">DynamicsDict</span><span class="p">[</span><span class="s">&#39;dCRM&#39;</span><span class="p">]</span>
+    <span class="n">dPRM</span> <span class="o">=</span> <span class="n">DynamicsDict</span><span class="p">[</span><span class="s">&#39;dPRM&#39;</span><span class="p">]</span>
+    
+    <span class="n">dRLVP</span> <span class="o">=</span> <span class="n">DynamicsDict</span><span class="p">[</span><span class="s">&#39;dRLVP&#39;</span><span class="p">]</span>
+    <span class="n">dRLVC</span> <span class="o">=</span> <span class="n">DynamicsDict</span><span class="p">[</span><span class="s">&#39;dRLVC&#39;</span><span class="p">]</span>
+    <span class="n">dPLVP</span> <span class="o">=</span> <span class="n">DynamicsDict</span><span class="p">[</span><span class="s">&#39;dPLVP&#39;</span><span class="p">]</span>
+    <span class="n">dCLVC</span> <span class="o">=</span> <span class="n">DynamicsDict</span><span class="p">[</span><span class="s">&#39;dCLVC&#39;</span><span class="p">]</span>
+   
+    <span class="n">JLV</span>  <span class="o">=</span> <span class="n">Jacobian</span><span class="p">(</span><span class="n">dRLV</span><span class="p">,</span><span class="n">dCLV</span><span class="p">,</span><span class="n">dPLV</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">JRM</span> <span class="o">=</span> <span class="n">Jacobian</span><span class="p">(</span><span class="n">dRRM</span><span class="p">,</span><span class="n">dCRM</span><span class="p">,</span><span class="n">dPRM</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">JLVP</span> <span class="o">=</span> <span class="n">Jacobian2</span><span class="p">(</span><span class="n">dRLVP</span><span class="p">,</span><span class="n">dPLVP</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">JLVC</span> <span class="o">=</span> <span class="n">Jacobian2</span><span class="p">(</span><span class="n">dRLVC</span><span class="p">,</span><span class="n">dCLVC</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="p">{</span><span class="s">&#39;JLV&#39;</span><span class="p">:</span><span class="n">JLV</span><span class="p">,</span><span class="s">&#39;JRM&#39;</span><span class="p">:</span><span class="n">JRM</span><span class="p">,</span><span class="s">&#39;JLVP&#39;</span><span class="p">:</span><span class="n">JLVP</span><span class="p">,</span><span class="s">&#39;JLVC&#39;</span><span class="p">:</span><span class="n">JLVC</span><span class="p">}</span>
+</div>
+<div class="viewcode-block" id="ConstructDynamicalFunctions"><a class="viewcode-back" href="../Model-Construction/fingrainparams.html#fingrainparams.ConstructDynamicalFunctions">[docs]</a><span class="k">def</span> <span class="nf">ConstructDynamicalFunctions</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="n">par_dict</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">P</span><span class="p">):</span>
+    <span class="c">#intrapopulation parameters</span>
+    <span class="n">q1</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;q1&#39;</span><span class="p">]</span>
+    <span class="n">q2</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;q2&#39;</span><span class="p">]</span>
+    <span class="n">K</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;K&#39;</span><span class="p">]</span>
+    <span class="n">r</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;r&#39;</span><span class="p">]</span>
+    <span class="n">e_1</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_1&#39;</span><span class="p">]</span>
+    <span class="n">e_2</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_2&#39;</span><span class="p">]</span>
+    <span class="n">e_3</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_3&#39;</span><span class="p">]</span>
+    <span class="n">m_C</span> <span class="o">=</span> <span class="n">K_CP</span><span class="o">*</span><span class="n">m_P</span>
+    <span class="n">q2_0</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;q20&#39;</span><span class="p">]</span>
+    <span class="n">q1_0</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;q10&#39;</span><span class="p">]</span>
+    <span class="c">#interpopulation parameters</span>
+    <span class="n">alfa1</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;alfa1&#39;</span><span class="p">]</span>
+    <span class="n">alfa2</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;alfa2&#39;</span><span class="p">]</span>
+    <span class="n">alfa3</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;alfa3&#39;</span><span class="p">]</span>
+    <span class="n">t_hp</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;t_hp&#39;</span><span class="p">]</span>
+    <span class="n">t_hc</span><span class="o">=</span><span class="n">par_dict</span><span class="p">[</span><span class="s">&#39;t_hc&#39;</span><span class="p">]</span>
+    <span class="n">hC_0</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;t_h0C&#39;</span><span class="p">]</span>
+    <span class="n">hP_0</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;t_h0P&#39;</span><span class="p">]</span>
+    
+    <span class="c">#Construct LV functions</span>
+    <span class="n">dRLV</span><span class="o">=</span><span class="n">set_dRLV</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+    <span class="n">dPLV</span><span class="o">=</span><span class="n">set_dPLV</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+    <span class="n">dCLV</span><span class="o">=</span><span class="n">set_dCLV</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+
+    <span class="n">dRLVP</span> <span class="o">=</span> <span class="n">set_dRLVPart</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+    <span class="n">dPLVP</span> <span class="o">=</span> <span class="n">set_dPredLV</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">q2</span><span class="p">)</span>
+
+    <span class="n">dRLVC</span> <span class="o">=</span> <span class="n">set_dRLVPart</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">m_C</span><span class="p">)</span>
+    <span class="n">dCLVC</span> <span class="o">=</span> <span class="n">set_dPredLV</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">q1</span><span class="p">)</span>
+
+        
+    <span class="c">#Construct RM functions</span>
+    <span class="n">dRRM</span> <span class="o">=</span> <span class="n">set_dRRM</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">t_hp</span><span class="p">,</span><span class="n">t_hc</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+    <span class="n">dPRM</span> <span class="o">=</span> <span class="n">set_dPRM</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">t_hp</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span> 
+    <span class="n">dCRM</span> <span class="o">=</span> <span class="n">set_dCRM</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">t_hc</span><span class="p">,</span><span class="n">t_hp</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+
+
+    <span class="c">#RM eq expresions</span>
+
+    <span class="n">CNum_eq_RM</span> <span class="o">=</span> <span class="n">setEqCNum_RM</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">q2_0</span><span class="p">,</span><span class="n">hP_0</span><span class="p">)</span>
+    <span class="n">CDen_eq_RM</span> <span class="o">=</span> <span class="n">setEqCDen_RM</span><span class="p">(</span><span class="n">e_3</span><span class="p">,</span><span class="n">q2_0</span><span class="p">,</span><span class="n">hP_0</span><span class="p">)</span>
+    <span class="n">PNum_eq_RM</span> <span class="o">=</span> <span class="n">setEqPNum_RM</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">t_hc</span><span class="p">,</span><span class="n">t_hp</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">q2_0</span><span class="p">,</span><span class="n">q1_0</span><span class="p">,</span><span class="n">hC_0</span><span class="p">,</span><span class="n">hP_0</span><span class="p">)</span>
+    <span class="n">PDen_eq_RM</span> <span class="o">=</span> <span class="n">setEqPDen_RM</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">alfa1</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">t_hc</span><span class="p">,</span><span class="n">t_hp</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">q2_0</span><span class="p">,</span><span class="n">q1_0</span><span class="p">,</span><span class="n">hC_0</span><span class="p">,</span><span class="n">hP_0</span><span class="p">)</span>
+
+
+    <span class="n">C_eq_RM</span> <span class="o">=</span> <span class="n">CNum_eq_RM</span><span class="o">/</span><span class="n">CDen_eq_RM</span>
+    <span class="n">P_eq_RM</span> <span class="o">=</span> <span class="n">PNum_eq_RM</span><span class="o">/</span><span class="n">PDen_eq_RM</span>
+
+    <span class="n">DynamicsDict</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;dRLV&#39;</span><span class="p">:</span><span class="n">dRLV</span><span class="p">,</span><span class="s">&#39;dPLV&#39;</span><span class="p">:</span><span class="n">dPLV</span><span class="p">,</span><span class="s">&#39;dCLV&#39;</span><span class="p">:</span><span class="n">dCLV</span><span class="p">,</span><span class="s">&#39;dRRM&#39;</span><span class="p">:</span><span class="n">dRRM</span><span class="p">,</span><span class="s">&#39;dPRM&#39;</span><span class="p">:</span><span class="n">dPRM</span><span class="p">,</span><span class="s">&#39;dCRM&#39;</span><span class="p">:</span><span class="n">dCRM</span><span class="p">,</span><span class="s">&#39;C_eq_RM&#39;</span><span class="p">:</span><span class="n">C_eq_RM</span><span class="p">,</span><span class="s">&#39;P_eq_RM&#39;</span><span class="p">:</span><span class="n">P_eq_RM</span><span class="p">,</span><span class="s">&#39;PNum_eq_RM&#39;</span><span class="p">:</span><span class="n">PNum_eq_RM</span><span class="p">,</span><span class="s">&#39;CNum_eq_RM&#39;</span><span class="p">:</span><span class="n">CNum_eq_RM</span><span class="p">,</span><span class="s">&#39;dRLVP&#39;</span><span class="p">:</span><span class="n">dRLVP</span><span class="p">,</span><span class="s">&#39;dPLVP&#39;</span><span class="p">:</span><span class="n">dPLVP</span><span class="p">,</span><span class="s">&#39;dRLVC&#39;</span><span class="p">:</span><span class="n">dRLVC</span><span class="p">,</span><span class="s">&#39;dCLVC&#39;</span><span class="p">:</span><span class="n">dCLVC</span><span class="p">,</span><span class="s">&#39;EigR&#39;</span><span class="p">:</span><span class="o">-</span><span class="n">r</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">DynamicsDict</span>
+
+    
+
+
+    
+
+    
+    </div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Carlos M..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3b3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.1</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

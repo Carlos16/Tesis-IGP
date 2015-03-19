@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RMEquibrium module &mdash; Tesis 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Tesis 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Analisis" href="modules.html" />
+    <link rel="next" title="SimulationDynamics module" href="SimulationDynamics.html" />
+    <link rel="prev" title="OutputClasses module" href="OutputClasses.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="SimulationDynamics.html" title="SimulationDynamics module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="OutputClasses.html" title="OutputClasses module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Tesis 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Analisis</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-RMEquibrium">
+<span id="rmequibrium-module"></span><h1>RMEquibrium module<a class="headerlink" href="#module-RMEquibrium" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="RMEquibrium.AddPoints">
+<code class="descclassname">RMEquibrium.</code><code class="descname">AddPoints</code><span class="sig-paren">(</span><em>BreakPoints</em>, <em>yList</em>, <em>n</em>, <em>maxY</em>, <em>minY</em>, <em>Type</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RMEquibrium.html#AddPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RMEquibrium.AddPoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>From a list of zeros determine the ones that delimit a pass from positive to negative and store them in a list, i.e. find the boundary points
+of the positive region</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="RMEquibrium.AddToBoundaryPoints">
+<code class="descclassname">RMEquibrium.</code><code class="descname">AddToBoundaryPoints</code><span class="sig-paren">(</span><em>BreakPoints</em>, <em>xPoint</em>, <em>xList</em>, <em>yList</em>, <em>f</em>, <em>maxY</em>, <em>minY</em>, <em>ksim</em>, <em>arg1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RMEquibrium.html#AddToBoundaryPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RMEquibrium.AddToBoundaryPoints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="RMEquibrium.ExtractPoints">
+<code class="descclassname">RMEquibrium.</code><code class="descname">ExtractPoints</code><span class="sig-paren">(</span><em>xRanges</em>, <em>BoundaryPoints</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RMEquibrium.html#ExtractPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RMEquibrium.ExtractPoints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="RMEquibrium.FindCoexistenceRegion">
+<code class="descclassname">RMEquibrium.</code><code class="descname">FindCoexistenceRegion</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RMEquibrium.html#FindCoexistenceRegion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RMEquibrium.FindCoexistenceRegion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="RMEquibrium.FindRPositiveRegion">
+<code class="descclassname">RMEquibrium.</code><code class="descname">FindRPositiveRegion</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RMEquibrium.html#FindRPositiveRegion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RMEquibrium.FindRPositiveRegion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="RMEquibrium.FindpositiveRegion">
+<code class="descclassname">RMEquibrium.</code><code class="descname">FindpositiveRegion</code><span class="sig-paren">(</span><em>self</em>, <em>Pred</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RMEquibrium.html#FindpositiveRegion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RMEquibrium.FindpositiveRegion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="RMEquibrium.GetGuessBounds">
+<code class="descclassname">RMEquibrium.</code><code class="descname">GetGuessBounds</code><span class="sig-paren">(</span><em>Arr</em>, <em>Arr2</em>, <em>f</em>, <em>defaultUpGuess</em>, <em>defaultLowGuess</em>, <em>ksim</em>, <em>arg1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RMEquibrium.html#GetGuessBounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RMEquibrium.GetGuessBounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Code for delimiting the boundaries of the positive region of a given function</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="RMEquibrium.isNegative">
+<code class="descclassname">RMEquibrium.</code><code class="descname">isNegative</code><span class="sig-paren">(</span><em>f</em>, <em>xPoint</em>, <em>yPoint</em>, <em>ksim</em>, <em>arg1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RMEquibrium.html#isNegative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RMEquibrium.isNegative" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="RMEquibrium.toDict">
+<code class="descclassname">RMEquibrium.</code><code class="descname">toDict</code><span class="sig-paren">(</span><em>xRanges</em>, <em>BPoints</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RMEquibrium.html#toDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RMEquibrium.toDict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="OutputClasses.html"
+                        title="previous chapter">OutputClasses module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="SimulationDynamics.html"
+                        title="next chapter">SimulationDynamics module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/Docs/RMEquibrium.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Carlos M..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3b3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.1</a>
+      
+      |
+      <a href="../_sources/Docs/RMEquibrium.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>neweq &mdash; Tesis 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Tesis 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Tesis 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for neweq</h1><div class="highlight"><pre>
+<span class="c"># new equilibrium functions:</span>
+<span class="sd">&quot;&quot;&quot;Compute equilibrium values for the 3 species taking into consideration the invasibility criterions,</span>
+<span class="sd">i.e C will be set to 0 if inv of c to R &lt;0 or inv of c to R-P &lt;0 &quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span> 
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">linalg</span> <span class="k">as</span> <span class="n">LA</span>
+<span class="c">## R</span>
+<div class="viewcode-block" id="set_R_3"><a class="viewcode-back" href="../Docs/neweq.html#neweq.set_R_3">[docs]</a><span class="k">def</span> <span class="nf">set_R_3</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">i_c</span><span class="p">,</span><span class="n">i_c2</span><span class="p">,</span><span class="n">eqR2</span><span class="p">,</span><span class="n">eqR3</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">i_c</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span><span class="n">i_c2</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">),</span><span class="n">eqR2</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">),</span><span class="n">eqR3</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">))</span></div>
+<div class="viewcode-block" id="set_R_2"><a class="viewcode-back" href="../Docs/neweq.html#neweq.set_R_2">[docs]</a><span class="k">def</span> <span class="nf">set_R_2</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">i_c</span><span class="p">,</span><span class="n">i_p</span><span class="p">,</span><span class="n">eqR2</span><span class="p">,</span><span class="n">eqR3</span><span class="p">,</span><span class="n">I_C2</span><span class="p">,</span><span class="n">I_P2</span><span class="p">,</span><span class="n">R_3</span><span class="p">,</span><span class="n">K</span><span class="p">):</span>
+    <span class="n">i_c2</span> <span class="o">=</span> <span class="n">I_C2</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>    
+    <span class="n">i_p2</span> <span class="o">=</span> <span class="n">I_P2</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">i_c</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span><span class="n">i_c2</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">i_p</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span><span class="n">i_p2</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)),</span>
+                    <span class="n">R_3</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">i_c</span><span class="p">,</span><span class="n">i_c2</span><span class="p">,</span><span class="n">eqR2</span><span class="p">,</span><span class="n">eqR3</span><span class="p">),</span><span class="n">K</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="new_R"><a class="viewcode-back" href="../Docs/neweq.html#neweq.new_R">[docs]</a><span class="k">def</span> <span class="nf">new_R</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">f_R</span><span class="p">,</span><span class="n">I_P</span><span class="p">,</span><span class="n">I_C</span><span class="p">,</span><span class="n">I_C2</span><span class="p">,</span><span class="n">I_P2</span><span class="p">,</span><span class="n">eqR2</span><span class="p">,</span><span class="n">eqR3</span><span class="p">,</span><span class="n">R_2</span><span class="p">,</span><span class="n">R_3</span><span class="p">,</span><span class="n">K</span><span class="p">):</span>
+    <span class="n">i_p</span><span class="o">=</span><span class="n">I_P</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+    <span class="n">i_c</span><span class="o">=</span><span class="n">I_C</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">i_p</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span><span class="n">i_c</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">),</span><span class="n">f_R</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">),</span><span class="n">R_2</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">i_c</span><span class="p">,</span><span class="n">i_p</span><span class="p">,</span><span class="n">eqR2</span><span class="p">,</span><span class="n">eqR3</span><span class="p">,</span><span class="n">I_C2</span><span class="p">,</span><span class="n">I_P2</span><span class="p">,</span><span class="n">R_3</span><span class="p">,</span><span class="n">K</span><span class="p">))</span>
+
+
+<span class="c">##C</span>
+</div>
+<div class="viewcode-block" id="set_C_2"><a class="viewcode-back" href="../Docs/neweq.html#neweq.set_C_2">[docs]</a><span class="k">def</span> <span class="nf">set_C_2</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">i_c</span><span class="p">,</span><span class="n">eqC2</span><span class="p">,</span><span class="n">I_C2</span><span class="p">):</span>
+    <span class="n">i_c2</span> <span class="o">=</span> <span class="n">I_C2</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">i_c</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span><span class="n">i_c2</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">),</span><span class="n">eqC2</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">),</span><span class="mf">0.</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="new_C"><a class="viewcode-back" href="../Docs/neweq.html#neweq.new_C">[docs]</a><span class="k">def</span> <span class="nf">new_C</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">f_C</span><span class="p">,</span><span class="n">I_P</span><span class="p">,</span><span class="n">I_C</span><span class="p">,</span><span class="n">I_C2</span><span class="p">,</span><span class="n">eqC2</span><span class="p">,</span><span class="n">C_2</span><span class="p">):</span>
+    <span class="n">i_p</span><span class="o">=</span><span class="n">I_P</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+    <span class="n">i_c</span><span class="o">=</span><span class="n">I_C</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">i_p</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span><span class="n">i_c</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">),</span><span class="n">f_C</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">),</span><span class="n">C_2</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">i_c</span><span class="p">,</span><span class="n">eqC2</span><span class="p">,</span><span class="n">I_C2</span><span class="p">))</span>
+
+<span class="c">##P</span></div>
+<div class="viewcode-block" id="set_P_2"><a class="viewcode-back" href="../Docs/neweq.html#neweq.set_P_2">[docs]</a><span class="k">def</span> <span class="nf">set_P_2</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">i_p</span><span class="p">,</span><span class="n">eqP3</span><span class="p">,</span><span class="n">I_P2</span><span class="p">):</span>
+    <span class="n">i_p2</span> <span class="o">=</span> <span class="n">I_P2</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">i_p</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span><span class="n">i_p2</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">),</span><span class="n">eqP3</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">),</span><span class="mf">0.</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="new_P"><a class="viewcode-back" href="../Docs/neweq.html#neweq.new_P">[docs]</a><span class="k">def</span> <span class="nf">new_P</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">f_P</span><span class="p">,</span><span class="n">I_P</span><span class="p">,</span><span class="n">I_C</span><span class="p">,</span><span class="n">I_P2</span><span class="p">,</span><span class="n">eqP3</span><span class="p">,</span><span class="n">P_2</span><span class="p">):</span>
+    <span class="n">i_p</span><span class="o">=</span><span class="n">I_P</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+    <span class="n">i_c</span><span class="o">=</span><span class="n">I_C</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">i_p</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span><span class="n">i_c</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">),</span><span class="n">f_P</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">),</span><span class="n">P_2</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">i_p</span><span class="p">,</span><span class="n">eqP3</span><span class="p">,</span><span class="n">I_P2</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="Null"><a class="viewcode-back" href="../Docs/neweq.html#neweq.Null">[docs]</a><span class="k">def</span> <span class="nf">Null</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">0</span>
+    
+</div>
+<div class="viewcode-block" id="setEq"><a class="viewcode-back" href="../Docs/neweq.html#neweq.setEq">[docs]</a><span class="k">def</span> <span class="nf">setEq</span><span class="p">(</span><span class="n">args</span><span class="p">,</span><span class="n">fDict</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">mode</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span><span class="n">fDict</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s">&#39;LV&#39;</span><span class="p">:</span>
+         <span class="n">ReqDict</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="n">F</span><span class="p">[</span><span class="s">&#39;R_eq&#39;</span><span class="p">],</span><span class="mi">2</span><span class="p">:</span><span class="n">F</span><span class="p">[</span><span class="s">&#39;R_eq_s3&#39;</span><span class="p">],</span><span class="mi">3</span><span class="p">:</span><span class="n">F</span><span class="p">[</span><span class="s">&#39;R_eq_s2&#39;</span><span class="p">],</span><span class="mi">4</span><span class="p">:</span><span class="n">F</span><span class="p">[</span><span class="s">&#39;K&#39;</span><span class="p">]}</span>
+         <span class="n">CeqDict</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="n">F</span><span class="p">[</span><span class="s">&#39;C_eq&#39;</span><span class="p">],</span><span class="mi">2</span><span class="p">:</span><span class="n">Null</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="n">F</span><span class="p">[</span><span class="s">&#39;C_eq_s2&#39;</span><span class="p">],</span><span class="mi">4</span><span class="p">:</span><span class="n">Null</span><span class="p">}</span> 
+         <span class="n">PeqDict</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="n">F</span><span class="p">[</span><span class="s">&#39;P_eq&#39;</span><span class="p">],</span><span class="mi">2</span><span class="p">:</span><span class="n">F</span><span class="p">[</span><span class="s">&#39;P_eq_s3&#39;</span><span class="p">],</span><span class="mi">3</span><span class="p">:</span><span class="n">Null</span><span class="p">,</span><span class="mi">4</span><span class="p">:</span><span class="n">Null</span><span class="p">}</span>
+        
+    <span class="n">Req</span><span class="p">,</span><span class="n">Ceq</span><span class="p">,</span><span class="n">Peq</span> <span class="o">=</span> <span class="n">ReqDict</span><span class="p">[</span><span class="n">r</span><span class="p">](</span><span class="o">*</span><span class="n">args</span><span class="p">),</span><span class="n">CeqDict</span><span class="p">[</span><span class="n">r</span><span class="p">](</span><span class="o">*</span><span class="n">args</span><span class="p">),</span><span class="n">PeqDict</span><span class="p">[</span><span class="n">r</span><span class="p">](</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">Req</span><span class="p">,</span><span class="n">Ceq</span><span class="p">,</span><span class="n">Peq</span><span class="p">]</span>
+        
+    </div>
+<div class="viewcode-block" id="setEigenvals"><a class="viewcode-back" href="../Docs/neweq.html#neweq.setEigenvals">[docs]</a><span class="k">def</span> <span class="nf">setEigenvals</span><span class="p">(</span><span class="n">args</span><span class="p">,</span><span class="n">fDict</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">mode</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">fDict</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s">&#39;LV&#39;</span><span class="p">:</span>
+        <span class="n">EigenValsDict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="n">F</span><span class="p">[</span><span class="s">&#39;JLV&#39;</span><span class="p">],</span><span class="mi">2</span><span class="p">:</span><span class="n">F</span><span class="p">[</span><span class="s">&#39;JLVP&#39;</span><span class="p">],</span><span class="mi">3</span><span class="p">:</span><span class="n">F</span><span class="p">[</span><span class="s">&#39;JLVC&#39;</span><span class="p">]}</span>
+    
+    <span class="k">if</span> <span class="n">r</span><span class="o">&lt;</span><span class="mi">4</span><span class="p">:</span>
+         <span class="n">A</span> <span class="o">=</span> <span class="n">EigenValsDict</span><span class="p">[</span><span class="n">r</span><span class="p">](</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+         <span class="n">Eigenvals</span> <span class="o">=</span> <span class="n">LA</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">A</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+         <span class="k">return</span> <span class="n">Eigenvals</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">F</span><span class="p">[</span><span class="s">&#39;EigR&#39;</span><span class="p">](</span><span class="o">*</span><span class="n">args</span><span class="p">)]</span>
+</div>
+<div class="viewcode-block" id="setMTP"><a class="viewcode-back" href="../Docs/neweq.html#neweq.setMTP">[docs]</a><span class="k">def</span> <span class="nf">setMTP</span><span class="p">(</span><span class="n">args</span><span class="p">,</span><span class="n">fDict</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">mode</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span><span class="n">fDict</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s">&#39;LV&#39;</span><span class="p">:</span>
+        <span class="n">MTPDict</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="n">F</span><span class="p">[</span><span class="s">&#39;MTP_C&#39;</span><span class="p">](</span><span class="o">*</span><span class="n">args</span><span class="p">),</span><span class="mi">2</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">MTPDict</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
+
+
+
+<span class="c">###########Computing food chain length ##########################</span></div>
+<div class="viewcode-block" id="MTP_f"><a class="viewcode-back" href="../Docs/neweq.html#neweq.MTP_f">[docs]</a><span class="k">def</span> <span class="nf">MTP_f</span><span class="p">(</span><span class="n">R_eq</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">R_eq</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="MTP_O"><a class="viewcode-back" href="../Docs/neweq.html#neweq.MTP_O">[docs]</a><span class="k">def</span> <span class="nf">MTP_O</span><span class="p">(</span><span class="n">P_eq</span><span class="p">,</span><span class="n">C_eq</span><span class="p">,</span><span class="n">R_eq</span><span class="p">,</span><span class="n">MTP_f</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">C_eq</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span><span class="n">R_eq</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">P_eq</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span><span class="n">R_eq</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)),</span><span class="mi">2</span><span class="p">,</span><span class="n">MTP_f</span><span class="p">(</span><span class="n">R_eq</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="set_MTP"><a class="viewcode-back" href="../Docs/neweq.html#neweq.set_MTP">[docs]</a><span class="k">def</span> <span class="nf">set_MTP</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">f_R</span><span class="p">,</span><span class="n">f_C</span><span class="p">,</span><span class="n">f_P</span><span class="p">,</span><span class="n">MTP_C</span><span class="p">,</span><span class="n">MTP_O</span><span class="p">,</span><span class="n">MTP_f</span><span class="p">,</span><span class="n">oldfR</span><span class="p">,</span><span class="n">oldfC</span><span class="p">,</span><span class="n">oldfP</span><span class="p">,</span><span class="n">I_P</span><span class="p">,</span><span class="n">I_C</span><span class="p">,</span><span class="n">I_C2</span><span class="p">,</span><span class="n">I_P2</span><span class="p">,</span><span class="n">eqR2</span><span class="p">,</span><span class="n">eqR3</span><span class="p">,</span><span class="n">eqC2</span><span class="p">,</span><span class="n">eqP3</span><span class="p">,</span><span class="n">R_2</span><span class="p">,</span><span class="n">C_2</span><span class="p">,</span><span class="n">P_2</span><span class="p">,</span><span class="n">R_3</span><span class="p">,</span><span class="n">K</span><span class="p">):</span>
+    <span class="n">R_eq</span> <span class="o">=</span> <span class="n">f_R</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">oldfR</span><span class="p">,</span><span class="n">I_P</span><span class="p">,</span><span class="n">I_C</span><span class="p">,</span><span class="n">I_C2</span><span class="p">,</span><span class="n">I_P2</span><span class="p">,</span><span class="n">eqR2</span><span class="p">,</span><span class="n">eqR3</span><span class="p">,</span><span class="n">R_2</span><span class="p">,</span><span class="n">R_3</span><span class="p">,</span><span class="n">K</span><span class="p">)</span>
+    <span class="n">C_eq</span> <span class="o">=</span> <span class="n">f_C</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">oldfC</span><span class="p">,</span><span class="n">I_P</span><span class="p">,</span><span class="n">I_C</span><span class="p">,</span><span class="n">I_C2</span><span class="p">,</span><span class="n">eqC2</span><span class="p">,</span><span class="n">C_2</span><span class="p">)</span>
+    <span class="n">P_eq</span> <span class="o">=</span> <span class="n">f_P</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">K_RC</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">oldfP</span><span class="p">,</span><span class="n">I_P</span><span class="p">,</span><span class="n">I_C</span><span class="p">,</span><span class="n">I_P2</span><span class="p">,</span><span class="n">eqP3</span><span class="p">,</span><span class="n">P_2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">R_eq</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">C_eq</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span><span class="n">P_eq</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)),</span><span class="n">MTP_C</span><span class="p">(</span><span class="n">K_CP</span><span class="p">,</span><span class="n">m_P</span><span class="p">),</span><span class="n">MTP_O</span><span class="p">(</span><span class="n">P_eq</span><span class="p">,</span><span class="n">C_eq</span><span class="p">,</span><span class="n">R_eq</span><span class="p">,</span><span class="n">MTP_f</span><span class="p">))</span>
+
+
+
+<span class="c">#RM model</span>
+</div>
+<div class="viewcode-block" id="setReqRM"><a class="viewcode-back" href="../Docs/neweq.html#neweq.setReqRM">[docs]</a><span class="k">def</span> <span class="nf">setReqRM</span><span class="p">(</span><span class="n">fDict</span><span class="p">,</span><span class="n">K_CP</span><span class="p">,</span><span class="n">mP</span><span class="p">):</span>
+    <span class="n">Dis</span> <span class="o">=</span> <span class="n">fDict</span><span class="p">[</span><span class="s">&#39;Discriminant&#39;</span><span class="p">](</span><span class="n">K_CP</span><span class="p">,</span><span class="n">mP</span><span class="p">)</span>
+    <span class="n">R1</span> <span class="o">=</span> <span class="n">fDict</span><span class="p">[</span><span class="s">&#39;R1&#39;</span><span class="p">](</span><span class="n">K_CP</span><span class="p">,</span><span class="n">mP</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">Dis</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">bR</span> <span class="o">=</span> <span class="n">fDict</span><span class="p">[</span><span class="s">&#39;bR&#39;</span><span class="p">](</span><span class="n">K_CP</span><span class="p">,</span><span class="n">mP</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">fDict</span><span class="p">[</span><span class="s">&#39;denR&#39;</span><span class="p">](</span><span class="n">K_CP</span><span class="p">,</span><span class="n">mP</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">R1</span><span class="p">,(</span><span class="n">bR</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Dis</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span> <span class="p">,</span> <span class="p">(</span><span class="n">bR</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Dis</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)]</span>
+    <span class="k">elif</span> <span class="n">Dis</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">bR</span> <span class="o">=</span> <span class="n">fDict</span><span class="p">[</span><span class="s">&#39;bR&#39;</span><span class="p">](</span><span class="n">K_CP</span><span class="p">,</span><span class="n">mP</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span>  <span class="n">fDict</span><span class="p">[</span><span class="s">&#39;denR&#39;</span><span class="p">](</span><span class="n">K_CP</span><span class="p">,</span><span class="n">mP</span><span class="p">)</span>
+        <span class="k">return</span>  <span class="p">[</span><span class="n">R1</span><span class="p">,</span><span class="n">bR</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">R1</span><span class="p">]</span>
+
+</div>
+<div class="viewcode-block" id="setCeqRM"><a class="viewcode-back" href="../Docs/neweq.html#neweq.setCeqRM">[docs]</a><span class="k">def</span> <span class="nf">setCeqRM</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">fDict</span><span class="p">,</span><span class="n">K_CP</span><span class="p">,</span><span class="n">mP</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">R</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fDict</span><span class="p">[</span><span class="s">&#39;C_eq_RM&#39;</span><span class="p">](</span><span class="n">R</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="n">K_CP</span><span class="p">,</span><span class="n">mP</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.</span>
+</div>
+<div class="viewcode-block" id="setPeqRM"><a class="viewcode-back" href="../Docs/neweq.html#neweq.setPeqRM">[docs]</a><span class="k">def</span> <span class="nf">setPeqRM</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">fDict</span><span class="p">,</span><span class="n">K_CP</span><span class="p">,</span><span class="n">mP</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">C</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fDict</span><span class="p">[</span><span class="s">&#39;P_eq_RM&#39;</span><span class="p">](</span><span class="n">R</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="n">K_CP</span><span class="p">,</span><span class="n">mP</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Carlos M..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3b3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.1</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

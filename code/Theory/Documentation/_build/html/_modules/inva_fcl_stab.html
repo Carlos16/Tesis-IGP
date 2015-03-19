@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>inva_fcl_stab &mdash; Tesis 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Tesis 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Tesis 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for inva_fcl_stab</h1><div class="highlight"><pre>
+<span class="c">#Calculating food chain length within the stable coexistence region</span>
+<span class="c">#LV case</span>
+
+<div class="viewcode-block" id="setI_R_LV"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.setI_R_LV">[docs]</a><span class="k">def</span> <span class="nf">setI_R_LV</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">e2</span><span class="p">,</span><span class="n">m_P</span><span class="p">):</span>
+    <span class="n">halfa2</span> <span class="o">=</span> <span class="n">alfa2</span><span class="o">/</span><span class="n">m_P</span>
+    <span class="k">return</span> <span class="n">e2</span><span class="o">*</span><span class="n">halfa2</span><span class="o">*</span><span class="n">R</span>
+</div>
+<div class="viewcode-block" id="setI_C_LV"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.setI_C_LV">[docs]</a><span class="k">def</span> <span class="nf">setI_C_LV</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">e3</span><span class="p">,</span><span class="n">m_P</span><span class="p">):</span>
+    <span class="n">halfa3</span> <span class="o">=</span> <span class="n">alfa3</span><span class="o">/</span><span class="n">m_P</span>
+    <span class="k">return</span> <span class="n">e3</span><span class="o">*</span><span class="n">halfa3</span><span class="o">*</span><span class="n">C</span>
+
+<span class="c">#LV case at equilibrium</span></div>
+<div class="viewcode-block" id="set_MTP_C"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_MTP_C">[docs]</a><span class="k">def</span> <span class="nf">set_MTP_C</span><span class="p">(</span><span class="n">Req</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">q_2</span><span class="p">,</span><span class="n">e2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">3.</span> <span class="o">-</span> <span class="p">(</span><span class="n">alfa2</span><span class="o">/</span><span class="n">m_P</span><span class="p">)</span><span class="o">*</span><span class="n">e2</span><span class="o">*</span><span class="n">Req</span><span class="o">/</span><span class="n">q_2</span>
+
+
+<span class="c">#RM case</span>
+</div>
+<div class="viewcode-block" id="setI_R_RM"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.setI_R_RM">[docs]</a><span class="k">def</span> <span class="nf">setI_R_RM</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">e2</span><span class="p">,</span><span class="n">alfa2</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">t_hp</span><span class="p">):</span>
+    <span class="n">halfa2</span> <span class="o">=</span> <span class="n">alfa2</span><span class="o">/</span><span class="n">m_P</span>
+    <span class="k">return</span> <span class="n">e2</span><span class="o">*</span><span class="n">halfa2</span><span class="o">*</span><span class="n">R</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">t_hp</span><span class="o">*</span><span class="n">halfa2</span><span class="o">*</span><span class="n">R</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="setI_C_RM"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.setI_C_RM">[docs]</a><span class="k">def</span> <span class="nf">setI_C_RM</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="n">e3</span><span class="p">,</span><span class="n">alfa3</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">t_hp</span><span class="p">):</span>
+    <span class="n">halfa3</span> <span class="o">=</span> <span class="n">alfa3</span><span class="o">/</span><span class="n">m_P</span>
+    <span class="k">return</span> <span class="n">e3</span><span class="o">*</span><span class="n">halfa3</span><span class="o">*</span><span class="n">C</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">t_hp</span><span class="o">*</span><span class="n">halfa3</span><span class="o">*</span><span class="n">C</span><span class="p">)</span>
+<span class="c">#RM case at equilibrium</span></div>
+<div class="viewcode-block" id="setMPTEqRM"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.setMPTEqRM">[docs]</a><span class="k">def</span> <span class="nf">setMPTEqRM</span><span class="p">(</span><span class="n">I_R</span><span class="p">,</span><span class="n">q_2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">3</span>  <span class="o">-</span> <span class="n">I_R</span><span class="o">/</span><span class="n">q_2</span>
+
+<span class="c">#MTP in general for both cases</span></div>
+<div class="viewcode-block" id="setMTP"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.setMTP">[docs]</a><span class="k">def</span> <span class="nf">setMTP</span><span class="p">(</span><span class="n">I_R</span><span class="p">,</span><span class="n">I_C</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">I_R</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">I_C</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">I_R</span><span class="o">+</span><span class="n">I_C</span><span class="p">)</span>
+
+<span class="c">#Invasibility criterions LV model</span>
+
+<span class="c">##C to R , scenario 2</span></div>
+<div class="viewcode-block" id="set_I_C_s2"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_I_C_s2">[docs]</a><span class="k">def</span> <span class="nf">set_I_C_s2</span><span class="p">(</span><span class="n">e_1</span><span class="p">,</span><span class="n">alfa_1</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q_1</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">e_1</span><span class="o">*</span><span class="p">(</span><span class="n">alfa_1</span><span class="o">/</span><span class="n">m_C</span><span class="p">)</span><span class="o">*</span><span class="n">K</span> <span class="o">-</span> <span class="n">q_1</span>
+
+<span class="c">##P to R , scenario 3</span></div>
+<div class="viewcode-block" id="set_I_P_s3"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_I_P_s3">[docs]</a><span class="k">def</span> <span class="nf">set_I_P_s3</span><span class="p">(</span><span class="n">e_2</span><span class="p">,</span><span class="n">alfa_2</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q_2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">e_2</span><span class="o">*</span><span class="p">(</span><span class="n">alfa_2</span><span class="o">/</span><span class="n">m_P</span><span class="p">)</span><span class="o">*</span><span class="n">K</span> <span class="o">-</span> <span class="n">q_2</span>
+
+<span class="c">##P to C-R , scenario 4</span></div>
+<div class="viewcode-block" id="set_I_P_s4"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_I_P_s4">[docs]</a><span class="k">def</span> <span class="nf">set_I_P_s4</span><span class="p">(</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">alfa_2</span><span class="p">,</span><span class="n">alfa_3</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">q_2</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">e_2</span><span class="o">*</span><span class="n">alfa_2</span><span class="o">*</span><span class="n">R</span> <span class="o">+</span> <span class="n">e_3</span><span class="o">*</span><span class="n">alfa_3</span><span class="o">*</span><span class="n">C</span> <span class="o">-</span> <span class="n">q_2</span><span class="o">*</span><span class="n">m_P</span>
+
+<span class="c">##C to P-R , scenario 5</span></div>
+<div class="viewcode-block" id="set_I_C_s5"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_I_C_s5">[docs]</a><span class="k">def</span> <span class="nf">set_I_C_s5</span><span class="p">(</span><span class="n">e_1</span><span class="p">,</span><span class="n">alfa_1</span><span class="p">,</span><span class="n">alfa_3</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">q_1</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">e_1</span><span class="o">*</span><span class="p">(</span><span class="n">alfa_1</span><span class="o">/</span><span class="n">m_C</span><span class="p">)</span><span class="o">*</span><span class="n">R</span> <span class="o">-</span> <span class="p">(</span><span class="n">alfa_3</span><span class="o">/</span><span class="n">m_P</span><span class="p">)</span><span class="o">*</span><span class="n">P</span> <span class="o">-</span> <span class="n">q_1</span>
+
+
+
+<span class="c">### Functions for calculating Req and Ceq in scenario 2 , Req and Peq in scenario 3 are similar</span></div>
+<div class="viewcode-block" id="set_R_eq_s"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_R_eq_s">[docs]</a><span class="k">def</span> <span class="nf">set_R_eq_s</span><span class="p">(</span><span class="n">m_C</span><span class="p">,</span><span class="n">q_1</span><span class="p">,</span><span class="n">a_1</span><span class="p">,</span><span class="n">e_1</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">q_1</span><span class="o">*</span><span class="n">m_C</span><span class="o">/</span><span class="p">(</span><span class="n">e_1</span><span class="o">*</span><span class="n">a_1</span><span class="p">)</span></div>
+<div class="viewcode-block" id="set_C_eq_s"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_C_eq_s">[docs]</a><span class="k">def</span> <span class="nf">set_C_eq_s</span><span class="p">(</span><span class="n">m_C</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q_1</span><span class="p">,</span><span class="n">a_1</span><span class="p">,</span><span class="n">e_1</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">r</span><span class="o">*</span><span class="p">(</span><span class="n">m_C</span><span class="o">/</span><span class="n">a_1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span> <span class="n">q_1</span><span class="o">*</span><span class="n">m_C</span><span class="o">/</span><span class="p">(</span><span class="n">e_1</span><span class="o">*</span><span class="n">a_1</span><span class="o">*</span><span class="n">K</span><span class="p">))</span>
+
+<span class="c">#Invasibility criterion RM model</span>
+
+<span class="c">#C to R, scenario 2</span></div>
+<div class="viewcode-block" id="set_I_C_s2RM"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_I_C_s2RM">[docs]</a><span class="k">def</span> <span class="nf">set_I_C_s2RM</span><span class="p">(</span><span class="n">e_1</span><span class="p">,</span><span class="n">alfa_1</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q_1</span><span class="p">,</span><span class="n">hC_0</span><span class="p">,</span><span class="n">q1_0</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">alfa_1</span><span class="o">*</span><span class="n">K</span><span class="o">*</span><span class="p">(</span><span class="n">e_1</span> <span class="o">-</span> <span class="n">q1_0</span><span class="o">*</span><span class="n">hC_0</span><span class="p">)</span> <span class="o">-</span> <span class="n">q_1</span><span class="o">*</span><span class="n">m_C</span>
+<span class="c">#P to R, scenario 3</span></div>
+<div class="viewcode-block" id="set_I_P_s3RM"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_I_P_s3RM">[docs]</a><span class="k">def</span> <span class="nf">set_I_P_s3RM</span><span class="p">(</span><span class="n">e_2</span><span class="p">,</span><span class="n">alfa_2</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q_2</span><span class="p">,</span><span class="n">hP_0</span><span class="p">,</span><span class="n">q2_0</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">alfa_2</span><span class="o">*</span> <span class="n">K</span><span class="o">*</span><span class="p">(</span><span class="n">e_2</span> <span class="o">-</span><span class="n">q2_0</span><span class="o">*</span><span class="n">hP_0</span><span class="p">)</span> <span class="o">-</span> <span class="n">q_2</span><span class="o">*</span><span class="n">m_P</span>
+
+<span class="c">#P to C-R, scenario 4</span></div>
+<div class="viewcode-block" id="set_I_P_s4RM"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_I_P_s4RM">[docs]</a><span class="k">def</span> <span class="nf">set_I_P_s4RM</span><span class="p">(</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">alfa_2</span><span class="p">,</span><span class="n">alfa_3</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">q_2</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">hP_0</span><span class="p">,</span><span class="n">q2_0</span><span class="p">):</span>
+    
+    <span class="k">return</span> <span class="n">alfa_2</span><span class="o">*</span><span class="n">R</span><span class="o">*</span><span class="p">(</span><span class="n">e_2</span> <span class="o">-</span> <span class="n">q2_0</span><span class="o">*</span><span class="n">hP_0</span><span class="p">)</span> <span class="o">+</span> <span class="n">alfa_3</span><span class="o">*</span><span class="n">C</span><span class="o">*</span><span class="p">(</span><span class="n">e_3</span> <span class="o">-</span> <span class="n">q2_0</span><span class="o">*</span><span class="n">hP_0</span><span class="p">)</span>  <span class="o">-</span> <span class="n">q_2</span><span class="o">*</span><span class="n">m_P</span>
+
+<span class="c">#C to P-R, scenario 5</span></div>
+<div class="viewcode-block" id="set_I_C_s5RM"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_I_C_s5RM">[docs]</a><span class="k">def</span> <span class="nf">set_I_C_s5RM</span><span class="p">(</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">alfa_1</span><span class="p">,</span><span class="n">alfa_3</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">q_1</span><span class="p">,</span><span class="n">t_hc</span><span class="p">,</span><span class="n">q1_0</span><span class="p">,</span><span class="n">q2_0</span><span class="p">,</span><span class="n">hP_0</span><span class="p">,</span><span class="n">hC_0</span><span class="p">):</span>
+    <span class="n">halfa_1</span> <span class="o">=</span> <span class="n">alfa_1</span><span class="o">/</span><span class="n">m_C</span>
+    <span class="n">halfa_3</span> <span class="o">=</span> <span class="n">alfa_3</span><span class="o">/</span><span class="n">m_P</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">e_2</span><span class="o">/</span><span class="p">(</span><span class="n">e_2</span> <span class="o">-</span> <span class="n">q2_0</span><span class="o">*</span><span class="n">hP_0</span><span class="p">))</span> <span class="o">*</span><span class="p">(</span><span class="n">halfa_1</span><span class="o">*</span><span class="n">R</span><span class="o">*</span><span class="p">(</span><span class="n">e_1</span> <span class="o">-</span> <span class="n">q1_0</span><span class="o">*</span><span class="n">hC_0</span><span class="p">)</span> <span class="o">-</span> <span class="n">q_1</span><span class="p">)</span> <span class="o">-</span> <span class="n">halfa_3</span><span class="o">*</span><span class="n">P</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">t_hc</span><span class="o">*</span><span class="n">alfa_1</span><span class="o">*</span><span class="n">R</span><span class="p">)</span>
+
+<span class="c">## Functions for calculating Req and Ceq in scenario 2 , Req and Peq in scenario 3 are similar</span></div>
+<div class="viewcode-block" id="set_R_C_eq_sRM"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_R_C_eq_sRM">[docs]</a><span class="k">def</span> <span class="nf">set_R_C_eq_sRM</span><span class="p">(</span><span class="n">m_C</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">q1</span><span class="p">,</span><span class="n">q1_0</span><span class="p">,</span><span class="n">alfa_1</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">t_hc</span><span class="p">,</span><span class="n">hC_0</span><span class="p">):</span>
+    <span class="n">halfa_1</span> <span class="o">=</span> <span class="n">alfa_1</span><span class="o">/</span><span class="n">m_C</span>
+    <span class="n">Req</span> <span class="o">=</span> <span class="n">q1</span> <span class="o">/</span><span class="p">(</span><span class="n">halfa_1</span><span class="o">*</span><span class="p">(</span><span class="n">e_1</span> <span class="o">-</span> <span class="n">q1_0</span><span class="o">*</span><span class="n">hC_0</span><span class="p">))</span>
+    <span class="n">Ceq</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">t_hc</span><span class="o">*</span><span class="n">alfa_1</span><span class="o">*</span><span class="n">Req</span><span class="p">)</span><span class="o">/</span><span class="n">halfa_1</span> <span class="o">*</span><span class="n">r</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">Req</span><span class="o">/</span><span class="n">K</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Req</span> <span class="p">,</span> <span class="n">Ceq</span>
+
+<span class="c">#Qualitative stability analysis using Hurwtiz determinants</span>
+
+<span class="c">##auxiliary functions</span></div>
+<div class="viewcode-block" id="set_D"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_D">[docs]</a><span class="k">def</span> <span class="nf">set_D</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">a_1</span><span class="p">,</span><span class="n">a_2</span><span class="p">,</span><span class="n">a_3</span><span class="p">,</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">r</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">K</span><span class="o">*</span><span class="n">a_1</span><span class="o">*</span><span class="n">a_2</span><span class="o">*</span><span class="p">(</span><span class="n">e_1</span><span class="o">*</span><span class="n">e_3</span><span class="o">-</span><span class="n">e_2</span><span class="p">)</span> <span class="o">+</span> <span class="n">a_3</span><span class="o">*</span><span class="n">e_3</span><span class="o">*</span><span class="n">m_C</span><span class="o">*</span><span class="n">r</span>
+</div>
+<div class="viewcode-block" id="set_a1"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_a1">[docs]</a><span class="k">def</span> <span class="nf">set_a1</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">Req</span><span class="p">,</span><span class="n">K</span><span class="p">):</span>
+    <span class="k">return</span>  <span class="n">r</span><span class="o">*</span><span class="n">Req</span><span class="o">/</span><span class="n">K</span>
+</div>
+<div class="viewcode-block" id="set_a2"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_a2">[docs]</a><span class="k">def</span> <span class="nf">set_a2</span><span class="p">(</span><span class="n">e_1</span><span class="p">,</span><span class="n">e_2</span><span class="p">,</span><span class="n">e_3</span><span class="p">,</span><span class="n">a_1</span><span class="p">,</span><span class="n">a_2</span><span class="p">,</span><span class="n">a_3</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">m_P</span><span class="p">,</span><span class="n">Ceq</span><span class="p">,</span><span class="n">Req</span><span class="p">,</span><span class="n">Peq</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">e_1</span><span class="o">*</span><span class="p">(</span><span class="n">a_1</span><span class="o">*</span><span class="n">m_P</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">Ceq</span><span class="o">*</span><span class="n">Req</span> <span class="o">+</span> <span class="p">(</span><span class="n">Peq</span><span class="o">*</span><span class="n">m_C</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">e_2</span><span class="o">*</span><span class="n">a_2</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">Req</span> <span class="o">+</span> <span class="n">e_3</span><span class="o">*</span><span class="n">a_3</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">Ceq</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">m_C</span><span class="o">*</span><span class="n">m_P</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+</div>
+<div class="viewcode-block" id="set_a3"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_a3">[docs]</a><span class="k">def</span> <span class="nf">set_a3</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="n">a_3</span><span class="p">,</span><span class="n">Ceq</span><span class="p">,</span><span class="n">Req</span><span class="p">,</span><span class="n">Peq</span><span class="p">,</span><span class="n">K</span><span class="p">,</span><span class="n">m_C</span><span class="p">,</span><span class="n">m_P</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a_3</span><span class="o">*</span><span class="n">Req</span><span class="o">*</span><span class="n">Ceq</span><span class="o">*</span><span class="n">Peq</span><span class="o">*</span><span class="n">D</span><span class="o">/</span><span class="p">(</span><span class="n">K</span><span class="o">*</span><span class="n">m_C</span><span class="o">*</span><span class="n">m_P</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c">##Hurwtiz criterion</span></div>
+<div class="viewcode-block" id="set_hdet2"><a class="viewcode-back" href="../Model-Construction/inva_fcl_stab.html#inva_fcl_stab.set_hdet2">[docs]</a><span class="k">def</span> <span class="nf">set_hdet2</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span><span class="n">a2</span><span class="p">,</span><span class="n">a3</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a1</span><span class="o">*</span><span class="n">a2</span><span class="o">-</span><span class="n">a3</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Carlos M..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3b3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.1</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

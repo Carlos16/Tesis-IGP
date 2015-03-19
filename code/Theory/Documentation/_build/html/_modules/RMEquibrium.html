@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RMEquibrium &mdash; Tesis 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Tesis 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Tesis 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for RMEquibrium</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">bounds</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+
+<div class="viewcode-block" id="FindCoexistenceRegion"><a class="viewcode-back" href="../Analisis/RMEquibrium.html#RMEquibrium.FindCoexistenceRegion">[docs]</a><span class="k">def</span> <span class="nf">FindCoexistenceRegion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">EquilibriumBoundaries</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FindRpositiveRegion</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">EquilibriumBoundaries</span><span class="p">[</span><span class="s">&#39;C&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FindCpositiveRegion</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">EquilibriumBoundaries</span><span class="p">[</span><span class="s">&#39;P&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FindPpositiveRegion</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="FindRPositiveRegion"><a class="viewcode-back" href="../Analisis/RMEquibrium.html#RMEquibrium.FindRPositiveRegion">[docs]</a><span class="k">def</span> <span class="nf">FindRPositiveRegion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">UpGuessRange</span><span class="p">,</span><span class="n">LowGuessRange</span><span class="p">,</span><span class="n">massRange</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MakeRangeGuess</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span><span class="s">&#39;Discriminant&#39;</span><span class="p">)</span>
+    <span class="n">DisBounds</span> <span class="o">=</span> <span class="n">Get_bounds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fDict</span><span class="p">[</span><span class="s">&#39;Discriminant&#39;</span><span class="p">],</span><span class="n">Get_roots</span><span class="p">,</span><span class="n">massRange</span><span class="p">,</span><span class="n">UpGuessRange</span><span class="p">,</span><span class="n">LowGuessRange</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">guessSep</span><span class="p">)</span>
+    <span class="n">R1Bounds</span> <span class="o">=</span> <span class="p">[[</span><span class="n">massRange</span><span class="p">,</span><span class="n">Get_bounds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fDict</span><span class="p">[</span><span class="s">&#39;R1&#39;</span><span class="p">],</span><span class="n">Get_roots</span><span class="p">,</span><span class="n">massRange</span><span class="p">,</span><span class="n">UpGuessRange</span><span class="p">,</span><span class="n">LowGuessRange</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">guessSep</span><span class="p">)]]</span>
+    <span class="n">R2UpGuessRange</span><span class="p">,</span><span class="n">R2LowGuessRange</span><span class="p">,</span><span class="n">R2massRange</span> <span class="o">=</span> <span class="n">GetGuessBounds</span><span class="p">(</span><span class="n">DisBounds</span><span class="p">,</span><span class="n">massRange</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">fDict</span><span class="p">[</span><span class="s">&#39;Discriminant&#39;</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">UpGuess</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">LowGuess</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">distance</span><span class="p">)</span>
+    <span class="n">R2Bounds</span> <span class="o">=</span><span class="p">[]</span>
+    <span class="n">R3Bounds</span> <span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">R2UpGuessRange</span><span class="p">)):</span>
+        <span class="n">R2Bounds</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">massRange</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="n">Get_Bounds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fDict</span><span class="p">[</span><span class="s">&#39;R2&#39;</span><span class="p">],</span><span class="n">Get_roots</span><span class="p">,</span><span class="n">R2massRange</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="n">R2UpGuessRange</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="n">R2LowGuessRange</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">guessSep</span><span class="p">)])</span>
+        <span class="n">R3Bounds</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">massRange</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="n">Get_Bounds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fDict</span><span class="p">[</span><span class="s">&#39;R3&#39;</span><span class="p">],</span><span class="n">Get_roots</span><span class="p">,</span><span class="n">R2massRange</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="n">R2UpGuessRange</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="n">R2LowGuessRange</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">guessSep</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">&#39;R1&#39;</span><span class="p">:</span><span class="n">R1Bounds</span><span class="p">,</span><span class="s">&#39;R2&#39;</span><span class="p">:</span><span class="n">R2Bounds</span><span class="p">,</span><span class="s">&#39;R3&#39;</span><span class="p">:</span><span class="n">R3Bounds</span><span class="p">}</span>
+
+
+</div>
+<div class="viewcode-block" id="FindpositiveRegion"><a class="viewcode-back" href="../Analisis/RMEquibrium.html#RMEquibrium.FindpositiveRegion">[docs]</a><span class="k">def</span> <span class="nf">FindpositiveRegion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Pred</span><span class="p">):</span>
+    <span class="n">Bounds</span><span class="o">=</span><span class="p">{}</span>
+    <span class="n">REquilibrium</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">EquilibriumBoundaries</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">Rpos</span> <span class="ow">in</span> <span class="n">REquilibrium</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">Boundaries</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">Bound</span> <span class="ow">in</span> <span class="n">REquilibrium</span><span class="p">[</span><span class="n">Rpos</span><span class="p">]:</span>
+                <span class="n">UpGuessRange</span><span class="p">,</span><span class="n">LowGuessRange</span><span class="p">,</span><span class="n">massRange</span> <span class="o">=</span><span class="n">GetGuessBounds</span><span class="p">(</span><span class="n">Bound</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">Bound</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">fDict</span><span class="p">[</span><span class="n">Rpos</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">UpGuess</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">LowGuess</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">distance</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">UpGuessRange</span><span class="p">)):</span>
+                    <span class="n">Boundaries</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">massRange</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="n">Get_Bounds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fDict</span><span class="p">[</span><span class="n">Pred</span><span class="p">][</span><span class="n">Rpos</span><span class="p">],</span><span class="n">Get_roots</span><span class="p">,</span><span class="n">massRange</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="n">UpGuessRange</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="n">LowGuessRange</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">guessSep</span><span class="p">)])</span>
+        <span class="n">Bounds</span><span class="p">[</span><span class="n">Rpos</span><span class="p">]</span><span class="o">=</span><span class="n">Boundaries</span>
+    <span class="k">return</span> <span class="n">Bounds</span>
+
+
+
+
+<span class="c">#Delimit Positive Boundaries and Return Lists</span>
+</div>
+<div class="viewcode-block" id="ExtractPoints"><a class="viewcode-back" href="../Analisis/RMEquibrium.html#RMEquibrium.ExtractPoints">[docs]</a><span class="k">def</span> <span class="nf">ExtractPoints</span><span class="p">(</span><span class="n">xRanges</span><span class="p">,</span><span class="n">BoundaryPoints</span><span class="p">):</span>
+    <span class="n">xGuess</span><span class="o">=</span><span class="p">[[]]</span>
+    <span class="n">UpGuess</span><span class="o">=</span><span class="p">[[]]</span>
+    <span class="n">LowGuess</span><span class="o">=</span><span class="p">[[]]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xRanges</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">BoundaryPoints</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+           <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">BoundaryPoints</span><span class="p">[</span><span class="n">x</span><span class="p">])):</span>
+               <span class="k">try</span><span class="p">:</span>
+                   <span class="n">xGuess</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xRanges</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+                   <span class="n">UpGuess</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BoundaryPoints</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">p</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+                   <span class="n">LowGuess</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BoundaryPoints</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">p</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+               <span class="k">except</span><span class="p">:</span>
+                
+                   <span class="n">xGuess</span><span class="o">+=</span><span class="p">[[</span><span class="n">xRanges</span><span class="p">[</span><span class="n">x</span><span class="p">]]]</span>
+                   <span class="n">UpGuess</span><span class="o">+=</span><span class="p">[[</span><span class="n">BoundaryPoints</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">p</span><span class="p">][</span><span class="mi">1</span><span class="p">]]]</span>
+                   <span class="n">LowGuess</span><span class="o">+=</span><span class="p">[[</span><span class="n">BoundaryPoints</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">p</span><span class="p">][</span><span class="mi">0</span><span class="p">]]]</span>
+    <span class="k">return</span> <span class="n">UpGuess</span><span class="p">,</span><span class="n">LowGuess</span><span class="p">,</span><span class="n">xGuess</span>
+                
+            
+
+        </div>
+<div class="viewcode-block" id="toDict"><a class="viewcode-back" href="../Analisis/RMEquibrium.html#RMEquibrium.toDict">[docs]</a><span class="k">def</span> <span class="nf">toDict</span><span class="p">(</span><span class="n">xRanges</span><span class="p">,</span><span class="n">BPoints</span><span class="p">):</span>
+    <span class="n">BPointDict</span><span class="o">=</span><span class="p">{}</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xRanges</span><span class="p">)):</span>
+        <span class="n">BPointDict</span><span class="p">[</span><span class="n">xRanges</span><span class="p">[</span><span class="n">x</span><span class="p">]]</span> <span class="o">=</span> <span class="n">BPoints</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">BPointDict</span>
+
+</div>
+<div class="viewcode-block" id="GetGuessBounds"><a class="viewcode-back" href="../Analisis/RMEquibrium.html#RMEquibrium.GetGuessBounds">[docs]</a><span class="k">def</span> <span class="nf">GetGuessBounds</span><span class="p">(</span><span class="n">Arr</span><span class="p">,</span><span class="n">Arr2</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">defaultUpGuess</span><span class="p">,</span><span class="n">defaultLowGuess</span><span class="p">,</span><span class="n">ksim</span><span class="p">,</span><span class="n">arg1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Code for delimiting the boundaries of the positive region of a given function&quot;&quot;&quot;</span>
+    <span class="n">xRanges</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">BoundaryPoints</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Arr</span><span class="p">)):</span>
+        <span class="n">AddToBoundaryPoints</span><span class="p">(</span><span class="n">Arr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">Arr2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">xRanges</span><span class="p">,</span><span class="n">BoundaryPoints</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">defaultUpGuess</span><span class="p">,</span><span class="n">defaultLowGuess</span><span class="p">,</span><span class="n">ksim</span><span class="p">,</span><span class="n">arg1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">xRanges</span><span class="p">,</span><span class="n">BoundaryPoints</span>
+
+</div>
+<div class="viewcode-block" id="AddToBoundaryPoints"><a class="viewcode-back" href="../Analisis/RMEquibrium.html#RMEquibrium.AddToBoundaryPoints">[docs]</a><span class="k">def</span> <span class="nf">AddToBoundaryPoints</span><span class="p">(</span><span class="n">BreakPoints</span><span class="p">,</span><span class="n">xPoint</span><span class="p">,</span><span class="n">xList</span><span class="p">,</span><span class="n">yList</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">maxY</span><span class="p">,</span><span class="n">minY</span><span class="p">,</span><span class="n">ksim</span><span class="p">,</span><span class="n">arg1</span><span class="p">):</span>
+    
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">BreakPoints</span><span class="p">)</span>
+    <span class="n">xList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xPoint</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">isNegative</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">xPoint</span><span class="p">,</span><span class="n">minY</span><span class="p">,</span><span class="n">ksim</span><span class="p">,</span><span class="n">arg1</span><span class="p">):</span>
+            <span class="n">AddPoints</span><span class="p">(</span><span class="n">BreakPoints</span><span class="p">,</span><span class="n">yList</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">maxY</span><span class="p">,</span><span class="n">minY</span><span class="p">,</span><span class="n">Type</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">AddPoints</span><span class="p">(</span><span class="n">BreakPoints</span><span class="p">,</span><span class="n">yList</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">maxY</span><span class="p">,</span><span class="n">minY</span><span class="p">,</span><span class="n">Type</span><span class="o">=+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isNegative</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">xPoint</span><span class="p">,</span><span class="n">minY</span><span class="p">,</span><span class="n">ksim</span><span class="p">,</span><span class="n">arg1</span><span class="p">):</span>
+            <span class="n">yList</span><span class="o">.</span><span class="n">append</span><span class="p">([(</span><span class="n">minY</span><span class="o">-</span><span class="mf">1e-03</span><span class="p">,</span><span class="n">maxY</span><span class="o">+</span><span class="mf">1e-03</span><span class="p">)])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">yList</span><span class="o">.</span><span class="n">append</span><span class="p">([(</span><span class="mi">0</span><span class="p">,)])</span>
+
+</div>
+<div class="viewcode-block" id="AddPoints"><a class="viewcode-back" href="../Analisis/RMEquibrium.html#RMEquibrium.AddPoints">[docs]</a><span class="k">def</span> <span class="nf">AddPoints</span><span class="p">(</span><span class="n">BreakPoints</span><span class="p">,</span><span class="n">yList</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">maxY</span><span class="p">,</span><span class="n">minY</span><span class="p">,</span><span class="n">Type</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; From a list of zeros determine the ones that delimit a pass from positive to negative and store them in a list, i.e. find the boundary points</span>
+<span class="sd">    of the positive region&quot;&quot;&quot;</span>
+    <span class="n">initPos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Type</span><span class="p">)</span>
+    <span class="n">BreakPoints</span> <span class="o">=</span> <span class="p">[</span><span class="n">minY</span><span class="o">-</span><span class="mf">1e-03</span><span class="p">]</span><span class="o">+</span><span class="n">BreakPoints</span><span class="o">+</span><span class="p">[</span><span class="n">maxY</span><span class="o">+</span><span class="mf">1e-03</span><span class="p">]</span>
+    <span class="n">Points</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">initPos</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">Points</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">BreakPoints</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">BreakPoints</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">yList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Points</span><span class="p">)</span>
+
+    
+        
+</div>
+<div class="viewcode-block" id="isNegative"><a class="viewcode-back" href="../Analisis/RMEquibrium.html#RMEquibrium.isNegative">[docs]</a><span class="k">def</span> <span class="nf">isNegative</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">xPoint</span><span class="p">,</span><span class="n">yPoint</span><span class="p">,</span><span class="n">ksim</span><span class="p">,</span><span class="n">arg1</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ksim</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="n">yPoint</span><span class="p">,</span><span class="n">xPoint</span><span class="p">)</span> <span class="o">&lt;</span><span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="n">yPoint</span><span class="p">,</span><span class="n">xPoint</span><span class="p">,</span><span class="n">arg1</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">0</span>
+
+
+    
+
+        
+        
+    
+
+        
+            
+            
+        
+        
+        
+    
+    
+
+    
+    
+    
+        </div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Carlos M..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3b3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.1</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

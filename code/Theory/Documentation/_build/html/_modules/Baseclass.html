@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Baseclass &mdash; Tesis 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Tesis 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Tesis 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for Baseclass</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">functions</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">Auxiliaryfunctions</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">OutputClasses</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">RMEquibrium</span> <span class="kn">as</span> <span class="nn">RME</span>
+
+
+<div class="viewcode-block" id="BSR"><a class="viewcode-back" href="../Analisis/Baseclass.html#Baseclass.BSR">[docs]</a><span class="k">class</span> <span class="nc">BSR</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class that stores the basic information for the analysis such as:</span>
+<span class="sd">    * The mode of the ODE system(RM or LV)</span>
+<span class="sd">    * The approach(Top down or bottom up)</span>
+<span class="sd">    * Generate the dictionary with all the functions and the x and y ranges that will be explored.</span>
+<span class="sd">    * ksim is a boolean variable that set the assumption about similar or not body size ratios across trophic levels.</span>
+<span class="sd">    * In the case of the Active-Grazing-Grazing strategy, it exists a singular point in the x axis when ksim is false, in this case we set a finer xrange</span>
+<span class="sd">    in points near to it, this is stored in the xFocus_sep variable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">params</span><span class="p">,</span><span class="n">mode</span><span class="p">,</span><span class="n">xLims</span><span class="p">,</span> <span class="n">ksim</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xLims</span> <span class="o">=</span> <span class="n">xLims</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xFocus</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NormalX_sep</span> <span class="o">=</span> <span class="mf">0.01</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xFocus_sep</span> <span class="o">=</span> <span class="mf">0.01</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Y_sep</span> <span class="o">=</span> <span class="mf">0.05</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">YLims</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fDict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ksim</span> <span class="o">=</span> <span class="n">ksim</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">K_CP</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s">&#39;K_CP&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">K_RC</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s">&#39;K_RC&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_P</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s">&#39;m_P&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s">&#39;C&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s">&#39;R&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">P</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s">&#39;P&#39;</span><span class="p">)</span>
+            
+<div class="viewcode-block" id="BSR.setfDict"><a class="viewcode-back" href="../Analisis/Baseclass.html#Baseclass.BSR.setfDict">[docs]</a>    <span class="k">def</span> <span class="nf">setfDict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructs the dictionary containing all the elementary functions used in the analysis</span>
+<span class="sd">        Separates two different approachs:</span>
+<span class="sd">        if bottom is true  m_C and m_P are expressed in terms of m_R, else m_C and m_R are expressed in terms of m_P, in reality the scenarios will give</span>
+<span class="sd">        similar pictures, we are just rotating the plane if we interchange them        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bottom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span>
+        <span class="k">if</span> <span class="n">bottom</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fDict</span> <span class="o">=</span> <span class="n">func_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">K_CP</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">K_RC</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">m_R</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">K_RC</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">K_CP</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span>
+                                        <span class="p">,</span><span class="n">bottom</span> <span class="o">=</span> <span class="n">bottom</span><span class="p">,</span><span class="n">sim</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ksim</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fDict</span>  <span class="o">=</span> <span class="n">func_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">K_CP</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">K_RC</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">m_P</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span><span class="n">sim</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ksim</span><span class="p">)</span></div>
+<div class="viewcode-block" id="BSR.setInvFunctions"><a class="viewcode-back" href="../Analisis/Baseclass.html#Baseclass.BSR.setInvFunctions">[docs]</a>    <span class="k">def</span> <span class="nf">setInvFunctions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s">&quot;RM&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="s">&#39;I_C_s2RM&#39;</span><span class="p">,</span><span class="s">&#39;I_P_s3RM&#39;</span><span class="p">,</span><span class="s">&#39;I_P_s4RM&#39;</span><span class="p">,</span><span class="s">&#39;I_C_s5RM&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="s">&#39;I_C_s2&#39;</span><span class="p">,</span><span class="s">&#39;I_P_s3&#39;</span><span class="p">,</span><span class="s">&#39;I_P_s4&#39;</span><span class="p">,</span><span class="s">&#39;I_C_s5&#39;</span><span class="p">]</span></div>
+<div class="viewcode-block" id="BSR.setxRange"><a class="viewcode-back" href="../Analisis/Baseclass.html#Baseclass.BSR.setxRange">[docs]</a>    <span class="k">def</span> <span class="nf">setxRange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the range of X points which are going to be explored</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xLims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">xFocus</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">NormalX_sep</span><span class="p">)</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xFocus</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">xFocus</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">xFocus_sep</span><span class="p">)</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xFocus</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">xLims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">NormalX_sep</span><span class="p">)</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">])</span>
+        <span class="k">return</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="BSR.getandSetxFocus"><a class="viewcode-back" href="../Analisis/Baseclass.html#Baseclass.BSR.getandSetxFocus">[docs]</a>    <span class="k">def</span> <span class="nf">getandSetxFocus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">nPoints</span><span class="p">,</span><span class="n">dist</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        nPoints : the number of points in which the interval [x0-dist,x0] is going to be divided, x0 is where the singularity occurres (if it exists)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">e1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_1&#39;</span><span class="p">]</span>
+        <span class="n">e2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;e_2&#39;</span><span class="p">]</span>
+        <span class="n">q10</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;q10&#39;</span><span class="p">]</span>
+        <span class="n">q20</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;q20&#39;</span><span class="p">]</span>
+        <span class="n">pd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;pd&#39;</span><span class="p">]</span>
+        <span class="n">pv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;pv&#39;</span><span class="p">]</span>
+        <span class="n">D_R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;D_R&#39;</span><span class="p">]</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;w&#39;</span><span class="p">]</span>
+        <span class="n">xSing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">((</span><span class="n">e2</span><span class="o">*</span><span class="n">q10</span><span class="o">/</span><span class="p">(</span><span class="n">e1</span><span class="o">*</span><span class="n">q20</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">pd</span><span class="o">*</span><span class="p">(</span><span class="n">D_R</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">pv</span> <span class="o">-</span> <span class="n">w</span><span class="p">)))</span>
+        <span class="n">lowEnd</span> <span class="o">=</span> <span class="n">xSing</span><span class="o">-</span><span class="n">dist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setxFocus</span><span class="p">([</span><span class="n">lowEnd</span><span class="p">,</span><span class="n">xSing</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setxFocusSep</span><span class="p">(</span><span class="n">dist</span><span class="o">/</span><span class="n">nPoints</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BSR.setxFocus"><a class="viewcode-back" href="../Analisis/Baseclass.html#Baseclass.BSR.setxFocus">[docs]</a>    <span class="k">def</span> <span class="nf">setxFocus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">focusLims</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xFocus</span> <span class="o">=</span> <span class="n">focusLims</span></div>
+<div class="viewcode-block" id="BSR.setxFocusSep"><a class="viewcode-back" href="../Analisis/Baseclass.html#Baseclass.BSR.setxFocusSep">[docs]</a>    <span class="k">def</span> <span class="nf">setxFocusSep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Focus_sep</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xFocus_sep</span> <span class="o">=</span> <span class="n">Focus_sep</span></div>
+<div class="viewcode-block" id="BSR.getParams"><a class="viewcode-back" href="../Analisis/Baseclass.html#Baseclass.BSR.getParams">[docs]</a>    <span class="k">def</span> <span class="nf">getParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span>
+            </div>
+<div class="viewcode-block" id="BSR.getfDict"><a class="viewcode-back" href="../Analisis/Baseclass.html#Baseclass.BSR.getfDict">[docs]</a>    <span class="k">def</span> <span class="nf">getfDict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return the dictionary of functions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fDict</span>
+</div>
+<div class="viewcode-block" id="BSR.getmode"><a class="viewcode-back" href="../Analisis/Baseclass.html#Baseclass.BSR.getmode">[docs]</a>    <span class="k">def</span> <span class="nf">getmode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return the mode of the analysis, possible answers at the moment are LV and RM</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span></div>
+<div class="viewcode-block" id="BSR.getxLims"><a class="viewcode-back" href="../Analisis/Baseclass.html#Baseclass.BSR.getxLims">[docs]</a>    <span class="k">def</span> <span class="nf">getxLims</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return the boundary points of the xRange list(assumed as an Interval)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xLims</span>
+    </div>
+<div class="viewcode-block" id="BSR.setyRange"><a class="viewcode-back" href="../Analisis/Baseclass.html#Baseclass.BSR.setyRange">[docs]</a>    <span class="k">def</span> <span class="nf">setyRange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Y_logrange</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">YLims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">YLims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">Y_sep</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">10</span><span class="o">**</span><span class="n">Y_logrange</span>
+        </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Carlos M..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3b3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.1</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

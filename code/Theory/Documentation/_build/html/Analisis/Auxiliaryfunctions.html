@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Auxiliaryfunctions module &mdash; Tesis 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Tesis 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Analisis" href="modules.html" />
+    <link rel="next" title="Baseclass module" href="Baseclass.html" />
+    <link rel="prev" title="AuxiliarClases module" href="AuxiliarClases.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Baseclass.html" title="Baseclass module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="AuxiliarClases.html" title="AuxiliarClases module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Tesis 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Analisis</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-Auxiliaryfunctions">
+<span id="auxiliaryfunctions-module"></span><h1>Auxiliaryfunctions module<a class="headerlink" href="#module-Auxiliaryfunctions" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="Auxiliaryfunctions.ConstructArray">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">ConstructArray</code><span class="sig-paren">(</span><em>List_Arrays</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#ConstructArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.ConstructArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in a list of arrays, calculates the one with the largest number of elements an storage it in the value Max_length
+completes all the other arrays to that number by filling the missing elements with NaN, after that appends all of them
+in the list Array_handler, convert it to a numpy array and transpose it.
+&#64;param List_Arrays :  a List of lists</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.Convert">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">Convert</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#Convert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.Convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fuse the elements of the sublists of X and Y in a tuple and append it to the array &#8216;new_array&#8217;
+record the number of elements in each sublist in X(Y) in the list dist
+&#64;param X   a List of lists contanining floating point elements
+&#64;param Y  a List of lists contanining floating point elements</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.F">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">F</code><span class="sig-paren">(</span><em>D</em>, <em>F1</em>, <em>D1</em>, <em>D2</em>, <em>EfD</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#F"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.F" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.FindIntersection">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">FindIntersection</code><span class="sig-paren">(</span><em>BoundaryPoints1</em>, <em>BoundaryPoints2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#FindIntersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.FindIntersection" title="Permalink to this definition">¶</a></dt>
+<dd><p>find the intersection of two sets of intervals A and B whose limit points are stored in BoundaryPoints1 and BoundaryPoints2 respectively.
+It is based on the fact that :</p>
+<div class="math">
+\[(\cup_{I \in A} I) \cap (\cup_{J \in B} J) = \cup_{J \in B} (\cup_{I \in A} (J \cap I))\]</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.FindUnion">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">FindUnion</code><span class="sig-paren">(</span><em>BP1</em>, <em>BP2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#FindUnion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.FindUnion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.FormatStart">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">FormatStart</code><span class="sig-paren">(</span><em>Points</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#FormatStart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.FormatStart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format the list of Points to account that [(0,)] elements could have been added to by the first iteration, that is the first interval(s) could have a null intersection. But the overall intersection is not, in that cases it deletes the first element.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.FormatUnionSet">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">FormatUnionSet</code><span class="sig-paren">(</span><em>L</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#FormatUnionSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.FormatUnionSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Glue together the intervals of the sorted List L,sorted in increasing order, if its limits coincide . Each interval is represented by a Tuple . 
+It uses a recurse algorithm in which we start at the leftmost position L[0], proceed to the right gluing together all the intervals to which it coincide ,i.e. L[0][1] = L[i][0], it keeps updating L[0] until it don&#8217;t found more, and repeat the same procees starting from that position. It terminates when there are no more intervals to add.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.FormatWidths">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">FormatWidths</code><span class="sig-paren">(</span><em>Keys</em>, <em>WidthDict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#FormatWidths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.FormatWidths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format Widths using a custom tupple class to get 20 digits printing</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.FormatZones">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">FormatZones</code><span class="sig-paren">(</span><em>Header</em>, <em>SZBounds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#FormatZones"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.FormatZones" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert each element of the SZBounds into the format used for the InvFunctions dict</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.GetComplement">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">GetComplement</code><span class="sig-paren">(</span><em>Boundaries</em>, <em>Min</em>, <em>Max</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#GetComplement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.GetComplement" title="Permalink to this definition">¶</a></dt>
+<dd><p>From a set of Boundary points of a set, return the Boundary Points of its complement. since each one dimensional slide will be a set of intervals it pieces together the complements of each contiguous pair of intervals in each list <span class="math">\(((a,b) \cup (c,d))^c = [b,c]\)</span></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.GetIntersection">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">GetIntersection</code><span class="sig-paren">(</span><em>Bound1</em>, <em>Bound2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#GetIntersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.GetIntersection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the boundary of the intersection of two sets A and B, by having as input the set of boundary points at each <span class="math">\(x \in xRange\)</span></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.GetPositiveBoundaries">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">GetPositiveBoundaries</code><span class="sig-paren">(</span><em>PosPoints</em>, <em>xRange</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#GetPositiveBoundaries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.GetPositiveBoundaries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input a range of Points and for each x in Points a set of tuples containing 
+the points of the boundary for the set in which the function has positive
+values.
+Output a dictionary in the format of the invasibility boundary dicts</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.GetPositiveRegions">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">GetPositiveRegions</code><span class="sig-paren">(</span><em>Bounds</em>, <em>xRange</em>, <em>yRange</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#GetPositiveRegions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.GetPositiveRegions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.GetUnion">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">GetUnion</code><span class="sig-paren">(</span><em>Bound1</em>, <em>Bound2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#GetUnion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.GetUnion" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the boundary points of the union of two sets A and B, having as input the set of boundary points at each <span class="math">\(x \in xRange\)</span></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.Intersection">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">Intersection</code><span class="sig-paren">(</span><em>bp1</em>, <em>bp2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#Intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.Intersection" title="Permalink to this definition">¶</a></dt>
+<dd><p>For intervals I and J whose boundary points are given by bp1 and bp2 respectively , returns the boundary points for <span class="math">\(I \cap J\)</span></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.IntervalInt">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">IntervalInt</code><span class="sig-paren">(</span><em>bpL</em>, <em>bpH</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#IntervalInt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.IntervalInt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the boundary points of <span class="math">\((a,b) \cap (c,d)\)</span> for which <span class="math">\(a \leq c\)</span></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.SumBound">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">SumBound</code><span class="sig-paren">(</span><em>B</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#SumBound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.SumBound" title="Permalink to this definition">¶</a></dt>
+<dd><p>B is a list of tuples [(a1,a2),...], that may contain null elements specified by (0,), get the sum of the difference between the elements of each tuple.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.addPoints">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">addPoints</code><span class="sig-paren">(</span><em>IntPoints</em>, <em>NewBPoints</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#addPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.addPoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add NewBPoints <strong>N</strong> to the List IntPoints <strong>I</strong>, only add <span class="math">\(x \in N\)</span> if <span class="math">\(|x[0]|&gt;1 \lor |\mathbf{I}| = 0\)</span></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.findIntPoints">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">findIntPoints</code><span class="sig-paren">(</span><em>BoundaryPoints1</em>, <em>BoundaryPoint2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#findIntPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.findIntPoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns the boundary points of <span class="math">\((\cup_{I \in A} (J \cap I))\)</span> for a particular interval <span class="math">\(J\)</span> whose boundary points are given by BoundaryPoint2 and the boundary points of the intervals I are given by the list BoundaryPoints1</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.getCompPoints">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">getCompPoints</code><span class="sig-paren">(</span><em>boundPoints</em>, <em>Min</em>, <em>Max</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#getCompPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.getCompPoints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.getWidth">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">getWidth</code><span class="sig-paren">(</span><em>Boundary</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#getWidth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.getWidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the Boundary points of a set D at each location x* in xRange, get the width of the set at the Intersection of (x*,y) and D, it
+is assumed that this intersection is a Finite Union of Intervals.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Auxiliaryfunctions.inList">
+<code class="descclassname">Auxiliaryfunctions.</code><code class="descname">inList</code><span class="sig-paren">(</span><em>yPoint</em>, <em>ListofTuples</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Auxiliaryfunctions.html#inList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Auxiliaryfunctions.inList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if <span class="math">\(y \in T , T \in LoT\)</span> , where <em>T</em> is a tuple and <em>LoT</em> is a list of tuples</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="AuxiliarClases.html"
+                        title="previous chapter">AuxiliarClases module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Baseclass.html"
+                        title="next chapter">Baseclass module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/Analisis/Auxiliaryfunctions.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Carlos M..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3b3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.1</a>
+      
+      |
+      <a href="../_sources/Analisis/Auxiliaryfunctions.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

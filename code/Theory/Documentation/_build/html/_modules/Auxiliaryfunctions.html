@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Auxiliaryfunctions &mdash; Tesis 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Tesis 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Tesis 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for Auxiliaryfunctions</h1><div class="highlight"><pre>
+<span class="c">########## Auxiliary functions######################        </span>
+<div class="viewcode-block" id="GetPositiveRegions"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.GetPositiveRegions">[docs]</a><span class="k">def</span> <span class="nf">GetPositiveRegions</span><span class="p">(</span><span class="n">Bounds</span><span class="p">,</span><span class="n">xRange</span><span class="p">,</span><span class="n">yRange</span><span class="p">):</span>
+    <span class="n">X</span><span class="p">,</span><span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xRange</span><span class="p">,</span><span class="n">yRange</span><span class="p">)</span>
+    <span class="n">m</span><span class="p">,</span><span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">inList</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">],</span><span class="n">Bounds</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">Z</span>
+
+            
+</div>
+<div class="viewcode-block" id="F"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.F">[docs]</a><span class="k">def</span> <span class="nf">F</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="n">F1</span><span class="p">,</span><span class="n">D1</span><span class="p">,</span><span class="n">D2</span><span class="p">,</span><span class="n">EfD</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">D</span><span class="p">[</span><span class="s">&#39;Z(IC2)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">F1</span><span class="p">(</span><span class="n">D1</span><span class="p">[</span><span class="s">&#39;I_C_s2&#39;</span><span class="p">],</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">D</span><span class="p">[</span><span class="s">&#39;Z(IC3)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">F1</span><span class="p">(</span><span class="n">D1</span><span class="p">[</span><span class="s">&#39;I_P_s3&#39;</span><span class="p">],</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">D</span><span class="p">[</span><span class="s">&#39;Z(IC4)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">F1</span><span class="p">(</span><span class="n">D2</span><span class="p">[</span><span class="s">&#39;Z(IC4)&#39;</span><span class="p">],</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">D</span><span class="p">[</span><span class="s">&#39;Z(IC5)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">F1</span><span class="p">(</span><span class="n">D2</span><span class="p">[</span><span class="s">&#39;Z(IC5)&#39;</span><span class="p">],</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">D</span><span class="p">[</span><span class="s">&#39;MutualInv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">F1</span><span class="p">(</span><span class="n">D2</span><span class="p">[</span><span class="s">&#39;MutualInv&#39;</span><span class="p">],</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>    
+</div>
+<div class="viewcode-block" id="GetPositiveBoundaries"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.GetPositiveBoundaries">[docs]</a><span class="k">def</span> <span class="nf">GetPositiveBoundaries</span><span class="p">(</span><span class="n">PosPoints</span><span class="p">,</span><span class="n">xRange</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Input a range of Points and for each x in Points a set of tuples containing </span>
+<span class="sd">    the points of the boundary for the set in which the function has positive</span>
+<span class="sd">    values.</span>
+<span class="sd">    Output a dictionary in the format of the invasibility boundary dicts </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Up</span><span class="p">,</span><span class="n">Low</span><span class="p">,</span><span class="n">X</span> <span class="o">=</span> <span class="n">RME</span><span class="o">.</span><span class="n">ExtractPoints</span><span class="p">(</span><span class="n">xRange</span><span class="p">,</span><span class="n">PosPoints</span><span class="p">)</span>
+    
+    <span class="n">newX</span> <span class="o">=</span><span class="p">[]</span>
+    <span class="n">newY</span> <span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+        <span class="n">newX</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">newX</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">newY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Low</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">newY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Up</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">&#39;x&#39;</span><span class="p">:</span><span class="n">newX</span><span class="p">,</span><span class="s">&#39;y&#39;</span><span class="p">:</span><span class="n">newY</span><span class="p">}</span>
+
+              </div>
+<div class="viewcode-block" id="FormatWidths"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.FormatWidths">[docs]</a><span class="k">def</span> <span class="nf">FormatWidths</span><span class="p">(</span><span class="n">Keys</span><span class="p">,</span><span class="n">WidthDict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Format Widths using a custom tupple class to get 20 digits printing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">WidthDict</span><span class="p">[</span><span class="n">Keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]])):</span>
+        <span class="n">row</span> <span class="o">=</span><span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Keys</span><span class="p">:</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MyTuple</span><span class="p">([</span><span class="n">WidthDict</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">],</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">Data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Data</span>
+ 
+       </div>
+<div class="viewcode-block" id="GetComplement"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.GetComplement">[docs]</a><span class="k">def</span> <span class="nf">GetComplement</span><span class="p">(</span><span class="n">Boundaries</span><span class="p">,</span><span class="n">Min</span><span class="p">,</span><span class="n">Max</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    From a set of Boundary points of a set, return the Boundary Points of its complement. since each one dimensional slide will be a set of intervals it pieces together the complements of each contiguous pair of intervals in each list :math:`((a,b) \cup (c,d))^c = [b,c]`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ComplementBoundary</span> <span class="o">=</span> <span class="p">[]</span> 
+    <span class="k">for</span> <span class="n">boundPoints</span> <span class="ow">in</span> <span class="n">Boundaries</span><span class="p">:</span>
+        <span class="n">ComplementBoundary</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">getCompPoints</span><span class="p">(</span><span class="n">boundPoints</span><span class="p">,</span><span class="n">Min</span><span class="p">,</span><span class="n">Max</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ComplementBoundary</span>
+</div>
+<div class="viewcode-block" id="getCompPoints"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.getCompPoints">[docs]</a><span class="k">def</span> <span class="nf">getCompPoints</span><span class="p">(</span><span class="n">boundPoints</span><span class="p">,</span><span class="n">Min</span><span class="p">,</span><span class="n">Max</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">boundPoints</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">Min</span><span class="p">,</span><span class="n">Max</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">CompPoints</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c">#Little formating</span>
+        <span class="n">NewB</span> <span class="o">=</span> <span class="n">boundPoints</span>
+        <span class="k">if</span> <span class="n">boundPoints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">!=</span> <span class="n">Min</span><span class="p">:</span>
+            <span class="n">NewB</span> <span class="o">=</span> <span class="p">[(</span><span class="n">Min</span><span class="p">,</span><span class="n">Min</span><span class="p">)]</span><span class="o">+</span><span class="n">NewB</span>
+        <span class="k">if</span> <span class="n">boundPoints</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">!=</span> <span class="n">Max</span><span class="p">:</span>
+            <span class="n">NewB</span><span class="o">+=</span><span class="p">[(</span><span class="n">Max</span><span class="p">,</span><span class="n">Max</span><span class="p">)]</span>
+            
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">newB</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">CompPoints</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">newB</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">newB</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">CompPoints</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">CompPoints</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">0</span><span class="p">,))</span>
+
+        <span class="k">return</span> <span class="n">CompPoints</span>
+            </div>
+<div class="viewcode-block" id="FormatZones"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.FormatZones">[docs]</a><span class="k">def</span> <span class="nf">FormatZones</span><span class="p">(</span><span class="n">Header</span><span class="p">,</span><span class="n">SZBounds</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert each element of the SZBounds into the format used for the InvFunctions dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">new_Boundaries</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">dists</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">zone</span> <span class="ow">in</span> <span class="n">Header</span><span class="p">:</span>
+        <span class="n">bound</span> <span class="o">=</span> <span class="n">SZBounds</span><span class="p">[</span><span class="n">zone</span><span class="p">]</span>
+        <span class="n">new_Bound</span> <span class="p">,</span> <span class="n">distB</span> <span class="o">=</span> <span class="n">Convert</span><span class="p">(</span><span class="n">bound</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">],</span><span class="n">bound</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">])</span>
+        <span class="n">new_Boundaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_Bound</span><span class="p">)</span>
+        <span class="n">dists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">distB</span><span class="p">)</span>
+    <span class="n">new_Boundaries</span> <span class="o">=</span><span class="n">ConstructArray</span><span class="p">(</span><span class="n">new_Boundaries</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">new_Boundaries</span><span class="p">,</span><span class="n">dists</span>
+
+        </div>
+<div class="viewcode-block" id="getWidth"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.getWidth">[docs]</a><span class="k">def</span> <span class="nf">getWidth</span><span class="p">(</span><span class="n">Boundary</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given the Boundary points of a set D at each location x* in xRange, get the width of the set at the Intersection of (x*,y) and D, it</span>
+<span class="sd">    is assumed that this intersection is a Finite Union of Intervals.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Width</span> <span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">Boundary</span><span class="p">:</span>
+        <span class="n">Width</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SumBound</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+        
+    <span class="k">return</span> <span class="n">Width</span>
+</div>
+<div class="viewcode-block" id="SumBound"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.SumBound">[docs]</a><span class="k">def</span> <span class="nf">SumBound</span><span class="p">(</span><span class="n">B</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    B is a list of tuples [(a1,a2),...], that may contain null elements specified by (0,), get the sum of the difference between the elements of each tuple.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Sum</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">Tuple</span> <span class="ow">in</span> <span class="n">B</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Tuple</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Sum</span><span class="o">+=</span><span class="p">(</span><span class="n">Tuple</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Tuple</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">MyFloat</span><span class="p">(</span><span class="n">Sum</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Convert"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.Convert">[docs]</a><span class="k">def</span> <span class="nf">Convert</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fuse the elements of the sublists of X and Y in a tuple and append it to the array &#39;new_array&#39;</span>
+<span class="sd">        record the number of elements in each sublist in X(Y) in the list dist</span>
+<span class="sd">        @param X   a List of lists contanining floating point elements</span>
+<span class="sd">        @param Y  a List of lists contanining floating point elements</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">new_array</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">subarray</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+        <span class="n">dist1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">subarray</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dist1</span><span class="p">):</span>
+            <span class="n">new_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MyTuple</span><span class="p">([</span><span class="n">MyFloat</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">subarray</span><span class="p">][</span><span class="n">i</span><span class="p">]),</span><span class="n">MyFloat</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">subarray</span><span class="p">][</span><span class="n">i</span><span class="p">])]))</span>
+        <span class="n">dist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dist1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">MyTuple</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_array</span><span class="p">,</span><span class="n">dist</span>
+</div>
+<div class="viewcode-block" id="ConstructArray"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.ConstructArray">[docs]</a><span class="k">def</span> <span class="nf">ConstructArray</span><span class="p">(</span><span class="n">List_Arrays</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Reads in a list of arrays, calculates the one with the largest number of elements an storage it in the value Max_length</span>
+<span class="sd">       completes all the other arrays to that number by filling the missing elements with NaN, after that appends all of them</span>
+<span class="sd">       in the list Array_handler, convert it to a numpy array and transpose it.</span>
+<span class="sd">       @param List_Arrays :  a List of lists </span>
+<span class="sd">       &quot;&quot;&quot;</span>
+    <span class="n">Max_Length</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">Array</span><span class="p">)</span> <span class="k">for</span> <span class="n">Array</span> <span class="ow">in</span> <span class="n">List_Arrays</span><span class="p">])</span>
+    <span class="n">Array_handler</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">array</span> <span class="ow">in</span> <span class="n">List_Arrays</span><span class="p">:</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">Max_Length</span> <span class="o">-</span> <span class="n">length</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;NaN&#39;</span><span class="p">)</span>
+        <span class="n">array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;NaN&#39;</span><span class="p">)</span>
+        <span class="n">Array_handler</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Array_handler</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+
+        </div>
+<div class="viewcode-block" id="inList"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.inList">[docs]</a><span class="k">def</span> <span class="nf">inList</span><span class="p">(</span><span class="n">yPoint</span><span class="p">,</span><span class="n">ListofTuples</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Returns True if :math:`y \in T , T \in LoT` , where *T* is a tuple and *LoT* is a list of tuples</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">ListofTuples</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="n">Ylog</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">yPoint</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&lt;</span><span class="n">Ylog</span> <span class="ow">and</span> <span class="n">Ylog</span><span class="o">&lt;</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="GetUnion"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.GetUnion">[docs]</a><span class="k">def</span> <span class="nf">GetUnion</span><span class="p">(</span><span class="n">Bound1</span><span class="p">,</span><span class="n">Bound2</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    get the boundary points of the union of two sets A and B, having as input the set of boundary points at each :math:`x \in xRange`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Union</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Bound1</span><span class="p">)):</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="n">FindUnion</span><span class="p">(</span><span class="n">Bound1</span><span class="p">[</span><span class="n">x</span><span class="p">],</span><span class="n">Bound2</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+        <span class="n">Union</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="FindUnion"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.FindUnion">[docs]</a><span class="k">def</span> <span class="nf">FindUnion</span><span class="p">(</span><span class="n">BP1</span><span class="p">,</span><span class="n">BP2</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">BP1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">==</span><span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">BP2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Int</span> <span class="o">=</span> <span class="n">FindIntersection</span><span class="p">(</span><span class="n">BP1</span><span class="p">,</span><span class="n">BP2</span><span class="p">)</span>
+        <span class="n">CompInt</span> <span class="o">=</span> <span class="n">GetComplement</span><span class="p">(</span><span class="n">Int</span><span class="p">,</span><span class="n">Min</span><span class="p">,</span><span class="n">Max</span><span class="p">)</span>
+        
+        <span class="n">A1</span> <span class="o">=</span> <span class="n">FindIntersection</span><span class="p">(</span><span class="n">CompInt</span><span class="p">,</span><span class="n">BP1</span><span class="p">)</span>
+        <span class="n">A2</span> <span class="o">=</span> <span class="n">FindIntersection</span><span class="p">(</span><span class="n">CompInt</span><span class="p">,</span><span class="n">BP2</span><span class="p">)</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="n">FormatUnionSet</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">A1</span><span class="o">+</span><span class="n">A2</span><span class="o">+</span><span class="n">Int</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">U</span>
+
+</div>
+<div class="viewcode-block" id="FormatUnionSet"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.FormatUnionSet">[docs]</a><span class="k">def</span> <span class="nf">FormatUnionSet</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Glue together the intervals of the sorted List L,sorted in increasing order, if its limits coincide . Each interval is represented by a Tuple . </span>
+<span class="sd">    It uses a recurse algorithm in which we start at the leftmost position L[0], proceed to the right gluing together all the intervals to which it coincide ,i.e. L[0][1] = L[i][0], it keeps updating L[0] until it don&#39;t found more, and repeat the same procees starting from that position. It terminates when there are no more intervals to add.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">newL</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">newL</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">while</span> <span class="n">i</span><span class="o">+</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="ow">and</span>  <span class="n">rangeL</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">k</span><span class="o">+=</span><span class="mi">1</span>
+
+            
+            <span class="n">newL</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="n">k</span>
+
+    <span class="k">return</span> <span class="n">newL</span>
+       
+    </div>
+<div class="viewcode-block" id="GetIntersection"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.GetIntersection">[docs]</a><span class="k">def</span> <span class="nf">GetIntersection</span><span class="p">(</span><span class="n">Bound1</span><span class="p">,</span><span class="n">Bound2</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Get the boundary of the intersection of two sets A and B, by having as input the set of boundary points at each :math:`x \in xRange`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Intersection</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Bound1</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Bound1</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">Int</span> <span class="o">=</span> <span class="n">FindIntersection</span><span class="p">(</span><span class="n">Bound1</span><span class="p">[</span><span class="n">x</span><span class="p">],</span><span class="n">Bound2</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+            <span class="n">Intersection</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Int</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Intersection</span><span class="o">.</span><span class="n">append</span><span class="p">([(</span><span class="mi">0</span><span class="p">,)])</span>
+    <span class="k">return</span> <span class="n">Intersection</span>
+</div>
+<div class="viewcode-block" id="FindIntersection"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.FindIntersection">[docs]</a><span class="k">def</span> <span class="nf">FindIntersection</span><span class="p">(</span><span class="n">BoundaryPoints1</span><span class="p">,</span><span class="n">BoundaryPoints2</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    find the intersection of two sets of intervals A and B whose limit points are stored in BoundaryPoints1 and BoundaryPoints2 respectively.</span>
+<span class="sd">    It is based on the fact that :</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       (\cup_{I \in A} I) \cap (\cup_{J \in B} J) = \cup_{J \in B} (\cup_{I \in A} (J \cap I))</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">IntPoints</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">BoundaryPoints2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span> 
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">BoundaryPoints2</span><span class="p">)):</span>             
+            <span class="n">NewBPoints</span><span class="o">=</span> <span class="n">findIntPoints</span><span class="p">(</span><span class="n">BoundaryPoints1</span><span class="p">,</span><span class="n">BoundaryPoints2</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">addPoints</span><span class="p">(</span><span class="n">IntPoints</span><span class="p">,</span><span class="n">NewBPoints</span><span class="p">)</span>     
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">IntPoints</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,)]</span>
+        
+    <span class="n">IntPoints</span> <span class="o">=</span> <span class="n">FormatStart</span><span class="p">(</span><span class="n">IntPoints</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">IntPoints</span>
+</div>
+<div class="viewcode-block" id="findIntPoints"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.findIntPoints">[docs]</a><span class="k">def</span> <span class="nf">findIntPoints</span><span class="p">(</span><span class="n">BoundaryPoints1</span><span class="p">,</span><span class="n">BoundaryPoint2</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    returns the boundary points of :math:`(\cup_{I \in A} (J \cap I))` for a particular interval :math:`J` whose boundary points are given by BoundaryPoint2 and the boundary points of the intervals I are given by the list BoundaryPoints1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Points</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">bp</span> <span class="ow">in</span> <span class="n">BoundaryPoints1</span><span class="p">:</span>
+        <span class="n">Int</span> <span class="o">=</span> <span class="n">Intersection</span><span class="p">(</span><span class="n">BoundaryPoint2</span><span class="p">,</span><span class="n">bp</span><span class="p">)</span>
+        <span class="n">addPoints</span><span class="p">(</span><span class="n">Points</span><span class="p">,</span><span class="n">Int</span><span class="p">)</span>
+    
+    <span class="c">#Format Points</span>
+    <span class="n">Points</span> <span class="o">=</span> <span class="n">FormatStart</span><span class="p">(</span><span class="n">Points</span><span class="p">)</span>
+      
+    <span class="k">return</span> <span class="n">Points</span>
+</div>
+<div class="viewcode-block" id="FormatStart"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.FormatStart">[docs]</a><span class="k">def</span> <span class="nf">FormatStart</span><span class="p">(</span><span class="n">Points</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Format the list of Points to account that [(0,)] elements could have been added to by the first iteration, that is the first interval(s) could have a null intersection. But the overall intersection is not, in that cases it deletes the first element.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Points</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Points</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">Points</span> <span class="o">=</span> <span class="n">Points</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">Points</span>
+        
+        
+    </div>
+<div class="viewcode-block" id="Intersection"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.Intersection">[docs]</a><span class="k">def</span> <span class="nf">Intersection</span><span class="p">(</span><span class="n">bp1</span><span class="p">,</span><span class="n">bp2</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    For intervals I and J whose boundary points are given by bp1 and bp2 respectively , returns the boundary points for :math:`I \cap J`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">bp1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&lt;</span><span class="n">bp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">IntervalInt</span><span class="p">(</span><span class="n">bp1</span><span class="p">,</span><span class="n">bp2</span><span class="p">)</span>       
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">IntervalInt</span><span class="p">(</span><span class="n">bp2</span><span class="p">,</span><span class="n">bp1</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="IntervalInt"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.IntervalInt">[docs]</a><span class="k">def</span> <span class="nf">IntervalInt</span><span class="p">(</span><span class="n">bpL</span><span class="p">,</span><span class="n">bpH</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Find the boundary points of :math:`(a,b) \cap (c,d)` for which :math:`a \leq c`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">bpH</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&lt;</span><span class="n">bpL</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">bpH</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;</span><span class="n">bpL</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">bpH</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="n">bpH</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">bpL</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+                
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,)]</span>
+        </div>
+<div class="viewcode-block" id="addPoints"><a class="viewcode-back" href="../Analisis/Auxiliaryfunctions.html#Auxiliaryfunctions.addPoints">[docs]</a><span class="k">def</span> <span class="nf">addPoints</span><span class="p">(</span><span class="n">IntPoints</span><span class="p">,</span><span class="n">NewBPoints</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add NewBPoints **N** to the List IntPoints **I**, only add :math:`x \in N` if :math:`|x[0]|&gt;1 \lor |\mathbf{I}| = 0`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">NewBPoints</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">IntPoints</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">IntPoints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">NewBPoints</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">NewBPoints</span><span class="p">)):</span>
+            <span class="n">IntPoints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">NewBPoints</span><span class="p">[</span><span class="n">i</span><span class="p">])</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Carlos M..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3b3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.1</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
