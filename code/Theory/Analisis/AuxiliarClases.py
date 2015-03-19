@@ -1,3 +1,4 @@
+
 class MyFloat(float):
     """differs from float in just the printing method"""
     def __str__(self):

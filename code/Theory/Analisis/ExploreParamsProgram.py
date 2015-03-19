@@ -1,5 +1,10 @@
 from ExploreParams import *
 
+"""
+This module explore the parameter space
+
+"""
+
 #Base Dictionary#
 
 params={'w':0.75,'pd':0.21,'pv':0.26,'Er':0.,'Ek':0.,'ER':0.,
@@ -8,6 +13,7 @@ params={'w':0.75,'pd':0.21,'pv':0.26,'Er':0.,'Ek':0.,'ER':0.,
         'thermyC':'Ecto','thermyP':'Ecto','fmPC':'Active','fmPR':'Grazing','k0':0.01,'r0':1.71e-6,'alfa012':10**(-3.08),
         'alfa03':10**(-3.08),'d0':3.,'q10':4.15e-8,'q20':4.15e-8,'v0R':1.,'v0C':1,'v0P':1,'k':b_k,'e_1':0.3,'e_2':0.1,'e_3':0.5,
         't_h0C':1.,'t_h0P':1.,'formPC':2,'formPR':1,'formC':1,'a':1.,'b':2.,'c':0}
+
 
 #Exploration#
 

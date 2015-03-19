@@ -1,5 +1,5 @@
 import os
-from OperationalClasses import *
+from InvasionAnalysis import *
 #######################Explore Parameter Space #####################################
 
 def CreateDirCoder(ParamsToExplore,dimDict):

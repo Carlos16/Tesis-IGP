@@ -13,3 +13,7 @@
 *.gz
 *.tex~
 *.bib~
+*.gitignore~
+*.py~
+*.pyc
+

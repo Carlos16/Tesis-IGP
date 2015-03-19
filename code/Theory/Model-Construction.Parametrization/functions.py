@@ -1,5 +1,4 @@
 from fingrainparams import *
-from stability import *
 from sympy import symbols,lambdify
 
 def func_transform(params,K_CP,K_RC,m_P,R,C,P,sim = True,bottom = False):
