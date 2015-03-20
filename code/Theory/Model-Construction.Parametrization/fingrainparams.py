@@ -51,13 +51,13 @@ def construct_param_dict(params,K_RC,K_CP,m_P):
     r=set_r(r0,m_R,w,Er,TR,k)
 
     #interpopulation parameters
-    alfa1=set_alfa(m_C,alfa01,K_RC,pv,pd,TR,TC,ER,EC,D_R,v0R,v0C,g,alfa,fmC,thermyR,thermyC,k,a,b,c,formC)
+    a1=set_alfa(m_C,alfa01,K_RC,pv,pd,TR,TC,ER,EC,D_R,v0R,v0C,g,alfa,fmC,thermyR,thermyC,k,a,b,c,formC)
     alfa2=set_alfa(m_P,alfa02,K_RP,pv,pd,TR,TP,ER,EP,D_R,v0R,v0P,g,alfa,fmPR,thermyR,thermyP,k,a,b,c,formPR)
     alfa3=set_alfa(m_P,alfa03,K_CP,pv,pd,TC,TP,EC,EP,D_C,v0C,v0P,g,alfa,fmPC,thermyC,thermyP,k,a,b,c,formPC)
 
     t_hp = set_th(t_h0P,m_P,w,EP,k,TP)
     t_hc = set_th(t_h0C,m_C,w,EC,k,TC)
-    param_dict={'q1':q1,'q2':q2,'K':K,'r':r,'alfa1':alfa1,'alfa2':alfa2,'alfa3':alfa3,'t_hp':t_hp,'t_hc':t_hc}
+    param_dict={'q1':q1,'q2':q2,'K':K,'r':r,'a1':a1,'alfa2':alfa2,'alfa3':alfa3,'t_hp':t_hp,'t_hc':t_hc}
        
     return param_dict
 
@@ -77,7 +77,7 @@ def construct_equilibrium(params,par_dict,K_RC,K_CP,m_P):
     m_C = K_CP*m_P
 
     #interpopulation parameters
-    alfa1=par_dict['alfa1']
+    a1=par_dict['a1']
     alfa2=par_dict['alfa2']
     alfa3=par_dict['alfa3']
     t_hc = par_dict['t_hc']
@@ -89,10 +89,10 @@ def construct_equilibrium(params,par_dict,K_RC,K_CP,m_P):
 
     ## Equilibrium values
     ###Sc2
-    R_eq_s2 = set_R_eq_s(m_C,q1,alfa1,e_1)
-    C_eq_s2 = set_C_eq_s(m_C,r,K,q1,alfa1,e_1)
+    R_eq_s2 = set_R_eq_s(m_C,q1,a1,e_1)
+    C_eq_s2 = set_C_eq_s(m_C,r,K,q1,a1,e_1)
 
-    R_eq_s2RM, C_eq_s2RM = set_R_C_eq_sRM(m_C,r,K,q1,q1_0,alfa1,e_1,t_hc,hC_0)
+    R_eq_s2RM, C_eq_s2RM = set_R_C_eq_sRM(m_C,r,K,q1,q1_0,a1,e_1,t_hc,hC_0)
 
     ###Sc3
     R_eq_s3 = set_R_eq_s(m_P,q2,alfa2,e_2)
@@ -100,17 +100,17 @@ def construct_equilibrium(params,par_dict,K_RC,K_CP,m_P):
 
     R_eq_s3RM , P_eq_s3RM = set_R_C_eq_sRM(m_P,r,K,q2,q2_0,alfa2,e_2,t_hp,hP_0)
     ###full system
-    R_eq = set_R_eq(m_P,m_C,K,q1,q2,r,alfa1,alfa2,alfa3,e_1,e_2,e_3)
-    C_eq = set_C_eq(m_P,m_C,K,q1,q2,r,alfa1,alfa2,alfa3,e_1,e_2,e_3)
-    P_eq = set_P_eq(m_P,m_C,K,q1,q2,r,alfa1,alfa2,alfa3,e_1,e_2,e_3)
+    R_eq = set_R_eq(m_P,m_C,K,q1,q2,r,a1,alfa2,alfa3,e_1,e_2,e_3)
+    C_eq = set_C_eq(m_P,m_C,K,q1,q2,r,a1,alfa2,alfa3,e_1,e_2,e_3)
+    P_eq = set_P_eq(m_P,m_C,K,q1,q2,r,a1,alfa2,alfa3,e_1,e_2,e_3)
     
-    D = setD(K,alfa1,alfa2,alfa3,e_1,e_2,e_3,m_C,r)
-    DBound= setDBound(K,alfa1,alfa2,alfa3,e_1,e_2,e_3,m_C,r)
+    D = setD(K,a1,alfa2,alfa3,e_1,e_2,e_3,m_C,r)
+    DBound= setDBound(K,a1,alfa2,alfa3,e_1,e_2,e_3,m_C,r)
     #Roots for Req
-    R1 = setRoot1(K,q1,q2,r,alfa1,alfa2,alfa3,e_1,e_2,e_3,t_hc,t_hp,m_P,m_C,q2_0,q1_0,hC_0,hP_0)
-    Dis = setDis(K,q1,q2,r,alfa1,alfa2,alfa3,e_1,e_2,e_3,t_hc,t_hp,m_P,m_C,q2_0,q1_0,hC_0,hP_0)
-    bR = setb_R(K,q1,q2,r,alfa1,alfa2,alfa3,e_1,e_2,e_3,t_hc,t_hp,m_P,m_C,q2_0,q1_0,hC_0,hP_0)
-    denR = setden_R(K,q1,q2,r,alfa1,alfa2,alfa3,e_1,e_2,e_3,t_hc,t_hp,m_P,m_C,q2_0,q1_0,hC_0,hP_0)
+    R1 = setRoot1(K,q1,q2,r,a1,alfa2,alfa3,e_1,e_2,e_3,t_hc,t_hp,m_P,m_C,q2_0,q1_0,hC_0,hP_0)
+    Dis = setDis(K,q1,q2,r,a1,alfa2,alfa3,e_1,e_2,e_3,t_hc,t_hp,m_P,m_C,q2_0,q1_0,hC_0,hP_0)
+    bR = setb_R(K,q1,q2,r,a1,alfa2,alfa3,e_1,e_2,e_3,t_hc,t_hp,m_P,m_C,q2_0,q1_0,hC_0,hP_0)
+    denR = setden_R(K,q1,q2,r,a1,alfa2,alfa3,e_1,e_2,e_3,t_hc,t_hp,m_P,m_C,q2_0,q1_0,hC_0,hP_0)
 
     R2 = (bR + sqrt(Dis))/(2*denR)
     R3 = (bR - sqrt(Dis))/(2*denR)
@@ -135,7 +135,7 @@ def construct_inv_boundaries(params,par_dict,eq_dict,K_RC,K_CP,m_P):
     hP_0 = params['t_h0P']
 
     #interpop params
-    alfa1=par_dict['alfa1']
+    a1=par_dict['a1']
     alfa2=par_dict['alfa2']
     alfa3=par_dict['alfa3']
     e_1=params['e_1']
@@ -163,18 +163,18 @@ def construct_inv_boundaries(params,par_dict,eq_dict,K_RC,K_CP,m_P):
     ##Invasibility boundaries
 
     #L-V
-    I_C_s2 = set_I_C_s2(e_1,alfa1,m_C,K,q1)
+    I_C_s2 = set_I_C_s2(e_1,a1,m_C,K,q1)
     I_P_s3 = set_I_P_s3(e_2,alfa2,m_P,K,q2)
     I_P_s4 = set_I_P_s4(e_2,e_3,alfa2,alfa3,m_P,q2,R_eq_s2,C_eq_s2)
-    I_C_s5 = set_I_C_s5(e_1,alfa1,alfa3,m_C,m_P,R_eq_s3,P_eq_s3,q1)
+    I_C_s5 = set_I_C_s5(e_1,a1,alfa3,m_C,m_P,R_eq_s3,P_eq_s3,q1)
 
 
     
     #R-M
-    I_C_s2RM = set_I_C_s2RM(e_1,alfa1,m_C,K,q1,hC_0,q1_0)
+    I_C_s2RM = set_I_C_s2RM(e_1,a1,m_C,K,q1,hC_0,q1_0)
     I_P_s3RM = set_I_P_s3RM(e_2,alfa2,m_P,K,q2,hP_0,q2_0)
     I_P_s4RM = set_I_P_s4RM(e_2,e_3,alfa2,alfa3,m_P,q2,R_eq_s2RM,C_eq_s2RM,hP_0,q2_0)
-    I_C_s5RM = set_I_C_s5RM(e_1,e_2,alfa1,alfa3,m_C,m_P,R_eq_s3RM,P_eq_s3RM,q1,t_hc,q1_0,q2_0,hP_0,hC_0)    
+    I_C_s5RM = set_I_C_s5RM(e_1,e_2,a1,alfa3,m_C,m_P,R_eq_s3RM,P_eq_s3RM,q1,t_hc,q1_0,q2_0,hP_0,hC_0)    
 
     inv_dict= {'I_C_s2':I_C_s2,'I_P_s3':I_P_s3,'I_P_s4':I_P_s4,'I_C_s5':I_C_s5,
                'I_C_s2RM':I_C_s2RM,'I_P_s3RM':I_P_s3RM,'I_P_s4RM':I_P_s4RM,'I_C_s5RM':I_C_s5RM}
@@ -198,7 +198,7 @@ def Stability(params,par_dict,eq_dict,K_RC,K_CP,m_P):
     r=par_dict['r']
     m_C = K_CP*m_P
     #interpop params
-    alfa1=par_dict['alfa1']
+    a1=par_dict['a1']
     alfa2=par_dict['alfa2']
     alfa3=par_dict['alfa3']
     e_1=params['e_1']
@@ -211,9 +211,9 @@ def Stability(params,par_dict,eq_dict,K_RC,K_CP,m_P):
     
     
     ##Stability
-    D = set_D(K,alfa1,alfa2,alfa3,e_1,e_2,e_3,m_C,r)
+    D = set_D(K,a1,alfa2,alfa3,e_1,e_2,e_3,m_C,r)
     a1 = set_a1(r,R_eq,K)
-    a2 = set_a2(e_1,e_2,e_3,alfa1,alfa2,alfa3,m_C,m_P,C_eq,R_eq,P_eq)
+    a2 = set_a2(e_1,e_2,e_3,a1,alfa2,alfa3,m_C,m_P,C_eq,R_eq,P_eq)
     a3 = set_a3(D,alfa3,C_eq,R_eq,P_eq,K,m_C,m_P)
     hd2 = set_hdet2(a1,a2,a3)
 
@@ -262,7 +262,7 @@ def ConstructDynamicalFunctions(params,par_dict,K_RC,K_CP,m_P,R,C,P):
     q2_0 = params['q20']
     q1_0 = params['q10']
     #interpopulation parameters
-    alfa1=par_dict['alfa1']
+    a1=par_dict['a1']
     alfa2=par_dict['alfa2']
     alfa3=par_dict['alfa3']
     t_hp=par_dict['t_hp']
@@ -271,29 +271,29 @@ def ConstructDynamicalFunctions(params,par_dict,K_RC,K_CP,m_P,R,C,P):
     hP_0=params['t_h0P']
     
     #Construct LV functions
-    dRLV=set_dRLV(R,C,P,r,K,alfa1,alfa2,m_C,m_P)
+    dRLV=set_dRLV(R,C,P,r,K,a1,alfa2,m_C,m_P)
     dPLV=set_dPLV(R,C,P,alfa2,alfa3,e_2,e_3,q2,m_P)
-    dCLV=set_dCLV(R,C,P,alfa1,alfa3,e_1,q1,m_C,m_P)
+    dCLV=set_dCLV(R,C,P,a1,alfa3,e_1,q1,m_C,m_P)
 
     dRLVP = set_dRLVPart(R,P,r,K,alfa2,m_P)
     dPLVP = set_dPredLV(R,P,alfa2,e_2,m_P,q2)
 
-    dRLVC = set_dRLVPart(R,C,r,K,alfa1,m_C)
-    dCLVC = set_dPredLV(R,C,alfa1,e_1,m_C,q1)
+    dRLVC = set_dRLVPart(R,C,r,K,a1,m_C)
+    dCLVC = set_dPredLV(R,C,a1,e_1,m_C,q1)
 
         
     #Construct RM functions
-    dRRM = set_dRRM(R,C,P,r,K,alfa1,alfa2,t_hp,t_hc,m_C,m_P)
+    dRRM = set_dRRM(R,C,P,r,K,a1,alfa2,t_hp,t_hc,m_C,m_P)
     dPRM = set_dPRM(R,C,P,alfa2,alfa3,e_2,e_3,t_hp,q2,m_P) 
-    dCRM = set_dCRM(R,C,P,alfa1,alfa3,e_1,t_hc,t_hp,q1,m_C,m_P)
+    dCRM = set_dCRM(R,C,P,a1,alfa3,e_1,t_hc,t_hp,q1,m_C,m_P)
 
 
     #RM eq expresions
 
     CNum_eq_RM = setEqCNum_RM(q2,m_P,alfa2,R,e_2,q2_0,hP_0)
     CDen_eq_RM = setEqCDen_RM(e_3,q2_0,hP_0)
-    PNum_eq_RM = setEqPNum_RM(K,q1,q2,r,alfa1,alfa2,alfa3,e_1,e_2,e_3,t_hc,t_hp,R,C,P,m_P,m_C,q2_0,q1_0,hC_0,hP_0)
-    PDen_eq_RM = setEqPDen_RM(K,q1,q2,r,alfa1,alfa2,alfa3,e_1,e_2,e_3,t_hc,t_hp,R,C,P,m_P,m_C,q2_0,q1_0,hC_0,hP_0)
+    PNum_eq_RM = setEqPNum_RM(K,q1,q2,r,a1,alfa2,alfa3,e_1,e_2,e_3,t_hc,t_hp,R,C,P,m_P,m_C,q2_0,q1_0,hC_0,hP_0)
+    PDen_eq_RM = setEqPDen_RM(K,q1,q2,r,a1,alfa2,alfa3,e_1,e_2,e_3,t_hc,t_hp,R,C,P,m_P,m_C,q2_0,q1_0,hC_0,hP_0)
 
 
     C_eq_RM = CNum_eq_RM/CDen_eq_RM

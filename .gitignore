@@ -11,10 +11,6 @@
 *.toc
 *.bbl
 *.gz
-*.tex~
-*.bib~
-*.gitignore~
-*.py~
 *.pyc
 *~
 *.idx
@@ -23,3 +19,4 @@
 *.sty
 *.ist
 *.cls
+*checkpoint.ipynb

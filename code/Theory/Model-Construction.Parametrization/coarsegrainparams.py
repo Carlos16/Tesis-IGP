@@ -4,7 +4,11 @@ b_k= 8.6173324*10**(-5) #boltzmann constant in ev
 
 """metabolic and biomechanic parameterization of the
  search rate taking into consideration foraging strategies"""
+
 def set_th(t_h0,m,w,E,k,T):
+    r"""
+    
+    """
     return t_h0*m**(-w)*exp(-E/(k*T))
 
 def set_alfa0(d0,D):
@@ -55,8 +59,6 @@ def set_alfa(m2,alfa0,k_,pv,pd,T1,T2,E1,E2,D,v01,v02,g,alfa,fm,thermy1,thermy2,k
     return alfa_
 
 
-
-
 ##Intra population parameters
 def set_r(r0,mr,w,Er,Tr,k):             
     return r0*mr**(w-1)*exp(-Er/(k*Tr))
@@ -66,3 +68,6 @@ def set_q1(q10,mc,w,Eq1,Tc,k):
     return q10*mc**(w-1)*exp(-Eq1/(k*Tc))
 def set_q2(q20,mp,w,Eq2,Tp,k):
     return q20*mp**(w-1)*exp(-Eq2/(k*Tp))
+
+
+
