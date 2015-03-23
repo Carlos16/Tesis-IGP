@@ -56,7 +56,7 @@ def set_alfa(m2,alfa0,k_,pv,pd,T1,T2,E1,E2,D,v01,v02,g,alfa,fm,thermy1,thermy2,k
     g_= g(k_,pv,pd,T1,T2,E1,E2,D,v01,v02,fm,thermy1,thermy2,k)
     f_ = f(k_,form,a,b,c)
     alfa_=alfa(m2,alfa0,pv,pd,D,g_,f_)
-    return alfa_
+    return alfa_/m2
 
 
 ##Intra population parameters
