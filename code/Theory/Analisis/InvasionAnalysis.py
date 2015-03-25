@@ -23,9 +23,10 @@ class InvBoundaries(BSR):
         self.xFocus = workingData.xFocus
         self.xFocus_sep = workingData.xFocus_sep
         self.DBound = 0
+        self.Intersections={}
         self.Widths={}
         self.SZ={}
-        self.SZBounds={}
+        self.ZBounds={}
         self.Footer = constructFooter(self.params)
             
     def setUpGuess(self,Guess):
@@ -57,8 +58,6 @@ class InvBoundaries(BSR):
         """
         searchRange = 10**(np.arange(self.LowGuess,self.UpGuess,self.guessSep))
         xRange = self.xRange
-        if self.EfDif<0:
-            self.InvFunctions.append('D')
         for invfunc in self.InvFunctions:
             bound_dict = self.InvBoundary(invfunc,searchRange,xRange)
             self.InvBounds[invfunc] = bound_dict           
@@ -72,7 +71,6 @@ class InvBoundaries(BSR):
         x,y= procce_(K,xRange)
         self.UnEditedInvBounds[Invfunc]=K
         return {'x':x,'y':y}
-    
     
     def getBounds(self):
         """ return the dictionary containing all the invasibility boundaries"""
@@ -93,7 +91,6 @@ class InvBoundaries(BSR):
         OutputFile.WriteInvasibility(direction,delimiter)
 
        
-    
     def setPositiveBoundaries(self):
         """ Creates a dict storying the boundary points of the set in which each of the criterions is satisfied """
         for Inv in self.UnEditedInvBounds.keys():
@@ -112,7 +109,7 @@ class InvBoundaries(BSR):
         OutputFile.WriteWidths(Direction,',')
         
 
-    def setAndWriteWidthsZones(self,DirectionW,DirectionZB,DirectionZones):
+    def setAndWriteWidthsZones(self,DirectionW,DirectionZB):
         """
         * For each x in xRange and any Invasibility function f calculates the sum of the length of all the intervals which are in the Positive region of f
         * Get the Positive Boundaries for all the target zones in the analysis
@@ -121,19 +118,18 @@ class InvBoundaries(BSR):
         self.setWidthsAndZones()
         self.WriteWidths(DirectionW)
         self.WriteZonesBounds(DirectionZB)
-        self.WriteZones(DirectionZones)
+        #self.WriteZones(DirectionZones)
     
     def setWidthsAndZones(self):
         """
         * Calculates the Boundaries of the Zones described in the Study, which are intersection of the Positive Regions of a subset of the Invasibility functions
         * Calculates the widths of each of the Zones
         * Convert them to the format used for the Invasibility functions and save them in the ZBounds dict
-        * if EfDif<0 , calculates the boundary for the stable coexistence zone.
         """
 
         self.setIntersections()
         self.setZonesBoundaries()
-        self.setZones()
+        #self.setZones()
         self.setWidths()
 
     def setIntersections(self):
@@ -151,16 +147,16 @@ class InvBoundaries(BSR):
         self.Intersections['Z(IC4)'] = I2
         self.Intersections['MutualInv'] = I3
 
-    def findWidths(self):
+    def setWidths(self):
         """
         Find the widths of each of the Zones 
         """
-        F(self.Widths,getWidths,self.PositiveBoundaries,self.Intersections)
-    def findZonesBoundaries(self):
+        F(self.Widths,getWidth,self.PositiveBoundaries,self.Intersections)
+    def setZonesBoundaries(self):
         """
         Find the boundary of the Zones and format them to the same data structure used in the computation of the Invasibility boundaries
         """
-        F(self.ZBounds,GetPositiveBoundaries,self.PositiveBoundaries,self.Intersection,self.xRange)
+        F(self.ZBounds,GetPositiveBoundaries,self.PositiveBoundaries,self.Intersections,self.xRange)
     def findZones(self):
         """
         From each of the Boundaries, create a 2D array using xRange and yRange and return a 1 0  array , each 1 located at a position in which
@@ -173,7 +169,7 @@ class InvBoundaries(BSR):
         Write the SZBounds into a file whose pointer is specified in Direction.
         """
         Header = self.ZBounds.keys()
-        data,dist = FormatZones(Header,self.SZBounds)
+        data,dist = FormatZones(Header,self.ZBounds)
         Footer = self.Footer
         OutputFile = OutputInvData(data,Header,[Footer],[MyTuple(self.xFocus),self.xFocus_sep],dist)
         OutputFile.WriteInvasibility(Direction,',')

@@ -1,5 +1,4 @@
 from scipy.optimize import brentq
-from AuxiliarClases import *
 import numpy as np
 
 ###Code for computing roots of the function using the

@@ -1,3 +1,7 @@
+from AuxiliarClases import *
+from bounds import *
+import RMEquibrium as RME
+
 ########## Auxiliary functions######################        
 def GetPositiveRegions(Bounds,xRange,yRange):
     X,Y = np.meshgrid(xRange,yRange)
@@ -10,7 +14,7 @@ def GetPositiveRegions(Bounds,xRange,yRange):
 
             
 
-def F(D,F1,D1,D2,EfD,*args):
+def F(D,F1,D1,D2,*args):
     D['Z(IC2)'] = F1(D1['I_C_s2'],*args)
     D['Z(IC3)'] = F1(D1['I_P_s3'],*args)
     D['Z(IC4)'] = F1(D2['Z(IC4)'],*args)

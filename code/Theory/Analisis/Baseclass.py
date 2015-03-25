@@ -1,7 +1,6 @@
 from functions import *
 from Auxiliaryfunctions import *
 from OutputClasses import *
-import RMEquibrium as RME
 
 
 class BSR(object):
