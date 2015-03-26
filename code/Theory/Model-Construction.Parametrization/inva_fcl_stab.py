@@ -53,7 +53,7 @@ def set_I_P_s3(e2,a2,K,q2):
 
 ###Rosenzweig-MacArthur
 def set_I_P_s3RM(e2,a2,K,q2,hP0,q20):
-    return a2* K*(e2 -q20*hP0) - q2
+    return a2*K*(e2-q20*hP0) - q2
 
 ##P to C-R , scenario 4
 
@@ -82,7 +82,7 @@ def set_I_C_s5RM(e1,e2,a1,a3,m_C,R,P,q1,t_hc,q10,q20,hP0,hC0):
 ##Lotka-Volterra
 def set_R_C_eq_sLV(r,K,q1,a1,e1):
     Req = q1/(e1*a1)
-    Ceq = r*(a1)*(1- q1/(e1*a1*K))
+    Ceq = (r/a1)*(1- q1/(e1*a1*K))
     return Req, Ceq
 
 ##Rosenzweig-MacArthur

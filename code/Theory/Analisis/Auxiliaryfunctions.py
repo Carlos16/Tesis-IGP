@@ -13,7 +13,6 @@ def GetPositiveRegions(Bounds,xRange,yRange):
     return Z
 
             
-
 def F(D,F1,D1,D2,*args):
     D['Z(IC2)'] = F1(D1['I_C_s2'],*args)
     D['Z(IC3)'] = F1(D1['I_P_s3'],*args)
@@ -137,6 +136,8 @@ def Convert(X,Y):
         dist.append(dist1)
     if len(dist)>1:
         dist = MyTuple(dist)
+    else:
+        dist = MyTuple((0,0))
     return new_array,dist
 
 def ConstructArray(List_Arrays):
@@ -154,7 +155,7 @@ def ConstructArray(List_Arrays):
             array.append('NaN')
         array.append('NaN')
         Array_handler.append(array)
-    return np.array(Array_handler).transpose()
+    return np.array(Array_handler,dtype = object).transpose()
 
         
 def inList(yPoint,ListofTuples):

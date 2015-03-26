@@ -39,20 +39,13 @@ def set_dPLV(R,C,P,a2,a3,e2,e3,q2,m_P):
 
 def set_dRRM(R,C,P,r,K,a1,a2,a3,t_hp,t_hc,m_C,m_P):
     
-    ha1 = a1/m_C
-    ha2 = a2/m_P
-    return R*(r*(1-R/K)-((ha1*C)/(1+t_hc*a1*R) + (ha2*P)/(1+t_hp*(a2*R+a3*C))))
-def set_dCRM(R,C,P,a1,a3,e1,t_hc,t_hp,q1,m_C,m_P):
+    return R*(r*(1-R/K)-((a1*C)/(1+t_hc*a1*m_C*R) + (a2*P)/(1+t_hp*m_P*(a2*R+a3*C))))
+def set_dCRM(R,C,P,a1,a2,a3,e1,t_hc,t_hp,q1,m_C,m_P):
     
-    ha1 = a1/m_C
-    ha3 = a3/m_P
-
-    return C*(e1*ha1*R/(1+t_hc*a1*R) - ha3*P/(1+t_hp*(a3*C+a2*R)) -q1)
+    return C*(e1*a1*R/(1+t_hc*m_C*a1*R) - a3*P/(1+t_hp*m_P*(a3*C+a2*R)) -q1)
 
 def set_dPRM(R,C,P,a2,a3,e2,e3,t_hp,q2,m_P):
 
-    ha2 = a2/m_P
-    ha3 = a3/m_P
-    return P*((e2*ha2*R+e3*ha3*C)/(1+t_hp*(a3*C+a2*R)) - q2)
+    return P*((e2*a2*R+e3*a3*C)/(1+t_hp*m_P*(a3*C+a2*R)) - q2)
 
  

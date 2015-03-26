@@ -12,6 +12,15 @@ class Point(object):
     def logdist(self,Point2):
         """Transform x to log scale and computes the euclidean distance """
         return np.sqrt((np.log10(self.x)-np.log10(Point2.x))**2 + (Point2.y-self.y)**2)
+
+    def getx(self):
+        return self.x
+        
+    def gety(self):
+        return self.y
+
+    def getCoordinates(self):
+        return (x,y)
     
     def __str__(self):
         return '('+str(self.x) + ',' + str(self.y) +')'
@@ -44,7 +53,6 @@ class Path(object):
         self.xDist = 0.025
         
     def setDist(self,D):
-        
         self.Dist = D
     def getSubpath(self,i):
         """output the subpath at index i"""
@@ -65,7 +73,6 @@ class Path(object):
     def CreatePath(self,subPathsX,subPathsY):
         """Create a list of sublists of points, in which each of the elements is a point.
         It recieves two list of lists of scalars which represents x and y coordinates respectively as input."""
-
         Path = []
         for n in range(len(subPathsX)):
             A = [Point(subPathsX[n][i],subPathsY[n][i]) for i in xrange(len(subPathsX[n]))]
@@ -94,7 +101,6 @@ class Path(object):
         if len(Points_indexes)>0:
             self.subpaths[Points_indexes[0]-1]+=Point_list
             self.Identifiers[Points_indexes[0]-1][1] = Point_ident[-1]
-            
         self.RemovePoints()
     
     def RemovePoints(self):
@@ -120,7 +126,6 @@ class Path(object):
 
                
     def add(self,p,r,Path,index,ID):
-
         """
         add the subpath stored in Path[index] to self.Path according to the values present in the tuples p and r , separate 3 cases:\n
         if both are not boolean, which means that both extremes of the subpath have a subpath in self.Path which is closer than the threshold,
@@ -130,11 +135,11 @@ class Path(object):
         or left) is going to be added. Similar explanations for the other two cases.
         """
         if type(p)!= bool and type(r)!=bool:
-                        
+
             type2 = setType(p[1])
             if p[0]==r[0] and p[1]==r[1]:
                 d1 = ID[0].logdist(self.Identifiers[p[0]][p[1]])
-                d2 = ID[0].logdist(self.Identifiers[r[0]][r[1]])
+                d2 = ID[1].logdist(self.Identifiers[r[0]][r[1]])
                 if d1 >=d2:
                     self.updatePath(Path.subpaths[index],p[0],p[1],ID,'B')
                 else:
@@ -236,10 +241,10 @@ def Match(ID,List,Dist):
         n = psearch(a,List,Dist)
         nList = List[:]
         if type(n)!= bool:
-            nList.pop(n)
+            nList[n[0]][n[1]] = Point(1e-20,-20)
         else:
             return False, False
-        print"WOHO"
+#        print"WOHO"
         n2= psearch(b,nList,Dist)
         return n,n2
         
@@ -249,7 +254,6 @@ def Match(ID,List,Dist):
 def getMinimums(a,List):
     """
     given a Point 'a' and a List of Points returns the minimum distance and the index of List in which it was found.
-
     """
     index = 0 
     mini = a.logdist(List[0])

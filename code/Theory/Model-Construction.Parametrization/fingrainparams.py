@@ -5,6 +5,9 @@ from Dynamics import *
 from sympy import Matrix,sqrt
 
 def construct_param_dict(params,K_RC,K_CP,m_P):
+    """
+    Construct all the parameters from its relationships with body size and temperature, using the normalizing constants and scaling exponent w
+    """
     ###scaling constants
     w=params['w']
     pd=params['pd'] # in 3D and 0.21 in 2D
@@ -38,11 +41,7 @@ def construct_param_dict(params,K_RC,K_CP,m_P):
     d0= params['d0']
     q10 = params['q10'];q20 = params['q20'];
     v0R = params['v0R'];v0C =params['v0C'];v0P =params['v0P'];k = b_k
-    h0C = params['h0C'];h0P = params['h0P'] 
-
-    ##efficience values, later check 
-    ##for the sensibility of the results to changes in it
-    e_1= params['e_1'];e2=params['e2'];e3=params['e3']
+    hC0 = params['hC0'];hP0 = params['hP0'] 
     
     #intrapopulation parameters
     q1=set_q1(q10,m_C,w,Eq1,TR,k)
@@ -55,21 +54,23 @@ def construct_param_dict(params,K_RC,K_CP,m_P):
     a2=set_alfa(m_P,a02,K_RP,pv,pd,TR,TP,ER,EP,D_R,v0R,v0P,g,alfa,fmPR,thermyR,thermyP,k,a,b,c,formPR)
     a3=set_alfa(m_P,a03,K_CP,pv,pd,TC,TP,EC,EP,D_C,v0C,v0P,g,alfa,fmPC,thermyC,thermyP,k,a,b,c,formPC)
 
-    t_hp = set_th(h0P,m_P,w,EP,k,TP)
-    t_hc = set_th(h0C,m_C,w,EC,k,TC)
+    t_hp = set_th(hP0,m_P,w,EP,k,TP)
+    t_hc = set_th(hC0,m_C,w,EC,k,TC)
     param_dict={'q1':q1,'q2':q2,'K':K,'r':r,'a1':a1,'a2':a2,'a3':a3,'t_hp':t_hp,'t_hc':t_hc}
        
     return param_dict
 
 def construct_equilibrium(params,par_dict,K_RC,K_CP,m_P):
-
+    """
+    Construct all the functions related to the computation of equilibrium values in the model, in any subsytem
+    """
     #intrapopulation parameters
     q1=par_dict['q1']
     q2=par_dict['q2']
     q1_0 = params['q10']
     q20 = params['q20']
-    hC0 = params['t_h0C']
-    hP0 = params['t_h0P']
+    hC0 = params['hC0']
+    hP0 = params['hP0']
     
     K=par_dict['K']
     r=par_dict['r']
@@ -98,7 +99,9 @@ def construct_equilibrium(params,par_dict,K_RC,K_CP,m_P):
     R_eq_s3,P_eq_s3 = set_R_C_eq_sLV(r,K,q2,a2,e2)
     ###R-M
     R_eq_s3RM , P_eq_s3RM = set_R_C_eq_sRM(r,K,q2,q20,a2,e2,hP0)
-    ###full system
+    
+
+    ###full system ( need to correct this.. in case want to use it, focus at the moment in invasibility stuff)
     R_eq = set_R_eq(m_P,m_C,K,q1,q2,r,a1,a2,a3,e1,e2,e3)
     C_eq = set_C_eq(m_P,m_C,K,q1,q2,r,a1,a2,a3,e1,e2,e3)
     P_eq = set_P_eq(m_P,m_C,K,q1,q2,r,a1,a2,a3,e1,e2,e3)
@@ -121,6 +124,9 @@ def construct_equilibrium(params,par_dict,K_RC,K_CP,m_P):
 
 
 def construct_inv_boundaries(params,par_dict,eq_dict,K_RC,K_CP,m_P):
+    """
+    Construct in sympy format all the functions related to the invasibility conditions in each of the explored scenarios
+    """
     #intrapop params
     q1=par_dict['q1']
     q2=par_dict['q2']
@@ -128,8 +134,8 @@ def construct_inv_boundaries(params,par_dict,eq_dict,K_RC,K_CP,m_P):
     m_C= K_CP*m_P
     q10 = params['q10']
     q20 = params['q20']
-    hC0 = params['t_h0C']
-    hP0 = params['t_h0P']
+    hC0 = params['hC0']
+    hP0 = params['hP0']
 
     #interpop params
     a1=par_dict['a1']
@@ -163,8 +169,6 @@ def construct_inv_boundaries(params,par_dict,eq_dict,K_RC,K_CP,m_P):
     I_P_s3 = set_I_P_s3(e2,a2,K,q2)
     I_P_s4 = set_I_P_s4(e2,e3,a2,a3,q2,R_eq_s2,C_eq_s2)
     I_C_s5 = set_I_C_s5(e1,a1,a3,R_eq_s3,P_eq_s3,q1)
-
-
     
     #R-M
     I_C_s2RM = set_I_C_s2RM(e1,a1,K,q1,hC0,q10)
@@ -208,9 +212,9 @@ def Stability(params,par_dict,eq_dict,K_RC,K_CP,m_P):
     
     ##Stability
     D = set_D(K,a1,a2,a3,e1,e2,e3,m_C,r)
-    d1 = set_a1(r,R_eq,K)
-    d2 = set_a2(e1,e2,e3,a1,a2,a3,m_C,m_P,C_eq,R_eq,P_eq)
-    d3 = set_a3(D,a3,C_eq,R_eq,P_eq,K,m_C,m_P)
+    d1 = set_d1(r,R_eq,K)
+    d2 = set_d2(e1,e2,e3,a1,a2,a3,m_C,m_P,C_eq,R_eq,P_eq)
+    d3 = set_d3(D,a3,C_eq,R_eq,P_eq,K,m_C,m_P)
     hd2 = set_hdet2(d1,d2,d3)
 
     return hd2
@@ -263,8 +267,8 @@ def ConstructDynamicalFunctions(params,par_dict,K_RC,K_CP,m_P,R,C,P):
     a3=par_dict['a3']
     t_hp=par_dict['t_hp']
     t_hc=par_dict['t_hc']
-    hC0=params['t_h0C']
-    hP0=params['t_h0P']
+    hC0=params['hC0']
+    hP0=params['hP0']
     
     #Construct LV functions
     dRLV=set_dRLV(R,C,P,r,K,a1,a2,m_C,m_P)
@@ -279,10 +283,9 @@ def ConstructDynamicalFunctions(params,par_dict,K_RC,K_CP,m_P,R,C,P):
 
         
     #Construct RM functions
-    dRRM = set_dRRM(R,C,P,r,K,a1,a2,t_hp,t_hc,m_C,m_P)
+    dRRM = set_dRRM(R,C,P,r,K,a1,a2,a3,t_hp,t_hc,m_C,m_P)
+    dCRM = set_dCRM(R,C,P,a1,a2,a3,e1,t_hc,t_hp,q1,m_C,m_P)
     dPRM = set_dPRM(R,C,P,a2,a3,e2,e3,t_hp,q2,m_P) 
-    dCRM = set_dCRM(R,C,P,a1,a3,e1,t_hc,t_hp,q1,m_C,m_P)
-
 
     #RM eq expresions
 
