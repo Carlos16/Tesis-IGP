@@ -1,5 +1,6 @@
 import os
 from InvasionAnalysis import *
+
 #######################Explore Parameter Space #####################################
 
 def CreateDirCoder(ParamsToExplore,dimDict):
@@ -101,65 +102,61 @@ def ExploreParamSpace(InitDict,ParamsToExplore,TotalParams,xlims,mode,HeaderInv,
     ParamsDirCoder = CreateDirCoder(TotalParams,dimDict)
     CreateTxtCoder(TotalParams,initDirection+"ParamsExplored.txt")
     for mass in massVals:
-        massTag = setMassTag(mass)
-        Dir = initDirection+massTag
-        if not os.path.exists(Dir):
-            os.makedirs(Dir)
-        Direction = Dir + "/"
         for combination in ParamCombinations:
             InitDict.update(combination)
             EvaluateParams(InitDict,combination,mode,xlims,HeaderInv,ParamsDirCoder,Direction,ksim,mass)
 
 
-def setMassTag(mass):
-    if mass == 0:
-        return "InvariantSizeRatio"
-    else:
-        return "VariantSizeRatio/"+"mass"+"%.e"%mass
-        
 def EvaluateParams(paramdict,combination,mode,xlims,HeaderInv,ParamsDirCoder,Direction,ksim,mass):
     r"""
     For a given dict of parameters:
-    * calculate the invasibility boundaries, the Equilibrium, eigenvalues ,MTP, Zones and width of the zones for (x,y) values between :math:`xRange \times [-10,5]`
+    * calculate the invasibility boundaries, the Equilibrium, eigenvalues ,MTP, Zones and width of the zones for (x,y) values between :math:`xRange \times [-10,5`
     * Write the results to csv files
     """
-    
+    paramdict['massP'] = mass
     #Construct Object
     WD = BSR(paramdict,mode,xlims,ksim)
     WD.setfDict()
     #Set Focus 
-    if ( ksim == False and paramdict['formC'] == 1 ):
-        WD.getandSetxFocus(30,5e-3)
+    if ( ksim == False and paramdict['fmC'] == 'Grazing' ):
+        WD.getandSetxFocus(300,5e-4)
     
-    Inv = InvBoundaries(WD,mass)   
-    if ( ksim == False and paramdict['formC'] == 1):
-        Inv.setUpGuess(12)
+    Inv = InvBoundaries(WD)   
+    if ( ksim == False and paramdict['fmC'] == 'Grazing' ):
+        Inv.setUpGuess(15)
       
     #create directions
-    Types = ['Inv','Eq','Stab','MTP','Widths','Zones']
+    Types = ['Inv','Widths','Zones']
     
-    DirInv,DirEq,DirStab,DirMTP,DirWidths,DirZones = [Direction+ConstructDir(combination,mode,ParamsDirCoder,Type=T) for T in Types]
+    DirInv,DirWidths,DirZones = [Direction+ConstructDir(combination,mode,ParamsDirCoder,Type=T) for T in Types]
     
     #Invasibility
     Inv.setAndWriteInvBoundaries(HeaderInv,DirInv) 
     Inv.setPositiveBoundaries()
-    Inv.getAndWriteSMTPEq(DirEq,DirStab,DirMTP) #Stability,Equilibrium, MTP
     Inv.setAndWriteWidthsZones(DirWidths,DirZones)
 
      
     
 def ConstructDir(ParamDict,mode,ParamsDirCoder,Type):
+    """
+    Construct a Dictionary of file directions using the values of the parameters in ParamDict and the map in ParamsDirCoder
+    """
     Dir = ""
     sufix=".csv"
+    massCode = "massP"+"%g"%(ParamDict['massP'])
     for param in ParamsDirCoder.keys():
         u = param+str(ParamsDirCoder[param][ParamDict[param]])
-        Dir+=u            
-    return Type+mode+Dir+sufix     
+        Dir+=u
+
+    return Type+mode+Dir+massCode+sufix 
 
     
 
 
 def CreateTxtCoder(ParamsDirCoder,direction):
+    """
+    Create a text file in the specified direction, with the details related to all the parameters used in the computation.
+    """
     F = open(direction,'w')
     for Key in ParamsDirCoder.keys():
         Line = str(Key) + ' : '

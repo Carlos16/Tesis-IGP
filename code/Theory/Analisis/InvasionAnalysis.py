@@ -5,7 +5,7 @@ class InvBoundaries(BSR):
     Class that stores and computes the values for the invasibility boundaries of the distinct scenarios, it receives as initial
     input the values of the parameters and the invasibility functions 
     """
-    def __init__(self,workingData,currentMass= 0.):
+    def __init__(self,workingData):
         
         BSR.__init__(self,workingData.getParams(),workingData.getmode(),workingData.getxLims(),workingData.ksim)
         self.xRange = workingData.setxRange()
@@ -19,7 +19,7 @@ class InvBoundaries(BSR):
         self.fDict = workingData.getfDict()
         self.distance = 1e-12
         self.PositiveBoundaries={}
-        self.currentMass = currentMass
+        self.currentMass = self.params['massP']
         self.xFocus = workingData.xFocus
         self.xFocus_sep = workingData.xFocus_sep
         self.DBound = 0
@@ -54,11 +54,10 @@ class InvBoundaries(BSR):
         For each of the invasibility functions it returns a dict object with x and y keys indicating the zeros(size ratio values delimiting
         the boundaries) for the function at each x (mass), the values of x and y are a list of lists. the total number of sublists denotes the maximum
         number of zeros found at any location x.
-        if e1e3 - e2 = EfDif <0 it also computes the boundaries for the D function 
         """
         searchRange = 10**(np.arange(self.LowGuess,self.UpGuess,self.guessSep))
         xRange = self.xRange
-        for invfunc in self.InvFunctions:
+        for invfunc in self.InvFunctions.keys():
             bound_dict = self.InvBoundary(invfunc,searchRange,xRange)
             self.InvBounds[invfunc] = bound_dict           
     
@@ -66,7 +65,7 @@ class InvBoundaries(BSR):
         """Find the inv boundaries(zeros of the invasibility function) using the brentq method from the SciPy package,
         input arguments, the invasibility function, the limits for the interval to look for zeros(depending on the x values) """
         
-        f = self.fDict[Invfunc]
+        f = self.InvFunctions[Invfunc]
         K = Get_bounds2(f,Get_roots,xRange,searchRange,additionalPar= self.currentMass,k_sim = self.ksim)
         x,y= procce_(K,xRange)
         self.UnEditedInvBounds[Invfunc]=K

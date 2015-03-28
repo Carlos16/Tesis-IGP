@@ -185,14 +185,20 @@ class Path(object):
                 self.subpaths[p] += Reverse(Update)
                 self.Identifiers[p][1] = ID[0]
             else:
-                self.subpaths[p] = Update + self.subpaths[p]
+                if self.Identifiers[p] == ID:
+                    self.subpaths[p] += [ID[0]]
+                else:
+                    self.subpaths[p] = Update + self.subpaths[p]
                 self.Identifiers[p][0] = ID[0]
             
         else:
             if P == 1:
-                self.subpaths[p]+=Update
+                if self.Identifiers[p] == ID[1]:
+                    self.subpaths[p] += ID[0]
+                else:
+                    self.subpaths[p]+=Update
                 self.Identifiers[p][1] =ID[1]
-            else:
+            else:                    
                 self.subpaths[p] = Reverse(Update) + self.subpaths[p]
                 self.Identifiers[p][0] = ID[1]
         
@@ -215,6 +221,9 @@ class Path(object):
 
     
 def setType(i):
+    """
+    Set the type for the fusing method , updatePath
+    """
     if i == 0 :
         return 'B'
     else:
@@ -244,7 +253,6 @@ def Match(ID,List,Dist):
             nList[n[0]][n[1]] = Point(1e-20,-20)
         else:
             return False, False
-#        print"WOHO"
         n2= psearch(b,nList,Dist)
         return n,n2
         

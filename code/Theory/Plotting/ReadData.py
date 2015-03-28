@@ -300,8 +300,8 @@ class InvData(Data):
         self.InnerPlot(plothandler,colorCoder,lineCoder)
         
         
-    def InnerPlot(self,plothandler,colorCoder,lineCoder):
-        for key in self.Paths:
+    def InnerPlot(self,plothandler,colorCoder,lineCoder,Keys):
+        for key in Keys:
             self.Paths[key].plot(plothandler,colorCoder[key],lineCoder[key])
          
              
@@ -369,9 +369,7 @@ class InvData(Data):
             new_y.append([])
         self.OrderedData[scenario] = {'x':new_x,'y':new_y}
         
-    
         
-    
     def Classify(self,scenario,index):
         
         xset = self.formated_data[scenario]['x'][index]

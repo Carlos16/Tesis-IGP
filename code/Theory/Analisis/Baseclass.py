@@ -48,10 +48,11 @@ class BSR(object):
             self.fDict  = func_transform(self.params,self.K_CP,self.K_RC,self.m_P,self.R,self.C,self.P,sim=self.ksim)
     def setInvFunctions(self):
         mode = self.mode
+        F = self.fDict
         if mode == "RM":
-            return ['I_C_s2RM','I_P_s3RM','I_P_s4RM','I_C_s5RM']
+            return {'I_C_s2' : F['I_C_s2RM'],'I_P_s3': F['I_P_s3RM'],'I_P_s4':F['I_P_s4RM'],'I_C_s5':F['I_C_s5RM']}
         else:
-            return ['I_C_s2','I_P_s3','I_P_s4','I_C_s5']
+            return {'I_C_s2' : F['I_C_s2'],'I_P_s3':F['I_P_s3'],'I_P_s4':F['I_P_s4'],'I_C_s5':F['I_C_s5']}
     def setxRange(self):
         """
         Sets the range of X points which are going to be explored
