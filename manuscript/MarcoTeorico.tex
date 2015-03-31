@@ -20,16 +20,36 @@ Donde $X_i$ representa la abundancia en n\'umeros o biomasa de la especie $i$, $
 
 Por lo general se asume que :
 \begin{itemize}
-\item $\alpha_{ij}$ es una constante.
-\item $\alpha_{ii} < 0 $ si $X_i$ es un recurso basal, a diferencia de la formulaci\'on original en este caso se asume que existe \emph{denso dependencia instant\'anea} entre los individuos de una poblaci\'on de presas.
-\item $\alpha_{ii} = 0 $ si $X_i$ es un depredador, es decir no existe \emph{denso dependencia instan\'anea} entre individuos de una poblaci\'on de depredadores.
+\item $\alpha_{ij}$ es una constante(la modificaci\'on $\alpha_{ij} = \alpha_{ij}(X)$ para una forma especf\'icia de la funci\'on da lugar a lo que se conoce como respuesta funcional tipo II  o tipo III).
+\item $\alpha_{ii} < 0 $ si $X_i$ es un recurso basal, a diferencia de la formulaci\'on original en este caso se asume que existe \emph{denso dependencia directa} entre los individuos de una poblaci\'on de presas.
+\item $\alpha_{ii} = 0 $ si $X_i$ es un depredador, es decir no existe \emph{denso dependencia directa} entre individuos de una poblaci\'on de depredadores, sin embargo la denso dependecia se da indirectamente a traves de la interacci\'on con los recursos..
 \item $b_i = 0$ si $X_i$ es un depredador, ya que los depredadores no pueden subsistir en ausencia de presas.
 \end{itemize}
 Modelos como \eqref{eq:LVGen} son llamados \emph{modelos tipo Lotka-Volterra}.
 
+El modelo depredador-presa \emph{Lotka-Volterra},pese a sus evidentes limitaciones,ha jugado(y sigue jugando) un papel importante en el desarrollo de la teor\'ia en ecolog\'ia y form\'o la base para el desarrollo de modelos que incorporan caracter\'isticas con mayor fundamento biol\'ogico. \\
+Uno de los problemas que surge al momento de construir un modelo similar al de \eqref{eq:LVGen} es el como decidir \emph{a priori} el valor de los par\'ametros del modelo(e.g. $b_i , d_i$). Este problema se hace m\'as notorio conforme la dimensi\'on del modelo(i.e. n\'umero de ecuaciones en el sistema) crece \citep{yodzis1992body}.\\
+Yodzis e Innes en su seminal paper \emph{Body size and Consumer-Resource dynamics}\citep{yodzis1992body} propusieron una forma para aligerar el problema.Ellos introdujeron lo que hoy en d\'ia se conoce como \emph{modelamiento bioenerg\'etico} el cual se basa en derivar los valores de los par\'ametros de las relaciones que existen entre ellos y la masa corporal, esta relaci\'on es generalmente de forma indirecta y se manifiesta debido a la influencia que tiene la masa sobre el metabolismo de las especies\citep{peters1986ecological}. A la fecha se han desarrollado diversos refinamientos a estas ideas, lo cual nos permite centrarnos en par\'ametros con mayor significado biol\'ogico.\citep{kiltie2000scaling,brown2004toward,savage2004predominance,pawar2012dimensionality,brose2010body}
 
-El modelo depredador-presa \emph{Lotka-Volterra},pese a sus evidentes limitaciones,ha jugado(y sigue jugando) un papel importante en el desarrollo de la teor\'ia en ecolog\'ia y form\'o la base para el desarrollo de modelos que incorporan caracter\'isticas con mayor fundamento biol\'ogico.
+\subsection{Ensamblaje}
+En esta secci\'on definimos ciertos t\'erminos relacionados al proceso de ensamblaje de una comunidad. \\
+Se denomina proceso de ensamblaje $E_A$ de una comunidad $A$ asociada a un h\'abitat $H$ al continuo de colonizaciones y extinciones de especies que se dan dentro de $H$, el conjunto de especies que \emph{potencialmente} puede colonizar a la comunidad $A$(i.e pueden por lo menos llegar a $H$) se denomina \emph{pool regional de especies}. 
+\begin{equation}\label{eq:Assembly}
+E_A := (A_0,H_0) \to (A_1,H_1) \to (A_2,H_2) \to \ldots
+\end{equation}
+En \eqref{eq:Assembly} cada cambio de $(A_i,H_i)$ a $(A_{i+1},H_{i+1})$ se da debido a un intento de colonizaci\'on sobre $(A_i,H_i)$,el cual puede tener uno de los tres siguientes desenlaces \citep{pawar2009community}: 
+\begin{enumerate}
+\item El invasor no puede invadir.
+\item El invasor llega a invadir pero provoca extinciones en la comunidad receptora, pudiendo el mismo exintiguirse, esto es llamado \emph{invasi\'on inestable}.
+\item El invasor llega a invadir y no provoca ninguna extinci\'on, esto es llamado \emph{invasi\'on estable}.
+\end{enumerate}
 
+De lo anterior se observa que la comunidad y h\'abitat f\'isico receptor juega un papel muy importante en el subsiguiente paso del proceso, adem\'as especificamos que cada estado $(A_i,H_i)$ puede estar en constante cambio,excepto por el n\'umero de especies, debido a la din\'amica inherente de las poblaciones de las especies presentes y por ende el tiempo entre distintas colonizaciones asu vez puede influenciar el desenlace de la colonizaci\'on debido a que la comunidad receptora puede estar en distintos estados(e.g. estado transiente $vs$ estado asint\'otico).\\
+
+Sea $B = \{ (A_j,H_j) / j \in I, I \subseteq \mathbb{N}\}$ un conjunto de estados en $E_A$ , usando el formalismo definido en \eqref{eq:Assembly} decimos que la comunidad $A$ \emph{$\omega$-converge} a $B$ durante el ensamblaje si existe un $ m \in \mathbb{N}$ tal que $(A_i,H_i) \in B, i \geq m$. Sea $D$ el menor de dichos conjuntos. Decimos entonces que la comunidad $A$ \emph{converge} a $D$.
+
+\subsubsection{Caminos de Ensamblaje}
+Sea $\hat{A}$ un conjunto de especies con un set de interacciones $S$ , una secuencia de colonizaciones $E$ tal que el estado final es $(\hat{A},S)$ es llamado \emph{camino de ensamblaje} hacia $(\hat{A},S)$.
 
 \subsection{ M\'odulo IGP}
 
@@ -48,7 +68,6 @@ Adem\'as este sistema es el menor(en el sentido de n\'umero de especies) en el c
 \end{figure}
 Numerosos ejemplos son citados en \cite{polis1989ecology}, algunos de los cuales se presentan en la siguiente tabla:
 \improvement{HACER LA TABLA!}
-
 
 \subsection{Cadenas Tr\'oficas}
 

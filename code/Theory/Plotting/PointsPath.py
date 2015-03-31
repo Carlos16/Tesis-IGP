@@ -193,8 +193,8 @@ class Path(object):
             
         else:
             if P == 1:
-                if self.Identifiers[p] == ID[1]:
-                    self.subpaths[p] += ID[0]
+                if self.Identifiers[p] == ID:
+                    self.subpaths[p] += [ID[0]]
                 else:
                     self.subpaths[p]+=Update
                 self.Identifiers[p][1] =ID[1]

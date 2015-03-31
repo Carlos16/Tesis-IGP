@@ -1,5 +1,5 @@
 import csv
-import PointsPath
+from PointsPath import *
 
 class Data(object):
     def __init__(self,data,paramsEspecifications,xFocus,xFSep):
@@ -294,14 +294,14 @@ class InvData(Data):
                         
         
         self.formated_data = formated_data
-    def plot(self,plothandler,colorCoder,lineCoder):
+    def plot(self,plothandler,colorCoder,lineCoder,keys):
         self.formatData()
         self.OrderData()
-        self.InnerPlot(plothandler,colorCoder,lineCoder)
+        self.InnerPlot(plothandler,colorCoder,lineCoder,keys)
         
         
-    def InnerPlot(self,plothandler,colorCoder,lineCoder,Keys):
-        for key in Keys:
+    def InnerPlot(self,plothandler,colorCoder,lineCoder,keys):
+        for key in keys:
             self.Paths[key].plot(plothandler,colorCoder[key],lineCoder[key])
          
              

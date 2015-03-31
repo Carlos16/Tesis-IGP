@@ -67,8 +67,8 @@ class BSR(object):
         """
         nPoints : the number of points in which the interval [x0-dist,x0] is going to be divided, x0 is where the singularity occurres (if it exists)
         """
-        e1 = self.params['e_1']
-        e2 = self.params['e_2']
+        e1 = self.params['e1']
+        e2 = self.params['e2']
         q10 = self.params['q10']
         q20 = self.params['q20']
         pd = self.params['pd']

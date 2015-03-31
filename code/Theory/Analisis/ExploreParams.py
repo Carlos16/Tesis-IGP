@@ -104,10 +104,10 @@ def ExploreParamSpace(InitDict,ParamsToExplore,TotalParams,xlims,mode,HeaderInv,
     for mass in massVals:
         for combination in ParamCombinations:
             InitDict.update(combination)
-            EvaluateParams(InitDict,combination,mode,xlims,HeaderInv,ParamsDirCoder,Direction,ksim,mass)
+            EvaluateParams(InitDict,mode,xlims,HeaderInv,ParamsDirCoder,initDirection,ksim,mass)
 
 
-def EvaluateParams(paramdict,combination,mode,xlims,HeaderInv,ParamsDirCoder,Direction,ksim,mass):
+def EvaluateParams(paramdict,mode,xlims,HeaderInv,ParamsDirCoder,Direction,ksim,mass):
     r"""
     For a given dict of parameters:
     * calculate the invasibility boundaries, the Equilibrium, eigenvalues ,MTP, Zones and width of the zones for (x,y) values between :math:`xRange \times [-10,5`
@@ -128,7 +128,7 @@ def EvaluateParams(paramdict,combination,mode,xlims,HeaderInv,ParamsDirCoder,Dir
     #create directions
     Types = ['Inv','Widths','Zones']
     
-    DirInv,DirWidths,DirZones = [Direction+ConstructDir(combination,mode,ParamsDirCoder,Type=T) for T in Types]
+    DirInv,DirWidths,DirZones = [Direction+ConstructDir(paramdict,mode,ParamsDirCoder,Type=T) for T in Types]
     
     #Invasibility
     Inv.setAndWriteInvBoundaries(HeaderInv,DirInv) 
@@ -143,7 +143,7 @@ def ConstructDir(ParamDict,mode,ParamsDirCoder,Type):
     """
     Dir = ""
     sufix=".csv"
-    massCode = "massP"+"%g"%(ParamDict['massP'])
+    massCode = "massP"+"%.e"%(ParamDict['massP'])
     for param in ParamsDirCoder.keys():
         u = param+str(ParamsDirCoder[param][ParamDict[param]])
         Dir+=u

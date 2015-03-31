@@ -123,16 +123,12 @@ En \cite{pawar2012dimensionality} describen la variaci\'on de la velocidad para 
 \end{equation}
 $v_0$ es una constante que depende del taxa y del modo de locomoci\'on y la constante y la constante metab\'olica $B_0$.\\ \improvement{mejorar que poner, considerar referir anexos}
 
-$k_{ji}= m_j/m_i$ es el raz\'on de la masa del recurso con respecto al depredador , y $\Pi \in [0,1]$ y  puede tomar distintas formas\citep{weitz2006size}, en este trabajo se exploraron las siguientes(figura \ref{fig:efficiency}): 
+$k_{ji}= m_j/m_i$ es el raz\'on de la masa del recurso con respecto al depredador , y $\Pi \in [0,1]$ y  puede tomar distintas formas\citep{weitz2006size}, en este trabajo se us\'o las siguiente(figura \ref{fig:efficiency}): 
 \begin{equation}\label{eq:sr}
-\Pi(k_{ji}) =
-\begin{cases}
-a\\
-\frac{a}{1+k_{ji}^\phi} \\
-\end{cases}
+\Pi(k_{ji}) =\frac{a}{1+k_{ji}^\phi} \\
 \end{equation}
 
-$a \in [0,1] $ es una constante que determina la m\'axima eficiencia en la captura y $\phi > 0 $ determina la forma del decaimiento de $\Pi$ con respecto a $k_{ij}$, note que $Pi \to 0$ , si $k_{ij} \to \infty$ y $Pi \to a $, si $k_{ij} \to 0$.
+$a \in [0,1] $ es una constante que determina la m\'axima eficiencia en la captura y $\phi > 0 $ determina la forma del decaimiento de $\Pi$ con respecto a $k_{ij}$, note que $\Pi \to 0$ , si $k_{ij} \to \infty$ y $\Pi \to a $, si $k_{ij} \to 0$.
 
 \begin{figure}
 \begin{center}
@@ -187,7 +183,7 @@ k_{ji}^{(D_j-1)p_d}\Pi(k_{ji}) & Fm = Sw\\
 Para el caso de Pastoreo se usar\'a la primera forma descrita para $\Pi$ en \eqref{eq:sr} y en los dos otros casos la segunda forma.
 
 \subsection{An\'alisis}
-Todos los an\'alisis descritos a continuaci\'on se desarrollar\'an para ambos modelos y con distintas combinaciones de dimensi\'on del habitat, estrategia de forrajeo,nivel de productividad ambiental basal y $\Pi$.\\
+Todos los an\'alisis descritos a continuaci\'on se desarrollar\'an para ambos modelos y con distintas combinaciones de dimensi\'on del habitat, estrategia de forrajeo,nivel de productividad ambiental basal y $\Pi$, las combinaciones usadas se especifican en Anexo \ref{subsec:params} .\\
 Dada la parametrizaci\'on empleada el espacio param\'etrico se reduce a tres ejes : $k_\RC,k_\CP, m_p$(note que $k_\RP = k_\RC k_\CP$), se analizar\'an dos casos:
 \begin{enumerate}
 \item Supondremos que $k_\RC = k_\CP$, lo cual ha sido sugerido previamente \citep{peters1986ecological,brown2004toward}.\label{equalsizeratios}

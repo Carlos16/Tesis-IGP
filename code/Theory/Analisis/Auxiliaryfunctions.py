@@ -134,10 +134,12 @@ def Convert(X,Y):
         for i in range(dist1):
             new_array.append(MyTuple([MyFloat(X[subarray][i]),MyFloat(Y[subarray][i])]))
         dist.append(dist1)
+
     if len(dist)>1:
         dist = MyTuple(dist)
     else:
-        dist = MyTuple((0,0))
+        if len(dist) == 0:
+            dist = MyTuple((0,0))
     return new_array,dist
 
 def ConstructArray(List_Arrays):

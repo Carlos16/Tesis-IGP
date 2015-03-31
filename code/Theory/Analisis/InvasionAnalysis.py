@@ -14,6 +14,7 @@ class InvBoundaries(BSR):
         self.LowGuess = -10
         self.guessSep = 0.03
         self.InvFunctions=workingData.setInvFunctions()
+        self.InvFunctionsNames = ['I_C_s2','I_P_s3','I_P_s4','I_C_s5']
         self.InvBounds={}
         self.UnEditedInvBounds={}
         self.fDict = workingData.getfDict()
@@ -57,7 +58,7 @@ class InvBoundaries(BSR):
         """
         searchRange = 10**(np.arange(self.LowGuess,self.UpGuess,self.guessSep))
         xRange = self.xRange
-        for invfunc in self.InvFunctions.keys():
+        for invfunc in self.InvFunctionsNames:
             bound_dict = self.InvBoundary(invfunc,searchRange,xRange)
             self.InvBounds[invfunc] = bound_dict           
     
@@ -83,8 +84,7 @@ class InvBoundaries(BSR):
         @direction the system direction where the file is going to be stored
         @Header the first row of the csv file """
        
-        new_Boundaries,dists = FormatZones(self.InvFunctions,self.InvBounds)
-       
+        new_Boundaries,dists = FormatZones(self.InvFunctionsNames,self.InvBounds)
         Footer = self.Footer
         OutputFile = OutputInvData(new_Boundaries,Header,[Footer],[MyTuple(self.xFocus),self.xFocus_sep],dists)
         OutputFile.WriteInvasibility(direction,delimiter)
