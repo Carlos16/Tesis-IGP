@@ -123,7 +123,7 @@ def EvaluateParams(paramdict,mode,xlims,HeaderInv,ParamsDirCoder,Direction,ksim,
     
     Inv = InvBoundaries(WD)   
     if ( ksim == False and paramdict['fmC'] == 'Grazing' ):
-        Inv.setUpGuess(15)
+        Inv.setUpGuess(13)
       
     #create directions
     Types = ['Inv','Widths','Zones']

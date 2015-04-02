@@ -3,7 +3,7 @@ import numpy as np
 
 ###Code for computing roots of the function using the
 ### brentq method
-def Get_roots(f,arg,array,j=0,debug=False,method=brentq):
+def Get_roots(f,arg,array,j=0,debug=False,method=brentq,xtol=1e-30):
     """
     Search for the all the zeros of a continuos and smooth function f, using the brentq optimization algorithm
     * Assumes that there is at most one zero in any of the subintervals (x[i],x[i+1]), where d(x[i+1],x[i]) <=0.03 
@@ -31,7 +31,7 @@ def Get_roots(f,arg,array,j=0,debug=False,method=brentq):
         sign_ = np.sign(F_array[j])
         for i in range(j,n):
             if np.sign(F_array[i])!= sign_:
-                roots.append(np.log10(method(f,array[j],array[i],args=tuple(arg))))
+                roots.append(np.log10(method(f,array[j],array[i],args=tuple(arg),xtol=xtol)))
                 j = i 
                 break
             if i == n-1:

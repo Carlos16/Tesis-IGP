@@ -19,10 +19,10 @@ class BSR(object):
         self.bottom = False
         self.xLims = xLims
         self.xFocus = [0,0]
-        self.NormalX_sep = 0.01
-        self.xFocus_sep = 0.01
+        self.NormalX_sep = 0.005
+        self.xFocus_sep = 0.005
         self.Y_sep = 0.05
-        self.YLims = [-10,5]
+        self.YLims = [-12,7]
         self.fDict = {}
         self.ksim = ksim
         

@@ -70,10 +70,11 @@ p2 ={'k0':{'2D':['1e-02','1e-01',r'1e\+00'],'3D':[r'3e\+00',r'3e\+01',r'3e\+02']
 p1 ={'massP':['1e-10','1e-05',r'1e\+00',r'1e\+05']}
 
 Dir ='C:/Users/Carlos/Documents/Tesis-IGP/Data/VariantSR/'
-params = {'fmC':['Grazing'],'b':['2e-02']}
+params = {'fmPR':['Active'],'b':[r'2e\+00']}
 Types = ['Zones']
 if __name__== '__main__':
-    D = GetDataSets(Dir,params,['ZonesLV'],p1,p2,p3,{})
+    D = GetDataSets(Dir,params,['Zones'],p1,p2,p3,{})
+    print D
 
 
 

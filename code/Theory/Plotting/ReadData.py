@@ -358,7 +358,7 @@ class InvData(Data):
         Set= self.formated_data[scenario]
         new_x = []
         new_y = []
-        if len(Set['x'])!=0:
+        if len(Set['x'][0])!=0:
             for index in range(len(Set['x'])):
                 
                 new_subx,new_suby= self.Classify(scenario,index)
@@ -400,11 +400,11 @@ class InvData(Data):
     def isDist(self,xset,yset,i):
         P0 =  Point(np.log10(xset[i]),yset[i])
         P1 = Point(np.log10(xset[i+1]),yset[i+1])
-        d = P0.dist(P1)
-        if d>0.02:
+        d = np.abs(P0.x - P1.x)
+        if d>0.03:
             return False    
         else:
-            if np.abs(P0.y - P1.y) < 0.1:
+            if np.abs(P0.y - P1.y) < 0.5:
                 return True
             else:
                 return False        

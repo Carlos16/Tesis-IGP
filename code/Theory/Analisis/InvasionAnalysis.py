@@ -10,9 +10,9 @@ class InvBoundaries(BSR):
         BSR.__init__(self,workingData.getParams(),workingData.getmode(),workingData.getxLims(),workingData.ksim)
         self.xRange = workingData.setxRange()
         self.yRange = workingData.setyRange()
-        self.UpGuess =  10
-        self.LowGuess = -10
-        self.guessSep = 0.03
+        self.UpGuess =  8
+        self.LowGuess = -12.005
+        self.guessSep = 0.01
         self.InvFunctions=workingData.setInvFunctions()
         self.InvFunctionsNames = ['I_C_s2','I_P_s3','I_P_s4','I_C_s5']
         self.InvBounds={}
@@ -173,7 +173,6 @@ class InvBoundaries(BSR):
         OutputFile = OutputInvData(data,Header,[Footer],[MyTuple(self.xFocus),self.xFocus_sep],dist)
         OutputFile.WriteInvasibility(Direction,',')
 
-#    def WriteZones(self,Direction):
 
         
 

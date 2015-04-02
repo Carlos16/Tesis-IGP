@@ -64,20 +64,20 @@ def LoadInv(dataset):
     P = InputInvData(dataset)
     return P.Read(',')
 
-TypeDict = {'Zones':  LoadInv}   
+TypeDict = {'Zones':  LoadInv,'Inv': LoadInv}   
 ColorCoder = {'Z(IC4)':'b'}
 LineCoder = {'Z(IC4)':'--'}
 
 Colors = [ 'b' ,'g','y','r']
 LineStyles = ['--','--','--','--']
 
-plotParamsDict= {'Zones':[ColorCoder,LineCoder,['MutualInv']]}
+plotParamsDict= {'Zones':[ColorCoder,LineCoder,['Z(IC5)']]}
 sizePlot = (10,8)
 yLabel = r'$\log_{10}(k_{RC})$'
 xLabel = r'$\log_{10}(k_{CP})$'
 
 if __name__=="__main__":
     PlotInt(Dir,params,Types,p1,p2,p3,TypeDict,sizePlot,plotParamsDict,Colors,LineStyles,yLabel,xLabel)
-    plt.savefig('PrimeraPrueba2.pdf')
+    plt.savefig('Z(IC5)b2AcAcAc.pdf')
 
 
