@@ -275,7 +275,7 @@ ParaC<-getIGPSizeRatios(bodysizes,"Country: United Kingdom",c("Taxonomy.resource
 
 ##Grand caricaie mown marsh dominated by Cladetium
 
-```{r,cache=TRUE}
+```{r}
 GrandCaricaie1<-getIGPSizeRatios(bodysizes,"Country: Switzerland; Lake Neuchâtel",c("Taxonomy.resource","Taxonomy.consumer"),Shabitat = "Grand Caricaie; marsh dominated by Cladietum marisci, mown; Clmown1")
 
 ```
@@ -283,7 +283,7 @@ GrandCaricaie1<-getIGPSizeRatios(bodysizes,"Country: Switzerland; Lake Neuchâtel
 
 ##Grand caricaie marsh dominated by Schoneus mown
 
-```{r, cache=TRUE}
+```{r}
 GrandCaricaie2<-getIGPSizeRatios(bodysizes,"Country: Switzerland; Lake Neuchâtel",c("Taxonomy.resource","Taxonomy.consumer"),Shabitat = "Grand Caricaie; marsh dominated by Schoenus nigricans, mown; Scmown2;")
 ```
 
@@ -310,10 +310,10 @@ plot + annotate("text", x = min(total$log10.K_CP) + 2 , y = min(total$log10.K_RC
 ```
 
 ##Linear model
-
 $$
 \log_{10}(k_{RC}^i) \approx a_0 + a_1\log_{10}(k_{CP}^i) + a_2\log_{10}(m_P^i) 
 $$
+
 ```{r}
 reg2 <- lm(log10.K_RC~log10.K_CP+log10.m_P ,data = total[complete.cases(total$log10.m_P),])
 summary(reg2)

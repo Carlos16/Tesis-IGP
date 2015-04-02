@@ -290,7 +290,7 @@ def IntervalInt(bpL,bpH):
     r"""
     Find the boundary points of :math:`(a,b) \cap (c,d)` for which :math:`a \leq c`
     """
-    if bpH[0]<pL[1]:
+    if bpH[0]<bpL[1]:
         if bpH[1]<bpL[1]:
             return [bpH]
         else:

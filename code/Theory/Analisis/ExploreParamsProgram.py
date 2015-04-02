@@ -39,7 +39,7 @@ SpecialParams= {'D':{'2D':{'D_C':2.,'D_R':2.},'3D':{'D_C':3,'D_R':3.}},
 Comb = MakeTotalParamsCombination(ParamsToExplore,AuxiliarParams,SpecialParams)
 initDirection="c:/Users/Carlos/Documents/Tesis-IGP/Data/VariantSR/"
  
-xlims = [-12,7]
+xlims = [-13,7]
 mode = 'LV'
 Header= ['Inv C2','Inv P3','Inv P4','Inv C5']
 ksim = False

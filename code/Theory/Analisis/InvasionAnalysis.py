@@ -11,7 +11,7 @@ class InvBoundaries(BSR):
         self.xRange = workingData.setxRange()
         self.yRange = workingData.setyRange()
         self.UpGuess =  8
-        self.LowGuess = -12.005
+        self.LowGuess = -13.005
         self.guessSep = 0.01
         self.InvFunctions=workingData.setInvFunctions()
         self.InvFunctionsNames = ['I_C_s2','I_P_s3','I_P_s4','I_C_s5']

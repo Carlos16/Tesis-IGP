@@ -22,7 +22,7 @@ class BSR(object):
         self.NormalX_sep = 0.005
         self.xFocus_sep = 0.005
         self.Y_sep = 0.05
-        self.YLims = [-12,7]
+        self.YLims = [-13,7]
         self.fDict = {}
         self.ksim = ksim
         
