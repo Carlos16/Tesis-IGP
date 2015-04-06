@@ -1,6 +1,5 @@
 import csv
-from PointsPath import *
-
+ 
 class Data(object):
     def __init__(self,data,paramsEspecifications,xFocus,xFSep):
         self.data = data
@@ -8,6 +7,8 @@ class Data(object):
         self.xFocus = TransformToFloat(xFocus,':')
         self.xFSep = float(xFSep)
      
+          
+        
     def setData(self,Data):
         self.data = Data
         
@@ -68,7 +69,7 @@ class InputMatrixData(Data):
             data_handler = []
             for row in reader:
                 data_handler.append(row)
-        dataset = np.array(data_handler[0:-2],dtype=object)
+        dataset = np.array(data_handler[0:-3],dtype=object)
         dataset.reshape((len(dataset),len(dataset[0])))
         paramsEspecifications = data_handler[-2]
         xFocus,xFSep = data_handler[-1]
@@ -255,7 +256,9 @@ def isinPositiveOrthant(X,index):
         return 1
     else:
         return 0
-
+            
+        
+         
 class InvData(Data):   
     def __init__(self,data,InvScenarios,paramsEspecifications,distribution):
         Data.__init__(self,data,paramsEspecifications,'(0:0)',0.)
@@ -266,14 +269,13 @@ class InvData(Data):
         self.Paths= {}
         
     def formatData(self):
-        """
-        Transform the original data to a format amenable for future working, first transform it to a 2 Dimensional array
+        """" Transform the original data to a format amenable for future working, first transform it to a 2 Dimensional array
         whose number of columns if the number of distinct scenarios encountered in the invasibility analysis(which is four in our case)
         and the number of rows is the maximum number of points present in the invasibility set of any of the scenarios. It also convert
         the string elements to floats, and returns a dictionary of dictionaries for each of the scenarios with x and y coordinates as
         the two keys of each of the dictionaries and whose elements are a list of lists for each of the distinct invasibility sets 
-        contained within each scenario. 
-        """
+        contained within each scenario. It furthers filters the results for the scenarios P to C-R and C to P-R neglecting all the
+        elements in which the necessary conditions,C to R and P to R respectively, are fullfiled."""
         self.reshape()
         self.TransformtoFloats()
         self.distribution = [ [int(item) for item in self.distribution[i][1:-1].split(':')] for i in range(len(self.distribution)) ]
@@ -294,14 +296,14 @@ class InvData(Data):
                         
         
         self.formated_data = formated_data
-    def plot(self,plothandler,colorCoder,lineCoder,keys):
+    def plot(self,plothandler,colorCoder,lineCoder):
         self.formatData()
         self.OrderData()
-        self.InnerPlot(plothandler,colorCoder,lineCoder,keys)
+        self.InnerPlot(plothandler,colorCoder,lineCoder)
         
         
-    def InnerPlot(self,plothandler,colorCoder,lineCoder,keys):
-        for key in keys:
+    def InnerPlot(self,plothandler,colorCoder,lineCoder):
+        for key in self.Paths:
             self.Paths[key].plot(plothandler,colorCoder[key],lineCoder[key])
          
              
@@ -341,10 +343,11 @@ class InvData(Data):
         self.ConstructPaths()
         
     def ConstructPaths(self):
+        
         for scenario in self.Scenarios:
             Path = self.BuildPath(scenario)
             self.Paths[scenario] = Path
-
+        
     def BuildPath(self,scenario):
         P = self.OrderedData[scenario]
         YPath = Path(P['x'][0],P['y'][0])
@@ -360,16 +363,16 @@ class InvData(Data):
         new_y = []
         if len(Set['x'][0])!=0:
             for index in range(len(Set['x'])):
-                
                 new_subx,new_suby= self.Classify(scenario,index)
                 new_x.append(new_subx)
                 new_y.append(new_suby)
         else:
             new_x.append([])
             new_y.append([])
+
         self.OrderedData[scenario] = {'x':new_x,'y':new_y}
         
-        
+     
     def Classify(self,scenario,index):
         
         xset = self.formated_data[scenario]['x'][index]
@@ -407,8 +410,9 @@ class InvData(Data):
             if np.abs(P0.y - P1.y) < 0.5:
                 return True
             else:
-                return False        
-                
+                return False
+        
+        
     
     def getIndexes(self,scenario,index):
         n = len(self.formated_data[scenario]['x'])
@@ -420,4 +424,3 @@ class InvData(Data):
         for i in  t:
             searchRange[i]={'x':self.formated_data[scenario]['x'][i],'y':self.formated_data[scenario]['y'][i]}
         return searchRange
-   

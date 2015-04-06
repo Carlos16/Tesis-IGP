@@ -1,5 +1,5 @@
 from ExtractData import * 
-from ReadData import *
+
 """
 File : AlternatePLot.py
 -----------------------
@@ -21,14 +21,13 @@ def editplot(axes,yLabel,xLabel):
     addLabels(axes,yLabel,xLabel)
     
 def editaxis(axes):
-    axes[0][0].set_xlim([-10,5])
-    axes[0][0].set_ylim([-10,5])
+    axes[0][0].set_xlim([-13,7])
+    axes[0][0].set_ylim([-13,7])
 
 def addLabels(axes,yLabel,xLabel):
     axes[0][0].set_ylabel(yLabel)
     axes[1][0].set_ylabel(yLabel)
     axes[1][1].set_xlabel(xLabel)
-
 
 
 def makeFigure(p2,p3,sizePlot):
@@ -58,7 +57,6 @@ def UpdateplotParams(plotParamsDict,Type,col,lin):
     Color[Tag] = col
     Line[Tag] = lin
 
-
     
 def LoadInv(dataset):
     P = InputInvData(dataset)
@@ -71,13 +69,53 @@ LineCoder = {'Z(IC4)':'--'}
 Colors = [ 'b' ,'g','y','r']
 LineStyles = ['--','--','--','--']
 
-plotParamsDict= {'Zones':[ColorCoder,LineCoder,['Z(IC5)']]}
+plotParamsDict= {'Inv':[ColorCoder,LineCoder,['Inv P3']]}
 sizePlot = (10,8)
 yLabel = r'$\log_{10}(k_{RC})$'
 xLabel = r'$\log_{10}(k_{CP})$'
 
+
+def GeneratePlots(DirData,DirPlots,params,Types,p1,p2,p3,TypeDict,TypeCurves,sizePlot,plotParamsDict,Colors,LineStyles,yLabel,xLabel,LabelMap,FStra,bs):
+    for Curves in TypeCurves:
+        print Curves
+        GenerateCurves(DirData,DirPlots,params,Types,p1,p2,p3,TypeDict,Curves,sizePlot,plotParamsDict,Colors,LineStyles,yLabel,xLabel,LabelMap,FStra,bs)
+    
+
+
+def GenerateCurves(Dir,DirPlots,params,Types,p1,p2,p3,TypeDict,Curves,sizePlot,plotParamsDict,Colors,LineStyles,yLabel,xLabel,LabelMap,FStra,bs):
+    plotParamsDict[Types[0]][2] = [Curves]
+    for Strategy in FStra:
+        params['fmPR']= [Strategy]
+        for b in bs:
+            params['b'] = [b]
+            Label = generateLabel(DirPlots,LabelMap,Curves,Strategy,b)
+            PlotInt(Dir,params,Types,p1,p2,p3,TypeDict,sizePlot,plotParamsDict,Colors,LineStyles,yLabel,xLabel)
+            plt.savefig(Label+".pdf")
+            plt.close()
+
+
+
+def generateLabel(Dir,LabelMap,Curves,Val1,Val2):
+    Direction = Dir
+    Lab1 = LabelMap[Val1]
+    if Val2 == r'2e\+00':
+        Lab2 = '2e0'
+    else:
+        Lab2 = Val2
+    return Direction+Curves+Lab1+Lab2
+
+LabelMap = {'Grazing':'GrGrAc','Active':'AcAcAc','Sit':'AcSitSit'}
+TypeCurves = ['Z(IC5)','Z(IC4)','MutualInv']
+FStra = ['Grazing','Active','Sit']
+bs = ['2e-02','2e-01',r'2e\+00']   
+
+DirPlots = 'C:/Users/Carlos/Documents/Tesis-IGP/Data/Plots/'
+
 if __name__=="__main__":
+    #GeneratePlots(Dir,DirPlots,params,Types,p1,p2,p3,TypeDict,TypeCurves,sizePlot,plotParamsDict,Colors,LineStyles,yLabel,xLabel,LabelMap,FStra,bs)
     PlotInt(Dir,params,Types,p1,p2,p3,TypeDict,sizePlot,plotParamsDict,Colors,LineStyles,yLabel,xLabel)
-    plt.savefig('Z(IC5)b2AcAcAc.pdf')
+    plt.savefig('InvP3b2e-1.pdf')
+
+
 
 

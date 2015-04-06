@@ -49,7 +49,7 @@ class Path(object):
     def __init__(self,subPathsX,subPathsY):
         self.subpaths = self.CreatePath(subPathsX,subPathsY)
         self.Identifiers =[[subpath[0],subpath[-1]] for subpath in self.subpaths]
-        self.Dist= 0.4
+        self.Dist= 0.1
         self.xDist = 0.025
         
     def setDist(self,D):
@@ -212,11 +212,8 @@ class Path(object):
     def plot(self,plothandler,linecolor,line):
         SubPaths = [self.getSubPathXY(i) for i in range(len(self.subpaths))]
         for SubP in SubPaths:
-            plothandler.plot(np.log10(SubP[0]),SubP[1],linestyle = line ,color = linecolor)
+            plothandler.plot(np.log10(SubP[0]),SubP[1],linestyle = line ,color = linecolor,linewidth = 1.)
         
-
-
-
 #Auxiliar Functions
 
     
