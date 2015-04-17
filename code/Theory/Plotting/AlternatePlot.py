@@ -18,7 +18,19 @@ def PlotInt(Directory,params,Types,p1,p2,p3,TypeDict,sizePlot,plotParamsDict,Col
 
 def editplot(axes,yLabel,xLabel):
     editaxis(axes)
+    makeLines(axes,2,3)
     addLabels(axes,yLabel,xLabel)
+
+def makeLines(axes,nrows,ncols):
+    for i in range(nrows):
+        for j in range(ncols):
+            plotlines(axes[i,j])
+
+def plotlines(ax):
+    ax.plot([-13,7],[0,0], 'k--')
+    ax.plot([0,0],[-13,7],'k--')
+    ax.plot([-13,7],[13,-7],'k--')
+    
     
 def editaxis(axes):
     axes[0][0].set_xlim([-13,7])
@@ -63,13 +75,13 @@ def LoadInv(dataset):
     return P.Read(',')
 
 TypeDict = {'Zones':  LoadInv,'Inv': LoadInv}   
-ColorCoder = {'Z(IC4)':'b'}
-LineCoder = {'Z(IC4)':'--'}
+ColorCoder = {'Z(IC5)':'b'}
+LineCoder = {'Z(IC5)':'--'}
 
 Colors = [ 'b' ,'g','y','r']
-LineStyles = ['--','--','--','--']
+LineStyles = ['-','-','-','-']
 
-plotParamsDict= {'Inv':[ColorCoder,LineCoder,['Inv P3']]}
+plotParamsDict= {'Zones':[ColorCoder,LineCoder,['MutualInv']]}
 sizePlot = (10,8)
 yLabel = r'$\log_{10}(k_{RC})$'
 xLabel = r'$\log_{10}(k_{CP})$'
@@ -114,7 +126,7 @@ DirPlots = 'C:/Users/Carlos/Documents/Tesis-IGP/Data/Plots/'
 if __name__=="__main__":
     #GeneratePlots(Dir,DirPlots,params,Types,p1,p2,p3,TypeDict,TypeCurves,sizePlot,plotParamsDict,Colors,LineStyles,yLabel,xLabel,LabelMap,FStra,bs)
     PlotInt(Dir,params,Types,p1,p2,p3,TypeDict,sizePlot,plotParamsDict,Colors,LineStyles,yLabel,xLabel)
-    plt.savefig('InvP3b2e-1.pdf')
+    plt.savefig('MutualInvb2e-2.pdf')
 
 
 

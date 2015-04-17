@@ -69,6 +69,52 @@ Adem\'as este sistema es el menor(en el sentido de n\'umero de especies) en el c
 Numerosos ejemplos son citados en \cite{polis1989ecology}, algunos de los cuales se presentan en la siguiente tabla:
 \improvement{HACER LA TABLA!}
 
-\subsection{Cadenas Tr\'oficas}
+\subsection{Distribuci\'on de Masas}
+Una distribuci\'on de masas en una comunidad $C$ es la imagen de una funci\'on  $f : C \to \mathbb{R}$ donde a cada conjunto de individuos de una especie $S$ se le asocia la masa promedio $m_S$ encontrada en $S$. Una distribuci\'on de masas proveniente de una recolecci\'on emp\'irica se representa gr\'aficamente mediante histogramas. \\
+Generalmente la forma de la distribuci\'on se considera una caracter\'istica de la comunidad, y se ha demostrado que influencia la distribuci\'on de autovalores y otras propiedades din\'amicas de ella.\\
+
+En el m\'odulo IGP dado que solo esta compuesto de tres especies podemos describir la distribuci\'on de las masas presentes en el m\'odulo mediante las relaciones que existen entres las masas de las tres especies y distinguir estos 6 tipos de comunidades :
+\begin{enumerate}
+  \item $m_P > m_C > m_R$
+  \item $m_P > m_R > m_C$
+  \item $m_R > m_C > m_P$
+  \item $m_R > m_P > m_C$
+  \item $m_C > m_P > m_R$
+  \item $m_C > m_R > m_P$
+\end{enumerate}
+
+Estas relaciones entre masas son equivalentes a relaciones entre las razones de masas presentes en el m\'odulo. 
+Definimos :
+\begin{equation}\label{eq:SR}
+  \begin{aligned}
+    &k_{\RC} \equiv \frac{m_R}{m_C}\\
+    &k_{\CP} \equiv \frac{m_C}{m_P}\\
+    &k_{\RP} \equiv \frac{m_R}{m_P} = k_{\RC} k_{\CP}
+  \end{aligned}
+\end{equation}
+
+Podemos designar cada comunidad por su particular relaci\'on de masas :
+\begin{enumerate}[label=(\alph*)]
+\item $\mathbf{C}_1$ sss $k_{\RC} < 1 , k_{\RP} < 1 ,k_{\CP} < 1$
+\item $\mathbf{C}_2$ sss $k_{\RC} > 1 , k_{\RP} < 1 ,k_{\CP} < 1$
+\item $\mathbf{C}_3$ sss $k_{\RC} > 1 , k_{\RP} > 1 ,k_{\CP} < 1$
+\item $\mathbf{C}_4$ sss $k_{\RC} > 1 , k_{\RP} > 1 ,k_{\CP} > 1$
+\item $\mathbf{C}_5$ sss $k_{\RC} < 1 , k_{\RP} > 1 ,k_{\CP} > 1$
+\item $\mathbf{C}_6$ sss $k_{\RC} < 1 , k_{\RP} < 1 ,k_{\CP} > 1$
+\end{enumerate}
+
+Bajo este criterio podemos seccionar el espacio $k_{\CP} \times k_{\RC}$ en 6 zonas. Esto se represta gr\'aficamente en la figura ~\ref{fig:ZonasSR}
+
+\begin{figure}[h!]
+  \centering
+  \input{ZonasSR.tex}
+  \caption{Divisi\'on del espacio $k_{\CP} \times k_{\RC}$ en funci\'on ah las relaciones de orden existentes entre las masas de las tres especies.}
+\label{fig:ZonasSR}
+\end{figure}
+  
+
+
+
+
 
 

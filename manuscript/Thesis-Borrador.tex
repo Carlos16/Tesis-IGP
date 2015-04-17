@@ -14,6 +14,7 @@
    
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{enumitem}
 \numberwithin{equation}{section}
 %\renewcommand{\theequation}{\thesection\arabic{equation}}
 
@@ -28,6 +29,17 @@
 \newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
 \newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
 \newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+
+
+
+\definecolor{gold(metallic)}{rgb}{0.83, 0.69, 0.22}
+
+\newcommand{\hwplotR}{\raisebox{2pt}{\tikz{\draw[red,solid,line width=0.9pt](0,0) -- (5mm,0);}}}
+\newcommand{\hwplotY}{\raisebox{2pt}{\tikz{\draw[gold(metallic),solid,line width=0.9pt](0,0) -- (5mm,0);}}}
+\newcommand{\hwplotG}{\raisebox{2pt}{\tikz{\draw[green,solid,line width=0.9pt](0,0) -- (5mm,0);}}}
+\newcommand{\hwplotB}{\raisebox{2pt}{\tikz{\draw[blue,solid,line width=0.9pt](0,0) -- (5mm,0);}}}
+\newcommand{\hwplotK}{\raisebox{2pt}{\tikz{\draw[black,dashed,line width=1.2pt](0,0) -- (5mm,0);}}}
 
 
 \usepackage{graphicx} % Used to insert images

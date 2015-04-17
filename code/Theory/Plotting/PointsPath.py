@@ -49,7 +49,7 @@ class Path(object):
     def __init__(self,subPathsX,subPathsY):
         self.subpaths = self.CreatePath(subPathsX,subPathsY)
         self.Identifiers =[[subpath[0],subpath[-1]] for subpath in self.subpaths]
-        self.Dist= 0.1
+        self.Dist= 0.2
         self.xDist = 0.025
         
     def setDist(self,D):

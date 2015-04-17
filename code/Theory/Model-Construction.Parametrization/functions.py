@@ -8,10 +8,8 @@ def func_transform(params,K_CP,K_RC,m_P,R,C,P,sim = True,bottom = False):
     else:
         args = (K_RC,K_CP,m_P)
     
-
-    
+    # Construct dictionaries of expressions
     args1 = (params,)+args
-    
     
     par_dict=construct_param_dict(*args1)
     
@@ -31,30 +29,27 @@ def func_transform(params,K_CP,K_RC,m_P,R,C,P,sim = True,bottom = False):
     JacobianDict = setJacobianDict(DynamicsDict,R,C,P)
     
     #Initial Setting#
-    f_dict_keys = ['hd2','K','r','MTP_C']
-    f_dict_vals = [hd2,par_dict['K'],par_dict['r'],MTP_C]
+    f_dict_keys = ['hd2','MTP_C']
+    f_dict_vals = [hd2,MTP_C]
 
     #Load Keys#
     if bottom:
-        
-        
         m_R = symbols('m_R')
-        
         f_dict = { f_dict_keys[i] : lambdify(setArgs(args),f_dict_vals[i]) for i in range(len(f_dict_keys))}
-        
         inv_dict = {k:lambdify(setArgs(args),v) for (k,v) in inv_dict.items()}
         eq_dict = {k:lambdify(setArgs(args),v) for (k,v) in eq_dict.items()}
         DynamicsDict = {k:lambdify((R,C,P)+tuple(setArgs(args)),v) for (k,v) in DynamicsDict.items()}
         JacobianDict = {k:lambdify((R,C,P,K_CP,K_RC,m_R),v) for (k,v) in JacobianDict.items()}
     else:
         f_dict= { f_dict_keys[i] : lambdify(setArgs(args),f_dict_vals[i]) for i in range(len(f_dict_keys))}
+        param_dict={k:lambdify(setArgs(args),v) for (k,v) in par_dict.items()}
         inv_dict = {k:lambdify(setArgs(args),v) for (k,v) in inv_dict.items()}
         eq_dict = {k:lambdify(setArgs(args),v) for (k,v) in eq_dict.items()}
         DynamicsDict = {k:lambdify((R,C,P)+tuple(setArgs(args)),v) for (k,v) in DynamicsDict.items()}
         JacobianDict = {k:lambdify((R,C,P)+tuple(setArgs(args)),v) for (k,v) in JacobianDict.items()}
         
 
-    f_dict = dict(f_dict.items() + inv_dict.items() + eq_dict.items()+ DynamicsDict.items() + JacobianDict.items())
+    f_dict = dict(f_dict.items() + inv_dict.items() + param_dict.items()+eq_dict.items()+ DynamicsDict.items() + JacobianDict.items())
     
 
     return f_dict

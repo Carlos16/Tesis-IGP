@@ -404,7 +404,7 @@ class InvData(Data):
         if d>0.02:
             return False    
         else:
-            if np.abs(P0.y - P1.y) < 0.5:
+            if np.abs(P0.y - P1.y) < 0.3:
                 return True
             else:
                 return False        
