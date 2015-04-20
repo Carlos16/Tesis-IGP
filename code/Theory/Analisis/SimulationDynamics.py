@@ -4,8 +4,8 @@ from scipy.optimize import fsolve
 
 ##Dynamics class
 class Dynamics(BSR):
-    def __init__(self,workingData,initCondition,finalTime,separation,K_CP,K_RC,m_P):
-        BSR.__init__(self,workingData.getParams(),workingData.getmode(),workingData.getmassLims())
+    def __init__(self,workingData,initCondition,finalTime,separation,K_RC,K_CP,m_P,n=3,initMass = 1e-5):
+        BSR.__init__(self,workingData.getParams(),workingData.getmode(),workingData.getxLims())
         self.initCondition = initCondition
         self.finalTime = finalTime
         self.separation = separation
@@ -17,6 +17,27 @@ class Dynamics(BSR):
         self.dP = ''
         self.fDict = workingData.getfDict()
         self.Kpoints = 1e4
+        self.initPop = n
+        self.initMass = initMass
+        self.ParamsDict = {'K_CP':self.K_CP,'K_RC':self.K_RC,'m_P':self.m_P}
+        self.AssemblyInitCondition = {'Cfirst' : np.array([self.fDict['K'](self.K_RC,self.K_CP,self.m_P),self.initMass,0]) , 'Pfirst' : np.array([self.fDict['K'](self.K_RC,self.K_CP,self.m_P),0,self.initMass])}
+
+    
+
+    def getInitMass(self,type,n):
+        if type == 'R':
+            return n * self.m_P * self.K_RC * self.K_CP
+        elif type == 'C':
+            return n * self.m_P * self.K_CP
+        else:
+            return n * self.m_P
+
+
+            
+
+            
+
+
     def setParamVals(self,K_CP,K_RC,m_P):
         """ Set the values for the three key paramaters of the model , the size ratios and the body mass """
         self.K_CP = K_CP
@@ -66,14 +87,12 @@ class Dynamics(BSR):
         else:
             self.dR = lambdify((self.R,self.C,self.P),self.fDict['dRLV'](*args))
             self.dC = lambdify((self.R,self.C,self.P),self.fDict['dCLV'](*args))
-            self.dP = lambdify((self.R,self.C,self.P),self.fDict['dPLV'](*args))
-            
+            self.dP = lambdify((self.R,self.C,self.P),self.fDict['dPLV'](*args))           
        
     def DynamicFunction(self,X,t):
         args = np.array([X[0],X[1],X[2]])
         
         return np.array([self.dR(*args),self.dC(*args),self.dP(*args)])
-    
     
         
     def Simulate(self):
@@ -83,10 +102,44 @@ class Dynamics(BSR):
         t = np.arange(0,self.finalTime,self.separation)
         return odeint(self.DynamicFunction,self.initCondition,t,())
     
-    
+    def Bifurcation(self,focalParam,ParamRange,AssemblyType,N = 100):
+        finalState =[]
+        for val in ParamRange:
+            self.updateFocalParam(focalParam,val)
+            Run = self.AssemblySimulation(AssemblyType)[1]
+            finalState.append(Run[:-N])
+        return finalState
+
+    def updateFocalParam(self,focalParam,val):
+        self.ParamsDict[focalParam] = val
+
+    def AssemblySimulation(self,type):
+        # First Invasion
+        initCondition = self.AssemblyInitCondition[type]
+        
+        self.setinitCondition(initCondition)
+        
+        run1 = self.Simulate()
+        
+        # Second Invasion
+        P =Positiveformat(run1[-1])
+        self.UpdateInitCondition(P,type)
+        self.setinitCondition(P)
+        
+        run2 = self.Simulate()
+
+        return run1,run2
+        
+
+    def UpdateInitCondition(self,P,type):
+        if type == 'Cfirst':
+            P[2]+=self.initMass
+        else:
+            P[1]+=self.initMass
+
+
     def runSimulationSimK(self,case,massLims,lowKLims,upKLims,initDirection):
         for massIndex in xrange(len(massLims)):
-            
             Krange = 10**(np.linspace(lowKlims[massIndex],upKLims[massIndex],self.Kpoints))
             Kdata = []
             for K in Krange:
@@ -95,5 +148,10 @@ class Dynamics(BSR):
                 Run = self.Simulate()
                 Kdata.append(Run)
             WriteData(Kdata,initDirection+str(massIndex)+".csv") 
-
-
+def Positiveformat(Array):
+    for i in xrange(len(Array)):
+        if Array[i]< 0 :
+            Array[i] = 0
+            
+    return Array
+    
