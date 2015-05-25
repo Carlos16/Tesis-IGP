@@ -20,13 +20,14 @@ def func_transform(params,K_CP,K_RC,m_P,R,C,P,sim = True,bottom = False):
     args3 = (params,par_dict,eq_dict)+args
 
     inv_dict= construct_inv_boundaries(*args3)
-    MTP_C= Trophic_position(params,par_dict,eq_dict,m_P)
+    MTP_C= Trophic_position(params,par_dict,eq_dict)
     hd2= Stability(*args3)
 
     args4 = args2 + (R,C,P)
 
     DynamicsDict = ConstructDynamicalFunctions(*args4)
     JacobianDict = setJacobianDict(DynamicsDict,R,C,P)
+#    print "The type of the jacobian is " + str(type(JacobianDict['JLV']))
     
     #Initial Setting#
     f_dict_keys = ['hd2','MTP_C']

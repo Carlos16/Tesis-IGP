@@ -13,12 +13,19 @@ def GetPositiveRegions(Bounds,xRange,yRange):
     return Z
 
             
-def F(D,F1,D1,D2,*args):
+def F(D,F1,D1,D2,efDif,*args):
     D['Z(IC2)'] = F1(D1['I_C_s2'],*args)
     D['Z(IC3)'] = F1(D1['I_P_s3'],*args)
     D['Z(IC4)'] = F1(D2['Z(IC4)'],*args)
     D['Z(IC5)'] = F1(D2['Z(IC5)'],*args)
     D['MutualInv'] = F1(D2['MutualInv'],*args)    
+    D['PotentialStableCoexistence'] = F1(D2['PotentialStableCoexistence'],*args)
+    D['StableCoexistence'] = F1(D2['StableCoexistence'],*args)
+
+    if efDif<0:
+        D['UnstableCoexistence'] = F1(D2['UnstableCoexistence'],*args) 
+
+
 
 def GetPositiveBoundaries(PosPoints,xRange):
     """ 
@@ -72,8 +79,8 @@ def getCompPoints(boundPoints,Min,Max):
         if boundPoints[-1][1]!= Max:
             NewB+=[(Max,Max)]
             
-        for i in range(len(newB)-1):
-            CompPoints.append((newB[i][1],newB[i+1][0]))
+        for i in range(len(NewB)-1):
+            CompPoints.append((NewB[i][1],NewB[i+1][0]))
 
         if len(CompPoints)==0:
             CompPoints.append((0,))
@@ -171,25 +178,43 @@ def inList(yPoint,ListofTuples):
             return True
     return False
 
-def GetUnion(Bound1,Bound2):
+def GetUnion(Bound1,Bound2,Min,Max):
     r"""
     get the boundary points of the union of two sets A and B, having as input the set of boundary points at each :math:`x \in xRange`
     """
     Union = []
     for x in range(len(Bound1)):
-        U = FindUnion(Bound1[x],Bound2[x])
+        U = FindUnion(Bound1[x],Bound2[x],Min,Max)
         Union.append(U)
 
-def FindUnion(BP1,BP2):
+
+    return Union
+
+def FindUnion(BP1,BP2,Min,Max):
     if len(BP1[0])==1 and len(BP2[0]) == 1:
         return [(0,)]
     else:
-        Int = FindIntersection(BP1,BP2)
-        CompInt = GetComplement(Int,Min,Max)
-        
-        A1 = FindIntersection(CompInt,BP1)
-        A2 = FindIntersection(CompInt,BP2)
-        U = FormatUnionSet(sorted(A1+A2+Int))
+        if len(BP1[0]) >1 :
+            Int = FindIntersection(BP1,BP2)
+        else:
+            Int = [(0,)]
+
+        if len(Int[0])>1:
+
+            CompInt = getCompPoints(Int,Min,Max)
+            A1 = FindIntersection(CompInt,BP1)
+            A2 = FindIntersection(CompInt,BP2)
+            
+            U = FormatUnionSet(sorted(A1+A2+Int))
+                
+        else:
+            if len(BP1[0])>1 and len(BP2[0])>1:
+                U = FormatUnionSet(sorted(BP1+BP2))
+            elif len(BP1[0])==1:
+                U = BP2
+            else:
+                U = BP1
+                        
         return U
 
 
@@ -199,18 +224,25 @@ def FormatUnionSet(L):
     It uses a recurse algorithm in which we start at the leftmost position L[0], proceed to the right gluing together all the intervals to which it coincide ,i.e. L[0][1] = L[i][0], it keeps updating L[0] until it don't found more, and repeat the same procees starting from that position. It terminates when there are no more intervals to add.
     """
     newL = []
-    n = range(L)
+    n = len(L)
+    i = 0 
     while i < n :
         if i == n-1:
-            newL.append(L[i])
+            if L[i][0]>1 or len(newL) == 0 :
+                newL.append(L[i])
+            i+=1
         else:
-            k = 1
-            while i+k < n and  rangeL[i+k][0] == L[i][1]:
-                L[i][1] = L[i+k][1]
-                k+=1
+            if len(L[i])>1:
+                k = 1
+                while i+k < n and  L[i+k][0] == L[i][1]:
+                    L[i] = (L[i][0],L[i+k][1])
+                    k+=1
 
-            newL.append(L[i])
-            i += k
+                newL.append(L[i])
+                i += k                
+            else:
+                i+=1
+
 
     return newL
        

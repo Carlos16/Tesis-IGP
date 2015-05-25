@@ -1,17 +1,15 @@
 #Calculating food chain length within the stable coexistence region
 #LV case
 
-def setI_R_LV(R,a2,e2,m_P):
-    ha2 = a2/m_P
-    return e2*ha2*R
+def setI_R_LV(R,a2,e2):
+    return e2*a2*R
 
-def setI_C_LV(C,a3,e3,m_P):
-    ha3 = a3/m_P
-    return e3*ha3*C
+def setI_C_LV(C,a3,e3):
+    return e3*a3*C
 
 #LV case at equilibrium
-def set_MTP_C(Req,a2,m_P,q2,e2):
-    return 3. - (a2/m_P)*e2*Req/q2
+def set_MTP_C(Req,a2,q2,e2):
+    return 3. - a2*e2*Req/q2
 
 
 #RM case
@@ -94,17 +92,17 @@ def set_R_C_eq_sRM(r,K,q1,q10,a1,e1,hC0):
 #Qualitative stability analysis using Hurwtiz determinants
 
 ##auxiliary functions
-def set_D(K,a1,a2,a3,e1,e2,e3,m_C,r):
-    return K*a1*a2*(e1*e3-e2) + a3*e3*m_C*r
+def set_D(K,a1,a2,a3,e1,e2,e3,r):
+    return K*a1*a2*(e1*e3-e2) + a3*e3*r
 
 def set_d1(r,Req,K):
     return  r*Req/K
 
-def set_d2(e1,e2,e3,a1,a2,a3,m_C,m_P,Ceq,Req,Peq):
-    return (e1*(a1*m_P)**2*Ceq*Req + (Peq*m_C**2)*(e2*a2**2*Req + e3*a3**2*Ceq))/(m_C*m_P)**2
+def set_d2(e1,e2,e3,a1,a2,a3,Ceq,Req,Peq):
+    return e1*a1**2*Ceq*Req +  Peq*(e2*a2**2*Req + e3*a3**2*Ceq)
 
-def set_d3(D,a3,Ceq,Req,Peq,K,m_C,m_P):
-    return a3*Req*Ceq*Peq*D/(K*m_C*m_P**2)
+def set_d3(D,a3,Ceq,Req,Peq,K):
+    return a3*Req*Ceq*Peq*D/K
 
 ##Hurwtiz criterion
 def set_hdet2(d1,d2,d3):

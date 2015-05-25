@@ -7,20 +7,20 @@ P_eq_expr= 'm_P*(-K*a_1**2*e_1*m_P*q_2 + K*a_1*m_C*(a_2*e_2*q_1 + a_3*e_1*e_3*r)
 
 ##Equilibrium functions
 
-def set_R_eq(m_P,m_C,K,q_1,q_2,r,a_1,a_2,a_3,e_1,e_2,e_3):
-    return K*(-a_1*m_P*q_2 + e_3*m_C*(a_2*q_1 + a_3*r))/(K*a_1*a_2*(e_1*e_3 - e_2) + a_3*e_3*m_C*r)
+def set_R_eq(K,q_1,q_2,r,a_1,a_2,a_3,e_1,e_2,e_3):
+    return K*(-a_1*q_2 + e_3*(a_2*q_1 + a_3*r))/(K*a_1*a_2*(e_1*e_3 - e_2) + a_3*e_3*r)
 
-def set_C_eq(m_P,m_C,K,q_1,q_2,r,a_1,a_2,a_3,e_1,e_2,e_3):
-    return (K*a_1*a_2*e_1*m_P*q_2 - K*a_2*e_2*m_C*(a_2*q_1 + a_3*r) + a_3*m_C*m_P*q_2*r)/(a_3*(K*a_1*a_2*(e_1*e_3 - e_2) + a_3*e_3*m_C*r))
+def set_C_eq(K,q_1,q_2,r,a_1,a_2,a_3,e_1,e_2,e_3):
+    return (K*a_1*a_2*e_1*q_2 - K*a_2*e_2*(a_2*q_1 + a_3*r) + a_3*q_2*r)/(a_3*(K*a_1*a_2*(e_1*e_3 - e_2) + a_3*e_3*r))
 
-def set_P_eq(m_P,m_C,K,q_1,q_2,r,a_1,a_2,a_3,e_1,e_2,e_3):
-    return m_P*(-K*a_1**2*e_1*m_P*q_2 + K*a_1*m_C*(a_2*e_2*q_1 + a_3*e_1*e_3*r) - a_3*e_3*m_C**2*q_1*r)/(a_3*m_C*(K*a_1*a_2*(e_1*e_3 - e_2) + a_3*e_3*m_C*r))
+def set_P_eq(K,q_1,q_2,r,a_1,a_2,a_3,e_1,e_2,e_3):
+    return (-K*a_1**2*e_1*q_2 + K*a_1*(a_2*e_2*q_1 + a_3*e_1*e_3*r) - a_3*e_3*q_1*r)/(a_3*(K*a_1*a_2*(e_1*e_3 - e_2) + a_3*e_3*r))
  
-def setD(K,a_1,a_2,a_3,e_1,e_2,e_3,m_C,r):
-    return K*a_1*a_2*(e_1*e_3  - e_2) + a_3*e_3*m_C*r
+def setD(K,a_1,a_2,a_3,e_1,e_2,e_3,r):
+    return K*a_1*a_2*(e_1*e_3  - e_2) + a_3*e_3*r
 
 def setDBound(K,a_1,a_2,a_3,e_1,e_2,e_3,m_C,r):
-    return a_3*e_3*m_C*r/(K*a_1*a_2)
+    return a_3*e_3*r/(K*a_1*a_2)
 
 
 

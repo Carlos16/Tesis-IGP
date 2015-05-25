@@ -1,5 +1,6 @@
 from Baseclass import *
 from scipy.integrate import odeint
+from scipy.integrate import ode
 from scipy.optimize import fsolve
 
 ##Dynamics class
@@ -15,14 +16,21 @@ class Dynamics(BSR):
         self.dR = ''
         self.dC = ''
         self.dP = ''
+        self.Jacobian = ''
         self.fDict = workingData.getfDict()
         self.Kpoints = 1e4
         self.initPop = n
         self.initMass = initMass
         self.ParamsDict = {'K_CP':self.K_CP,'K_RC':self.K_RC,'m_P':self.m_P}
-        self.AssemblyInitCondition = {'Cfirst' : np.array([self.fDict['K'](self.K_RC,self.K_CP,self.m_P),self.initMass,0]) , 'Pfirst' : np.array([self.fDict['K'](self.K_RC,self.K_CP,self.m_P),0,self.initMass])}
+        self.AssemblyInitCondition = {'Cfirst' : np.array([1.,self.initMass,0]) , 'Pfirst' : np.array([1.,0,self.initMass])}
 
-    
+    def getIsoclines(self,Y,Z):
+        R = self.fDict['RIsoLVa'](1.,Y,Z,self.K_RC,self.K_CP,self.m_P)
+        C = self.fDict['CIsoLVa'](1.,Y,Z,self.K_RC,self.K_CP,self.m_P)
+        P = self.fDict['PIsoLVa'](1.,Y,Z,self.K_RC,self.K_CP,self.m_P)
+
+        return R,C,P
+        
 
     def getInitMass(self,type,n):
         if type == 'R':
@@ -31,11 +39,6 @@ class Dynamics(BSR):
             return n * self.m_P * self.K_CP
         else:
             return n * self.m_P
-
-
-            
-
-            
 
 
     def setParamVals(self,K_CP,K_RC,m_P):
@@ -50,6 +53,7 @@ class Dynamics(BSR):
         
     def makeinitCondition(self,case):
         
+
         """ se the init condition , depending on the scenario , in the Invasibility by P to C-R the initial condition
         is the equilibrium of the latter two in isolation , a similar situation is for the invasibility of C to P-R(labeled 
         scenario 5)"""
@@ -84,53 +88,160 @@ class Dynamics(BSR):
             self.dR = lambdify((self.R,self.C,self.P),self.fDict['dRRM'](*args))
             self.dC = lambdify((self.R,self.C,self.P),self.fDict['dCRM'](*args))
             self.dP = lambdify((self.R,self.C,self.P),self.fDict['dPRM'](*args))
+            self.Jacobian = lambdify((self.R,self.C,self.P),self.fDict['JRM'](*args))
         else:
-            self.dR = lambdify((self.R,self.C,self.P),self.fDict['dRLV'](*args))
-            self.dC = lambdify((self.R,self.C,self.P),self.fDict['dCLV'](*args))
-            self.dP = lambdify((self.R,self.C,self.P),self.fDict['dPLV'](*args))           
+            dx= self.fDict['dxLVa'](*args)
+            dy= self.fDict['dyLVa'](*args)
+            dz= self.fDict['dzLVa'](*args)
+
+            self.dR = lambdify((self.R,self.C,self.P),dx)
+            self.dC = lambdify((self.R,self.C,self.P),dy)
+            self.dP = lambdify((self.R,self.C,self.P),dz)           
+
+            self.Jacobian = lambdify((self.R,self.C,self.P),Jacobian(dx,dy,dz,self.R,self.C,self.P))
+            
        
+    def DynamicFunction2(self,t,Y):
+        return np.array([self.dR(*Y),self.dC(*Y),self.dP(*Y)])
+
     def DynamicFunction(self,X,t):
-        args = np.array([X[0],X[1],X[2]])
         
-        return np.array([self.dR(*args),self.dC(*args),self.dP(*args)])
-    
+        return np.array([self.dR(*X),self.dC(*X),self.dP(*X)])
+        
+    def JacobianFunction(self,t,X):
+        return np.array(self.Jacobian(*X))
+
+    def JacobianFunction2(self,X,t):
+        return np.array(self.Jacobian(*X))
+        
         
     def Simulate(self):
         """ simulation routine using the Odeint solver from the scipy optimize package , Odeint is a python implementation
         of the ODEPACK package in FORTRAN which uses a multi-step solver in the non stiff case """
         self.setDynamicFunction()
         t = np.arange(0,self.finalTime,self.separation)
-        return odeint(self.DynamicFunction,self.initCondition,t,())
+        return odeint(self.DynamicFunction,self.initCondition,t,(),Dfun= self.JacobianFunction2,full_output=1)
+
+    def Simulate2(self,integrator='lsoda', t0=0,N=3):
+        self.setDynamicFunction()
+        tf = self.finalTime
+        dt = self.separation
+        r = ode(self.DynamicFunction2,jac=self.JacobianFunction).set_integrator(integrator)
+
+        r.set_initial_value(self.initCondition,t0)
+
+        FinalS=[]
+
+        while r.successful() and r.t < (tf-dt*N):
+            r.integrate(r.t+dt)
+
+        while r.t < tf:
+            r.integrate(r.t+dt)
+            if r.successful():
+                FinalS.append(r.y)
+            else:
+                break
+                
+        return FinalS,r        
+        
+        
     
-    def Bifurcation(self,focalParam,ParamRange,AssemblyType,N = 100):
+    def BifurcationLV(self,focalParam,ParamRange,AssemblyType,N = 10):
         finalState =[]
         for val in ParamRange:
             self.updateFocalParam(focalParam,val)
-            Run = self.AssemblySimulation(AssemblyType)[1]
-            finalState.append(Run[:-N])
+            I1,I2,I3,I4 = self.getInv()
+            if AssemblyType == 'Cfirst':
+                if I1 > 0 and I3 <0 :
+                    X = self.getEqScenario(2)                    
+                    finalState.append([X])
+                elif I1<0 and I2>0:
+                    X = self.getEqScenario(3)
+                    finalState.append([X])
+                elif I1<0 and I2<0:
+                    finalState.append([np.array([1.,0.,0.])])
+                else:
+                    Run = self.AssemblySimulation(AssemblyType)
+                    finalState.append(Run)
+                
+            if AssemblyType == 'Pfirst':
+
+                if I2>0 and I4 <0 :
+                    X = self.getEqScenario(3)
+                    finalState.append([np.array([xf,yf,zf])])
+                elif I2 <0 and I1>0:
+                    X = self.getEqScenario(2)
+                    finalState.append([X])
+                elif I1<0 and I2<0:
+                    finalsState.append([np.array([1.,0.,0.])])
+                else:
+                    Run = self.AssemblySimulation(AssemblyType)
+                    finalState.append(Run)
         return finalState
 
-    def updateFocalParam(self,focalParam,val):
-        self.ParamsDict[focalParam] = val
+    def setAndWriteBifurcation(self,focalParam,ParamRange,AssemblyType,Direction,N = 10, header = ['x','y','z']):
+        F = self.BifurcationLV(focalParam,ParamRange,AssemblyType,N)
+        footer = ConstructFooter(self.params)
+        SaveData(F,direction,header,footer)
+        
+    def getEqScenario(self,n):
 
-    def AssemblySimulation(self,type):
+        K = self.fDict['K'](self.K_RC,self.K_CP,self.m_P)
+        if n == 2:
+            x = self.fDict['R_eq_s2'](self.K_RC,self.K_CP,self.m_P) /K
+            y = self.fDict['C_eq_s2'](self.K_RC,self.K_CP,self.m_P) /K
+            z = 0.
+
+        elif n ==3:
+            x = self.fDict['R_eq_s3'](self.K_RC,self.K_CP,self.m_P) /K
+            y = 0.
+            z = self.fDict['P_eq_s3'](self.K_RC,self.K_CP,self.m_P) /K
+        return np.array([x,y,z])
+             
+    def getInv(self):
+
+        I1 = self.fDict['I_C_s2'](self.K_RC,self.K_CP,self.m_P)
+        I2 = self.fDict['I_P_s3'](self.K_RC,self.K_CP,self.m_P)
+        I3 = self.fDict['I_P_s4'](self.K_RC,self.K_CP,self.m_P)
+        I4 = self.fDict['I_C_s5'](self.K_RC,self.K_CP,self.m_P)
+
+        return I1,I2,I3,I4
+
+
+    def updateFocalParam(self,focalParam,val):
+        if focalParam == 'K_CP':
+            self.K_CP = val
+        elif focalParam == 'K_RC':
+            self.K_RC = val
+        else:
+            self.m_P = val
+
+    def AssemblySimulation(self,type,N = 5):
+
         # First Invasion
-        initCondition = self.AssemblyInitCondition[type]
-        
-        self.setinitCondition(initCondition)
-        
-        run1 = self.Simulate()
+        if type == 'Cfirst':
+            P = self.getEqScenario(2)
+        else:
+            P = self.getEqScenario(3)
         
         # Second Invasion
-        P =Positiveformat(run1[-1])
         self.UpdateInitCondition(P,type)
         self.setinitCondition(P)
         
         run2 = self.Simulate()
 
-        return run1,run2
-        
+        if run2[1]['message'] == 'Excess work done on this call (perhaps wrong Dfun type).':
+            
+            run2,r = self.Simulate2(N=N)
+            if not(r.successful()):
+                run2,r = self.Simulate2(N=N,integrator='dopri5')
 
+            run2 = format(run2,N)
+        else:
+            run2 = format(run2[0],N)
+
+        return run2
+        
     def UpdateInitCondition(self,P,type):
         if type == 'Cfirst':
             P[2]+=self.initMass
@@ -148,10 +259,49 @@ class Dynamics(BSR):
                 Run = self.Simulate()
                 Kdata.append(Run)
             WriteData(Kdata,initDirection+str(massIndex)+".csv") 
-def Positiveformat(Array):
+
+
+def format(R,N,tol =1e-12):
+    for i in xrange(-N,1,1):
+        Positiveformat(R[i],tol)
+    return np.array(R[-N:])
+
+def Positiveformat(Array,tol):
     for i in xrange(len(Array)):
-        if Array[i]< 0 :
-            Array[i] = 0
-            
-    return Array
+        if Array[i]< tol :
+            Array[i] = 0.
+    return Array    
+
+def SaveData(F,direction,header,footer):
+    newF=np.array(FormatData(F)).transpose()
+    OutputF = OutputInvData(newF,header,footer,'','')
+    OutputF.WriteInvasibility(direction,delimiter=',')
     
+  
+    
+def FormatData(F):   
+    x = []
+    y = []
+    z = []
+    
+    for i in range(len(F)):
+        xhold =[]
+        yhold =[]
+        zhold =[]
+        
+        for k in range(len(F[i])):
+            xhold.append(MyFloat(F[i][k][0]))
+            yhold.append(MyFloat(F[i][k][1]))
+            zhold.append(MyFloat(F[i][k][2]))
+        
+        if len(xhold)>1:
+            xhold =MyTuple(xhold)
+            yhold =MyTuple(yhold)
+            zhold =MyTuple(zhold)
+    
+        x.append(xhold)
+        y.append(yhold)
+        z.append(zhold)
+            
+
+    return [x,y,z]

@@ -209,10 +209,10 @@ class Path(object):
         """
         return len(self.subpaths)
     
-    def plot(self,plothandler,linecolor,line):
+    def plot(self,plothandler,linecolor,line,marker):
         SubPaths = [self.getSubPathXY(i) for i in range(len(self.subpaths))]
         for SubP in SubPaths:
-            plothandler.plot(np.log10(SubP[0]),SubP[1],linestyle = line ,color = linecolor,linewidth = 1.)
+            plothandler.plot(np.log10(SubP[0]),SubP[1],linestyle = line ,color = linecolor,marker=marker,linewidth = 1.)
         
 #Auxiliar Functions
 

@@ -102,12 +102,13 @@ def construct_equilibrium(params,par_dict,K_RC,K_CP,m_P):
     
 
     ###full system ( need to correct this.. in case want to use it, focus at the moment in invasibility stuff)
-    R_eq = set_R_eq(m_P,m_C,K,q1,q2,r,a1,a2,a3,e1,e2,e3)
-    C_eq = set_C_eq(m_P,m_C,K,q1,q2,r,a1,a2,a3,e1,e2,e3)
-    P_eq = set_P_eq(m_P,m_C,K,q1,q2,r,a1,a2,a3,e1,e2,e3)
+    R_eq = set_R_eq(K,q1,q2,r,a1,a2,a3,e1,e2,e3)
+    C_eq = set_C_eq(K,q1,q2,r,a1,a2,a3,e1,e2,e3)
+    P_eq = set_P_eq(K,q1,q2,r,a1,a2,a3,e1,e2,e3)
     
-    D = setD(K,a1,a2,a3,e1,e2,e3,m_C,r)
+    D = setD(K,a1,a2,a3,e1,e2,e3,r)
     DBound= setDBound(K,a1,a2,a3,e1,e2,e3,m_C,r)
+
     #Roots for Req
     R1 = setRoot1(K,q1,q2,r,a1,a2,a3,e1,e2,e3,t_hc,t_hp,m_P,m_C,q20,q1_0,hC0,hP0)
     Dis = setDis(K,q1,q2,r,a1,a2,a3,e1,e2,e3,t_hc,t_hp,m_P,m_C,q20,q1_0,hC0,hP0)
@@ -181,7 +182,7 @@ def construct_inv_boundaries(params,par_dict,eq_dict,K_RC,K_CP,m_P):
 
     return inv_dict
 
-def Trophic_position(params,par_dict,eq_dict,m_P):
+def Trophic_position(params,par_dict,eq_dict):
     
     R_eq = eq_dict['R_eq']
     a2 = par_dict['a2']
@@ -189,7 +190,7 @@ def Trophic_position(params,par_dict,eq_dict,m_P):
     e2 = params['e2']
     
     #Trophic position in the coexistence domain
-    MTP_C= set_MTP_C(R_eq,a2,m_P,q2,e2)
+    MTP_C= set_MTP_C(R_eq,a2,q2,e2)
     return MTP_C
     
 def Stability(params,par_dict,eq_dict,K_RC,K_CP,m_P):
@@ -211,10 +212,10 @@ def Stability(params,par_dict,eq_dict,K_RC,K_CP,m_P):
     
     
     ##Stability
-    D = set_D(K,a1,a2,a3,e1,e2,e3,m_C,r)
+    D = set_D(K,a1,a2,a3,e1,e2,e3,r)
     d1 = set_d1(r,R_eq,K)
-    d2 = set_d2(e1,e2,e3,a1,a2,a3,m_C,m_P,C_eq,R_eq,P_eq)
-    d3 = set_d3(D,a3,C_eq,R_eq,P_eq,K,m_C,m_P)
+    d2 = set_d2(e1,e2,e3,a1,a2,a3,C_eq,R_eq,P_eq)
+    d3 = set_d3(D,a3,C_eq,R_eq,P_eq,K)
     hd2 = set_hdet2(d1,d2,d3)
 
     return hd2
@@ -230,9 +231,9 @@ def Jacobian2(dX,dY,X,Y):
     return A.jacobian(B)
 
 def setJacobianDict(DynamicsDict,R,C,P):
-    dRLV = DynamicsDict['dRLV']
-    dCLV = DynamicsDict['dCLV']
-    dPLV = DynamicsDict['dPLV']
+    dRLV = DynamicsDict['dxLVa']
+    dCLV = DynamicsDict['dyLVa']
+    dPLV = DynamicsDict['dzLVa']
     dRRM = DynamicsDict['dRRM']
     dCRM = DynamicsDict['dCRM']
     dPRM = DynamicsDict['dPRM']
@@ -271,15 +272,17 @@ def ConstructDynamicalFunctions(params,par_dict,K_RC,K_CP,m_P,R,C,P):
     hP0=params['hP0']
     
     #Construct LV functions
-    dRLV=set_dRLV(R,C,P,r,K,a1,a2,m_C,m_P)
-    dPLV=set_dPLV(R,C,P,a2,a3,e2,e3,q2,m_P)
-    dCLV=set_dCLV(R,C,P,a1,a3,e1,q1,m_C,m_P)
+    dRLV=set_dRLV(R,C,P,r,K,a1,a2)
+    dPLV=set_dPLV(R,C,P,a2,a3,e2,e3,q2)
+    dCLV=set_dCLV(R,C,P,a1,a3,e1,q1)
 
-    dRLVP = set_dRLVPart(R,P,r,K,a2,m_P)
-    dPLVP = set_dPredLV(R,P,a2,e2,m_P,q2)
+    dRLVP = set_dRLVPart(R,P,r,K,a2)
+    dPLVP = set_dPredLV(R,P,a2,e2,q2)
 
-    dRLVC = set_dRLVPart(R,C,r,K,a1,m_C)
-    dCLVC = set_dPredLV(R,C,a1,e1,m_C,q1)
+    dRLVC = set_dRLVPart(R,C,r,K,a1)
+    dCLVC = set_dPredLV(R,C,a1,e1,q1)
+
+    dxLVa,dyLVa,dzLVa = set_LVAdim(R,C,P,r,K,a1,a2,a3,e1,e2,e3,q1,q2)
 
         
     #Construct RM functions
@@ -298,7 +301,12 @@ def ConstructDynamicalFunctions(params,par_dict,K_RC,K_CP,m_P,R,C,P):
     C_eq_RM = CNum_eq_RM/CDen_eq_RM
     P_eq_RM = PNum_eq_RM/PDen_eq_RM
 
-    DynamicsDict={'dRLV':dRLV,'dPLV':dPLV,'dCLV':dCLV,'dRRM':dRRM,'dPRM':dPRM,'dCRM':dCRM,'C_eq_RM':C_eq_RM,'P_eq_RM':P_eq_RM,'PNum_eq_RM':PNum_eq_RM,'CNum_eq_RM':CNum_eq_RM,'dRLVP':dRLVP,'dPLVP':dPLVP,'dRLVC':dRLVC,'dCLVC':dCLVC,'EigR':-r}
+
+    #Isoclines
+
+    RIsoLVa,CIsoLVa,PIsoLVa = set_IsoclinesLVAdim(R,C,P,r,K,a1,a2,a3,e1,e2,e3,q1,q2)
+
+    DynamicsDict={'dRLV':dRLV,'dPLV':dPLV,'dCLV':dCLV,'dRRM':dRRM,'dPRM':dPRM,'dCRM':dCRM,'C_eq_RM':C_eq_RM,'P_eq_RM':P_eq_RM,'PNum_eq_RM':PNum_eq_RM,'CNum_eq_RM':CNum_eq_RM,'dRLVP':dRLVP,'dPLVP':dPLVP,'dRLVC':dRLVC,'dCLVC':dCLVC,'EigR':-r,'dxLVa':dxLVa,'dyLVa':dyLVa,'dzLVa':dzLVa,'RIsoLVa':RIsoLVa,'CIsoLVa':CIsoLVa,'PIsoLVa':PIsoLVa}
     return DynamicsDict
 
     

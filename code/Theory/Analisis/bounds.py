@@ -2,35 +2,42 @@
 from roots import *
 #k_exp=symbols('k_exp')
 
+def Get_boundsASR(f,get_roots,x_range,BoundaryGuessRange,additionalPar =0, k_sim = True,debug=False,sep= 0.03):
+    Zeros = []
 
-def Get_bounds(f,get_roots,m_range,upper_guess,lower_guess,k_2_range=[],k_sim = True,debug=False,sep=0.05):
     if not k_sim:
-        K_CP_d={}
-        for mass in m_range:
-            if debug:
-                print mass
-            K_CP_d[mass]=[]
-            for k_2 in k_2_range:
-                if debug:
-                    print k_2
-                new_f = lambdify(k_exp,f(10**k_exp,k_2,mass))
-                K_CP_d[mass].append(get_roots(new_f,range_guess,debug=debug))
-        return K_CP_d
+        for i in range(len(x_range)):
+            args = [x_range[i],additionalPar]
+            Zeros.append(Roots(f,args,BoundaryGuessRange[i],sep,get_roots))              
     else:
-        K_CP_l=[]
-        for i in range(len( m_range)):
-            K_CP_l.append(Roots(m_range[i],lower_guess[i],upper_guess[i],sep,f,get_roots))
-        return K_CP_l
+        for i in range(len(x_range)):
+            args = [x_range[i]]
+            Zeros.append(Roots(f,args,BoundaryGuessRange[i],sep,get_roots))
+    
+    return Zeros
 
 
 
 
-def Roots(mass,lower_guess,upper_guess,sep,f,get_roots):
-    range_guess = np.arange(lower_guess,upper_guess,sep)
-
-    return get_roots(f,mass,10**(range_guess))
 
 
+def Roots(f,args,GuessRangePoints,sep,get_roots):
+    search_rangeList = ConstructSearchRange(GuessRangePoints,sep)
+    roots= []
+    
+    for A in search_rangeList:
+        roots.append(get_roots(f,args,A))
+    return roots
+
+def ConstructSearchRange(GuessRangePoints,sep):
+    A =[]
+    if len(GuessRangePoints[0]) > 1:
+        for i in range(len(GuessRangePoints)):
+            A.append(10**np.arange(GuessRangePoints[i][0],GuessRangePoints[i][1],sep))
+    return A
+
+
+    
 
 
 

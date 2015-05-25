@@ -98,7 +98,7 @@ def ExploreParamSpace(InitDict,ParamsToExplore,TotalParams,xlims,mode,HeaderInv,
     and then Evaluating and Saving each of the parameter combinations
     """
     
-    ParamCombinations= MakeTotalParamsCombination(ParamsToExplore,AuxiliarParams,SpecialParams)
+    ParamCombinations= MakeTotalParamsCombination(ParamsToExplore,AuxiliarParams,SpecialParams)[-26:]
     ParamsDirCoder = CreateDirCoder(TotalParams,dimDict)
     CreateTxtCoder(TotalParams,initDirection+"ParamsExplored.txt")
     for mass in massVals:
@@ -118,12 +118,10 @@ def EvaluateParams(paramdict,mode,xlims,HeaderInv,ParamsDirCoder,Direction,ksim,
     WD = BSR(paramdict,mode,xlims,ksim)
     WD.setfDict()
     #Set Focus 
-    if ( ksim == False and paramdict['fmC'] == 'Grazing' ):
-        WD.getandSetxFocus(300,5e-4)
+    WD.getandSetxFocus(300,5e-4)
     
     Inv = InvBoundaries(WD)   
-    if ( ksim == False and paramdict['fmC'] == 'Grazing' ):
-        Inv.setUpGuess(13)
+    Inv.setUpGuess(13)
       
     #create directions
     Types = ['Inv','Widths','Zones']

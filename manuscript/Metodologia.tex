@@ -82,7 +82,7 @@ $f_{\PP_3}$ \ & Estrategia de forrajeo del depredador tope $P$ sobre $C$ .\\
 
 Los par\'ametros y funciones no mencionados mantienen la descripci\'on dada en el caso general.
 \subsubsection{Parametrizaci\'on}
-Usamos relaciones alom\'etricas derivadas previamente en la literatura basadas en relaciones biomec\'anicas y bioenerg\'eticas \citep{savage2004predominance,brown2004toward,west1997general,savage2004effects,pawar2012dimensionality,mcgill2006allometric,peters1986ecological,kiltie2000scaling,yodzis1992body} para exponer expl\'icitamente la variaci\'on de los par\'ametros de los modelos usados con respecto a la masa corporal de las especies interactuantes,  si bien la temperatura se puede incluir expl\'icitamente en estas relaciones (v\'ease \citealt{brown2004toward,savage2004effects}) nos centraremos \'unicamente en la masa corporal y dejaremos los efectos de la temperatura para un futuro trabajo. \improvement{agregar un cuadro de los valores de constantes usadas}
+Usamos relaciones alom\'etricas derivadas previamente en la literatura basadas en relaciones biomec\'anicas y bioenerg\'eticas \citep{savage2004predominance,brown2004toward,west1997general,savage2004effects,pawar2012dimensionality,mcgill2006allometric,peters1986ecological,kiltie2000scaling,yodzis1992body} para exponer expl\'icitamente la variaci\'on de los par\'ametros de los modelos usados con respecto a la masa corporal de las especies interactuantes,  si bien la temperatura se puede incluir expl\'icitamente en estas relaciones (v\'ease \citealt{brown2004toward,savage2004effects}) nos centraremos \'unicamente en la masa corporal y dejaremos los efectos de la temperatura para un futuro trabajo.
 
 \subsubsection{Par\'ametros intra-poblacionales}
 Usando las relaciones definidas en \cite{savage2004effects} tenemos:
@@ -123,7 +123,7 @@ En \cite{pawar2012dimensionality} describen la variaci\'on de la velocidad para 
 \end{equation}
 $v_0$ es una constante que depende del taxa y del modo de locomoci\'on y la constante y la constante metab\'olica $B_0$.\\ \improvement{mejorar que poner, considerar referir anexos}
 
-$k_{ji}= m_j/m_i$ es el raz\'on de la masa del recurso con respecto al depredador , y $\Pi \in [0,1]$ y  puede tomar distintas formas\citep{weitz2006size}, en este trabajo se us\'o las siguiente(figura \ref{fig:efficiency}): 
+$k_{ji}= m_j/m_i$ es el raz\'on de la masa del recurso con respecto al depredador , y $\Pi \in [0,1]$ y  puede tomar distintas formas\citep{weitz2006size}, en este trabajo se us\'o la siguiente(figura \ref{fig:efficiency}): 
 \begin{equation}\label{eq:sr}
 \Pi(k_{ji}) =\frac{a}{1+k_{ji}^\phi} \\
 \end{equation}
@@ -132,8 +132,8 @@ $a \in [0,1] $ es una constante que determina la m\'axima eficiencia en la captu
 
 \begin{figure}
 \begin{center}
- \includegraphics[width=0.7\textwidth]{captefficiency.pdf}
- \caption[formas para $\aleph$]{Las tres formas usadas para describir la relaci\'on entre $\aleph$ y $k_{ji}$}
+ \includegraphics[width=0.7\textwidth]{./Plots/CaptureEfficiency.pdf}
+ \caption[$\Pi$]{ Formas para $\Pi$ en escala logar\'itmica para distintos valores de $\phi$ , ({\hwplotB}) = 0.02 , ({\hwplotG}) = 0.2 y ({\hwplotR}) = 2 . Donde se observa que si $\phi_1 > \phi_2$ entonces $\Pi_{\phi_1}(k_{ij}) >\Pi_{\phi_2}(k_{ij})$ si $k_{ij} < 1$ y lo contrario en caso $k_{ij}>1$ }
  \label{fig:efficiency} 
 \end{center}
 \end{figure}

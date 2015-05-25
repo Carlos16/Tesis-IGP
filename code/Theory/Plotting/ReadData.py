@@ -42,6 +42,68 @@ class Data(object):
         plothandler.contourf(X,Y,self.getPlotObject(),cmap = mapcolor,levels=lev,norm=norm1)
         plothandler.contourf(X,Y,self.getPlotObject(),cmap = mapcolor,levels=lev,norm=norm1)
 
+
+class InputWidthData(Data):
+    def __init__(self,direction):
+        self.direction = direction
+
+    def Read(self,delimiter):
+        with open(self.direction,'rb') as csvfile:
+            reader = csv.reader(csvfile,delimiter=',',quotechar='|')
+            data_handler = []
+            for row in reader:
+                data_handler.append(row)
+        dataset = np.array(data_handler[1:-2],dtype=object)
+        InvScenarios = data_handler[0]
+        paramsEspecifications = data_handler[-2]
+        xFocus,xFSep = data_handler[-1]
+        output = WidthData(dataset,InvScenarios,paramsEspecifications,xFocus,xFSep)
+        return output
+
+
+class WidthData(Data):
+    def __init__(self,data,InvScenarios,paramsEspecifications,xFocus,xFSep):
+        Data.__init__(self,data,paramsEspecifications,xFocus,xFSep)
+        self.Scenarios = InvScenarios
+        self.formated_data = ''
+        
+    def formatData(self):
+        """
+        Transform the original data to a format amenable for future working, first transform it to a 2 Dimensional array
+        whose number of columns if the number of distinct scenarios encountered in the invasibility analysis(which is four in our case)
+        and the number of rows is the maximum number of points present in the invasibility set of any of the scenarios. It also convert
+        the string elements to floats, and returns a dictionary of dictionaries for each of the scenarios with x and y coordinates as
+        the two keys of each of the dictionaries and whose elements are a list of lists for each of the distinct invasibility sets 
+        contained within each scenario. 
+        """
+        self.reshape()
+        self.TransformtoFloats()
+        formated_data = {}
+        ncols = self.ncols()
+        nrows = self.nrows()
+        for n in range(ncols):
+            w_data =[]
+            for j in range(nrows):
+                w_data.append(self.data[j,n][0])
+            formated_data[self.Scenarios[n]] = w_data
+                        
+        self.formated_data = formated_data
+    
+    def PlotScenario(self,ax,S,x,linestyle,color,marker,log = True):
+        y = self.formated_data[S]
+        if log :
+            y = np.log10(y)
+
+        ax.plot(x,y,linestyle = linestyle,color=color,marker=marker)
+        
+    def plot(self,ax,colorcoder,linecoder,markercoder,Scenarios,log=True,xlims=[-13,7],xsep=0.005):
+        self.formatData()
+        x = setXRange(xlims,self.xFocus,301,xsep)
+        for S in Scenarios:
+            self.PlotScenario(ax,S,x,linecoder[S],colorcoder[S],markercoder[S],log)
+        
+    
+
 class InputInvData(Data):
     def __init__(self,direction):
         self.direction = direction
@@ -212,10 +274,10 @@ class MTPData(Data):
         
         
                       
-def setXRange(xlims,xfocus,xfocussep,xsep):
+def setXRange(xlims,xfocus,npoints,xsep):
     A = np.arange(xlims[0],xfocus[0],xsep)
-    B = np.arange(xfocus[0],xfocus[1],xfocussep)
-    C = np.arange(xfocus[1],xlims[1],xsep)
+    B = np.linspace(xfocus[0],xfocus[1],npoints)
+    C = np.arange(xfocus[1]+xsep,xlims[1],xsep)
     D = np.concatenate([A,B,C])
     return D
 
@@ -294,15 +356,15 @@ class InvData(Data):
                         
         
         self.formated_data = formated_data
-    def plot(self,plothandler,colorCoder,lineCoder,keys):
+    def plot(self,plothandler,colorCoder,lineCoder,markerCoder,keys):
         self.formatData()
         self.OrderData()
-        self.InnerPlot(plothandler,colorCoder,lineCoder,keys)
+        self.InnerPlot(plothandler,colorCoder,lineCoder,markerCoder,keys)
         
         
-    def InnerPlot(self,plothandler,colorCoder,lineCoder,keys):
+    def InnerPlot(self,plothandler,colorCoder,lineCoder,markerCoder,keys):
         for key in keys:
-            self.Paths[key].plot(plothandler,colorCoder[key],lineCoder[key])
+            self.Paths[key].plot(plothandler,colorCoder[key],lineCoder[key],markerCoder[key])
          
              
     def FilterData(self,Target,xFilter,yFilter):
@@ -404,7 +466,7 @@ class InvData(Data):
         if d>0.02:
             return False    
         else:
-            if np.abs(P0.y - P1.y) < 0.3:
+            if np.abs(P0.y - P1.y) < 0.4:
                 return True
             else:
                 return False        

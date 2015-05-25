@@ -37,13 +37,13 @@ SpecialParams= {'D':{'2D':{'D_C':2.,'D_R':2.},'3D':{'D_C':3,'D_R':3.}},
                'e':{'comb1':{'e1':0.3,'e2':0.1,'e3':0.5},
                     'comb23':{'e1':0.6,'e2':0.4,'e3':0.5}}}
 Comb = MakeTotalParamsCombination(ParamsToExplore,AuxiliarParams,SpecialParams)
-initDirection="c:/Users/Carlos/Documents/Tesis-IGP/Data/VariantSR/"
+initDirection="c:/Users/Carlos/Documents/Tesis-IGP/Data/InvariantSR/"
  
 xlims = [-13,7]
 mode = 'LV'
 Header= ['Inv C2','Inv P3','Inv P4','Inv C5']
-ksim = False
-massVals = [1e-10,1e-5,1e0,1e5]
+ksim = True
+massVals = [1e5]
 if __name__== '__main__':
     ExploreParamSpace(params,ParamsToExplore,TotalParamsExplored,xlims,mode,Header,AuxiliarParams,SpecialParams,dimDict,initDirection,ksim,massVals)
 

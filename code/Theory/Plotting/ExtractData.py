@@ -42,21 +42,31 @@ def getDataSets(Directory,params,Types,p,p2,p1,TypeDict):
             params[p1Name] = [par1]
             RawData= ExtractDataSets(Directory,params,Types)
             Data.append(FormatData(Directory,RawData,TypeDict))
+          #  Data.append(RawData)
+          
         DataSets.append(Data)
     return DataSets
 
 
-def GetDataSets(Directory,params,Types,p1,p2,p3,TypeDict):
+
+
+def GetDataSets(Directory,params,Types,p1,p2,p3,TypeDict,k0,case='b'):
     """
     p_i is a list of dicts, params is the baseline parameter values used in the search
     """
     DataSets=[]
     p3Name = p3.keys()[0]
     for p in p3[p3Name]:
-        params[p3Name] = [p]
+        UpdateParams(params,p,k0,case)
         Data = getDataSets(Directory,params,Types,p,p2,p1,TypeDict)
         DataSets.append(Data)
     return DataSets
+
+def UpdateParams(params,p,k0,case):
+    if case == 'b':
+        params['k0'] = [k0[p]]
+    else:
+        params[p3Name] = [p]
 
 def FormatData(Dir,RawData,TypeDict):
     NewData ={}
@@ -67,15 +77,17 @@ def FormatData(Dir,RawData,TypeDict):
 
 
 p3 ={'D_C':['2D','3D']}
-p2 ={'k0':{'2D':['1e-02','1e-01',r'1e\+00'],'3D':[r'3e\+00',r'3e\+01',r'3e\+02']}}
+p2 ={'b':{'2D':['2e-02','2e-01',r'2e\+00'],'3D':['2e-02','2e-01',r'2e\+00']}}
+#p2 ={'k0':{'2D':['1e-02','1e-01',r'1e\+00'],'3D':[r'3e\+00',r'3e\+01',r'3e\+02']}}
 p1 ={'massP':['1e-10','1e-05',r'1e\+00',r'1e\+05']}
 
 Dir ='C:/Users/Carlos/Documents/Tesis-IGP/Data/VariantSR/'
 
-params = {'fmPR':['Grazing'],'b':[r'2e-02']}
+k0 = {'2D': '1e-01','3D':r'3e\+01'}
+params = {'fmPR':['Grazing']}
 Types = ['Zones']
 if __name__== '__main__':
-    D = GetDataSets(Dir,params,['Zones'],p1,p2,p3,{})
+    D = GetDataSets(Dir,params,['Zones'],p1,p2,p3,{},k0)
     print D
 
 

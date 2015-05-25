@@ -78,31 +78,57 @@ def GetGuessBounds(Arr,Arr2,f,defaultUpGuess,defaultLowGuess,ksim,arg1):
     return xRanges,BoundaryPoints
 
 
-def AddToBoundaryPoints(BreakPoints,xPoint,xList,yList,f,maxY,minY,ksim,arg1):
-    
+def GetGuessBoundsGC(Arr,Arr2,f,DomainBounds,ksim,arg1):
+    xRanges=[]
+    BoundaryPoints=[]
+    for i in range(len(Arr)):
+        AddtoBoundaryPointsG(Arr[i],Arr2[i],xRanges,BoundaryPoints,f,DomainBounds[i],ksim,arg1)
+    return xRanges,BoundaryPoints
+
+def AddtoBoundaryPointsG(BreakPoints,xPoint,xList,yList,f,DomainBoundP,ksim,arg1):
+    wList =[]
+    xList.append(xPoint)
+    if len(DomainBoundP[0])>1:
+        for i in range(len(DomainBoundP)):
+            uList=[]
+            AddToBoundaryPoints(BreakPoints[i],xPoint,[],uList,f,DomainBoundP[i][1],DomainBoundP[i][0],ksim,arg1,eps=1e-10,eps2=1e-10)
+            if len(uList[0][0])>1:
+                wList+=uList[0]
+
+        if len(wList)==0 :
+            yList.append([(0,)])
+        else:
+            yList.append(wList)
+    else:
+        yList.append([(0,)])
+                            
+
+def AddToBoundaryPoints(BreakPoints,xPoint,xList,yList,f,maxY,minY,ksim,arg1,eps=1e-03,eps2=0.):    
     n = len(BreakPoints)
     xList.append(xPoint)
     if n>0:
-        if isNegative(f,xPoint,minY,ksim,arg1):
-            AddPoints(BreakPoints,yList,n,maxY,minY,Type=-1)
+        if isNegative(f,xPoint,minY+eps2,ksim,arg1):
+            AddPoints(BreakPoints,yList,n,maxY,minY,eps,Type=-1)
         else:
-            AddPoints(BreakPoints,yList,n,maxY,minY,Type=+1)
+            AddPoints(BreakPoints,yList,n,maxY,minY,eps,Type=+1)
     if n==0:
-        if not isNegative(f,xPoint,minY,ksim,arg1):
-            yList.append([(minY-1e-03,maxY+1e-03)])
+        if not isNegative(f,xPoint,minY+eps2,ksim,arg1):
+            yList.append([(minY-eps,maxY+eps)])
         else:
             yList.append([(0,)])
 
 
-def AddPoints(BreakPoints,yList,n,maxY,minY,Type):
+def AddPoints(BreakPoints,yList,n,maxY,minY,eps,Type):
     """ From a list of zeros determine the ones that delimit a pass from positive to negative and store them in a list, i.e. find the boundary points
     of the positive region"""
     initPos = np.sign(1 - Type)
-    BreakPoints = [minY-1e-03]+BreakPoints+[maxY+1e-03]
+    BreakPoints = [minY-eps]+BreakPoints+[maxY+eps]
     Points=[]
     for i in range(initPos,n+1,2):
         Points.append((BreakPoints[i],BreakPoints[i+1]))
     yList.append(Points)
+
+
 
     
         

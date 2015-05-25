@@ -29,6 +29,7 @@ class InvBoundaries(BSR):
         self.SZ={}
         self.ZBounds={}
         self.Footer = constructFooter(self.params)
+        self.EfDif = self.params['e1']*self.params['e3'] - self.params['e2']
             
     def setUpGuess(self,Guess):
         self.UpGuess = Guess
@@ -58,10 +59,16 @@ class InvBoundaries(BSR):
         """
         searchRange = 10**(np.arange(self.LowGuess,self.UpGuess,self.guessSep))
         xRange = self.xRange
+        if self.EfDif<0:
+            self.InvFunctionsNames+=['D']
+            self.InvFunctions['D'] = self.fDict['D']
+
+
         for invfunc in self.InvFunctionsNames:
             bound_dict = self.InvBoundary(invfunc,searchRange,xRange)
             self.InvBounds[invfunc] = bound_dict           
     
+
     def InvBoundary(self,Invfunc,searchRange,xRange):
         """Find the inv boundaries(zeros of the invasibility function) using the brentq method from the SciPy package,
         input arguments, the invasibility function, the limits for the interval to look for zeros(depending on the x values) """
@@ -84,6 +91,9 @@ class InvBoundaries(BSR):
         @direction the system direction where the file is going to be stored
         @Header the first row of the csv file """
        
+
+        if self.EfDif<0:
+            Header+=['D']
         new_Boundaries,dists = FormatZones(self.InvFunctionsNames,self.InvBounds)
         Footer = self.Footer
         OutputFile = OutputInvData(new_Boundaries,Header,[Footer],[MyTuple(self.xFocus),self.xFocus_sep],dists)
@@ -141,27 +151,55 @@ class InvBoundaries(BSR):
         I1 = GetIntersection(self.PositiveBoundaries['I_C_s5'],self.PositiveBoundaries['I_P_s3'])
         I2 = GetIntersection(self.PositiveBoundaries['I_C_s2'],self.PositiveBoundaries['I_P_s4'])
         I3 = GetIntersection(I1,I2)
+        I4 = GetIntersection(self.PositiveBoundaries['I_C_s5'],self.PositiveBoundaries['I_P_s4'])
+
 
         self.Intersections['Z(IC5)'] = I1
         self.Intersections['Z(IC4)'] = I2
         self.Intersections['MutualInv'] = I3
 
+        
+        if self.EfDif < 0 :
+
+            I5 = GetIntersection(GetComplement(self.PositiveBoundaries['I_C_s5'],self.LowGuess,self.UpGuess),GetComplement(self.PositiveBoundaries['I_P_s4'],self.LowGuess,self.UpGuess,))
+            I6 = GetIntersection(I5,GetComplement(self.PositiveBoundaries['D'],self.LowGuess,self.UpGuess,))
+            I7 = GetIntersection(I4,self.PositiveBoundaries['D'])
+
+            self.Intersections['UnstableCoexistence'] = I6
+            self.Intersections['PotentialStableCoexistence'] = I7
+        else:
+            self.Intersections['PotentialStableCoexistence'] = I4
+
+        
+        self.findStabilityBounds()
+
+    def findStabilityBounds(self):
+        f = self.fDict['hd2']
+        BSearchRange = self.Intersections['PotentialStableCoexistence']
+
+        K = Get_boundsASR(f,Get_roots,self.xRange,BSearchRange,additionalPar=self.currentMass,k_sim = self.ksim)
+        self.Intersections['StableCoexistence'] = RME.GetGuessBoundsGC(K,self.xRange,f,BSearchRange,self.ksim,self.currentMass)[1]
+    
+
     def setWidths(self):
         """
         Find the widths of each of the Zones 
         """
-        F(self.Widths,getWidth,self.PositiveBoundaries,self.Intersections)
+        F(self.Widths,getWidth,self.PositiveBoundaries,self.Intersections,self.EfDif)
     def setZonesBoundaries(self):
         """
         Find the boundary of the Zones and format them to the same data structure used in the computation of the Invasibility boundaries
         """
-        F(self.ZBounds,GetPositiveBoundaries,self.PositiveBoundaries,self.Intersections,self.xRange)
+        F(self.ZBounds,GetPositiveBoundaries,self.PositiveBoundaries,self.Intersections,self.EfDif,self.xRange)
+
+        
     def findZones(self):
         """
         From each of the Boundaries, create a 2D array using xRange and yRange and return a 1 0  array , each 1 located at a position in which
         the point is interior to the Positive Region delimited by the Boundary
         """
         F(self.Zones,GetPositiveRegions,self.PositiveBoundaries,self.Intersection,self.xRange,self.yRange)
+
 
     def WriteZonesBounds(self,Direction):
         """
