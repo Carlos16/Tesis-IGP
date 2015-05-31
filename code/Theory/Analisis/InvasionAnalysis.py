@@ -37,7 +37,7 @@ class InvBoundaries(BSR):
     def UpdateMass(newMass):
         self.currentMass = newMass
         
-    def setAndWriteInvBoundaries(self,Header,Direction):
+    def setAndWriteInvBoundaries(self,Header,Direction,Direction2):
         """
         * Find the zero boundaries for each of the functions specified in self.InvFunctions
         * Write them to a csv file specified in Direction.
@@ -47,6 +47,7 @@ class InvBoundaries(BSR):
 
         self.setInvBoundaries()
         self.writeInvasibilityValues(Header,Direction)
+        self.writeUneditedInvValues(Header,Direction2)
         
         
     def setInvBoundaries(self):
@@ -83,6 +84,17 @@ class InvBoundaries(BSR):
         """ return the dictionary containing all the invasibility boundaries"""
         return self.InvBounds
     
+
+    def writeUneditedInvValues(self,Header,direction,delimiter=','):
+        if self.EfDif<0:
+            H = Header + ['D']
+        else:
+            H = Header
+        
+        newData = EditData(self.InvFunctionsNames,self.UnEditedInvBounds)
+        newData = ConstructArray(newData)
+        OutputFile = OutputInvData(newData,H,[self.Footer],[MyTuple(self.xFocus),self.xFocus_sep],'')
+        OutputFile.WriteWidths(direction,delimiter)
     def writeInvasibilityValues(self,Header,direction,delimiter=','):
         """Write data into a csv file specified in direction
         @param Boundaries a list of 2-elements lists which each of them stores the X and Y coordinates
@@ -93,10 +105,12 @@ class InvBoundaries(BSR):
        
 
         if self.EfDif<0:
-            Header+=['D']
+            H = Header + ['D']
+        else:
+            H = Header
         new_Boundaries,dists = FormatZones(self.InvFunctionsNames,self.InvBounds)
         Footer = self.Footer
-        OutputFile = OutputInvData(new_Boundaries,Header,[Footer],[MyTuple(self.xFocus),self.xFocus_sep],dists)
+        OutputFile = OutputInvData(new_Boundaries,H,[Footer],[MyTuple(self.xFocus),self.xFocus_sep],dists)
         OutputFile.WriteInvasibility(direction,delimiter)
 
        

@@ -16,11 +16,6 @@ def Get_boundsASR(f,get_roots,x_range,BoundaryGuessRange,additionalPar =0, k_sim
     
     return Zeros
 
-
-
-
-
-
 def Roots(f,args,GuessRangePoints,sep,get_roots):
     search_rangeList = ConstructSearchRange(GuessRangePoints,sep)
     roots= []

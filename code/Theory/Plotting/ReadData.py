@@ -336,6 +336,7 @@ class InvData(Data):
         the two keys of each of the dictionaries and whose elements are a list of lists for each of the distinct invasibility sets 
         contained within each scenario. 
         """
+
         self.reshape()
         self.TransformtoFloats()
         self.distribution = [ [int(item) for item in self.distribution[i][1:-1].split(':')] for i in range(len(self.distribution)) ]
@@ -403,7 +404,7 @@ class InvData(Data):
         self.ConstructPaths()
         
     def ConstructPaths(self):
-        for scenario in self.Scenarios:
+        for scenario in self.formated_data.keys():
             Path = self.BuildPath(scenario)
             self.Paths[scenario] = Path
 
@@ -422,7 +423,6 @@ class InvData(Data):
         new_y = []
         if len(Set['x'][0])!=0:
             for index in range(len(Set['x'])):
-                
                 new_subx,new_suby= self.Classify(scenario,index)
                 new_x.append(new_subx)
                 new_y.append(new_suby)

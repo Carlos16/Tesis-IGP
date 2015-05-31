@@ -92,7 +92,7 @@ Colors = [ ['b','g','r','y'] ,['g','y','c'],['y'],['r']]
 LineStyles = [['-','-','-','-'],['-','-','-.'],['-','--'],['-','']]
 Markers= [['','',''],['','',''],['',''],['','']]
 
-plotParamsDict= {'Zones':[ColorCoder,LineCoder,MarkerCoder,['MutualInv']]}
+plotParamsDict= {'Inv':[ColorCoder,LineCoder,MarkerCoder,['Inv C5']]}
 sizePlot = (10,8)
 #yLabel = r'$Width$'
 yLabel = r'$\log_{10}(k_{RC})$'
@@ -118,7 +118,6 @@ def GenerateCurves(Dir,DirPlots,params,Types,p1,p2,p3,TypeDict,Curves,sizePlot,p
             plt.close()
 
 
-
 def generateLabel(Dir,LabelMap,Curves,Val1,Val2):
     Direction = Dir
     Lab1 = LabelMap[Val1]
@@ -138,7 +137,7 @@ DirPlots = 'C:/Users/Carlos/Documents/Tesis-IGP/Data/Plots/'
 if __name__=="__main__":
 #    GeneratePlots(Dir,DirPlots,params,Types,p1,p2,p3,TypeDict,TypeCurves,sizePlot,plotParamsDict,Colors,LineStyles,yLabel,xLabel,LabelMap,FStra,bs)
     PlotInt(Dir,params,Types,p1,p2,p3,TypeDict,k0,sizePlot,plotParamsDict,Colors,LineStyles,Markers,yLabel,xLabel,editY=True,setZones=True)
-    plt.savefig('MutualInvAcGrGr.pdf')
+    plt.savefig('InvC5AcGrGr.pdf')
 
 
 

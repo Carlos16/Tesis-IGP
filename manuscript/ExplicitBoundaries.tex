@@ -1,0 +1,110 @@
+\subsection{C\'alculo Expl\'icito de zonas de invasibilidad}
+
+En esta secci\'on derivamos los criterios de invasibilidad en funci\'on de la raz\'on de masas ($k_{\RC},k_{\CP}$ y $k_{\RP}$) y la masa del depredador tope $m_P$, asumiendo que:
+\begin{enumerate}
+\item $D_R = D_C = D$
+\item $\beta_R = \beta_C = \beta_P = \beta$
+\end{enumerate}
+
+
+\subsubsection{C $\to$ R}
+
+\begin{equation}
+  \frac{dC}{dt} >0 \iff  m_P > \zeta_1(k_{\RC},k_{\CP}) = (\frac{\chi_1}{\chi_0})^{\frac{1}{h_R +1 - 2\beta }}
+\end{equation}
+Donde:
+\begin{equation}
+  \begin{aligned}
+    h_R &= p_v + 2(D_R - 1)p_d \\
+    \chi_0 &= \varepsilon_1 \kappa_0\alpha_{0,1} f_1(k_{\RC})k_{\CP}^{h_R -1} k_{\RP}^{1-\beta} \\
+    \chi_1 &= q_{0,1} k_{\CP}^{\beta-1} 
+  \end{aligned}
+\end{equation}
+Entonces:
+\begin{equation}
+\mathbf{Z(I_{\C\to \R})} := \{ (k_{\RC},k_{\CP},m_P) \in \mathbb{R}^3_+ / m_p > \zeta_1(k_{\RC},k_{\CP}) \}
+\end{equation}
+
+\subsubsection{P $\to$ R}
+
+\begin{equation}
+  \frac{dP}{dt} >0 \iff  m_P > \zeta_2(k_{\RC},k_{\CP}) = (\frac{q_{0,2}}{\eta_0})^{\frac{1}{h_R +1 - 2\beta}}
+\end{equation}
+Donde:
+\begin{equation}
+  \begin{aligned}
+    \eta_0 &= \varepsilon_2 \kappa_0\alpha_{0,2} f_2(k_{\RP})k_{\RP}^{1-\beta} \\
+  \end{aligned}
+\end{equation}
+
+
+\begin{equation}
+\mathbf{Z(I_{\PP \to \R})} := \{ (k_{\RC},k_{\CP},m_P) \in \mathbb{R}^3_+ / m_p > \zeta_2(k_{\RC},k_{\CP}) \}
+\end{equation}
+
+
+Definamos:
+\begin{equation}
+  h = p_v + 2(D-1)p_d
+\end{equation}
+
+\subsubsection{P $\to$ C-R}
+\begin{equation}
+  \frac{dP}{dt}  >0 \iff m_P > \zeta_3(k_{\RC},k_{\CP}) = (\frac{\xi_4\xi_2}{\xi_3 + \xi_4 - q_{0,2}})^{\frac{1}{h + 1 - 2\beta}}
+\end{equation}
+
+Donde:
+\begin{equation}
+  \begin{aligned}
+    \xi_0 &= \frac{q_{0,1} k_{\CP}^{\beta - h}}{\epsilon_1 \alpha_{0,1} f_1(k_{\RC})}\\
+    \xi_1 &= \frac{r_0 k_{\RP}^{\beta -1}}{\alpha_{0,1} f_1(k_{\RC}) k_{\CP}^{h - 1}}\\
+    \xi_2 &= \frac{\xi_0}{k_0 k_{\RP}^{1-\beta}} \\
+    \xi_3 &= \epsilon_2 \alpha_{0,2} f_2(k_{\RP}) \xi_0\\
+    \xi_4 &=\epsilon_3 \alpha_{0,3} f_3(k_{\CP}) \xi_1
+  \end{aligned}
+\end{equation}
+
+
+Por lo tanto 
+\begin{equation}
+\mathbf{Z(I_{\PP \to \C-\R})} := \{ (k_{\RC},k_{\CP},m_P) \in \mathbb{R}^3_+ / m_p > \max\{\zeta_1(k_{\RC},k_{\CP}),\zeta_3(k_{\RC},k_{\CP})\} \}
+\end{equation}
+\subsubsection{C $\to$ P-R}
+\begin{equation}
+  \frac{dC}{dt}  >0 \iff m_P < \zeta_4(k_{\RC},k_{\CP}) = (\frac{\gamma_4\gamma_2}{\gamma_5 + \gamma_4 - \gamma_3})^{\frac{1}{h + 1 - 2\beta}}
+\end{equation}
+
+Donde:
+\begin{equation}
+  \begin{aligned}
+    \gamma_0 &= \frac{q_{0,2}}{\varepsilon_2 \alpha_{0,2} f_2(k_{\RP})}\\
+    \gamma_1 &= \frac{r_0 k_{\RP}^{\beta -1}}{\alpha_{0,2} f_2(k_{\RC})}\\
+    \gamma_2 &= \frac{\gamma_0}{k_0 k_{\RP}^{1-\beta}} \\
+    \gamma_3 &= \varepsilon_1\alpha_{0,1} f_1(k_{\RP}) k_{\CP}^{h -1} \gamma_0\\
+    \gamma_4 &=\alpha_{0,3} f_3(k_{\CP}) \gamma_1 \\
+    \gamma_5 &= q_{0,1} k_{\CP}^{\beta-1}
+  \end{aligned}
+\end{equation}
+
+Por lo tanto tenemos que:
+
+\begin{equation}
+\mathbf{Z(I_{\C \to \PP-\R})} := \{ (k_{\RC},k_{\CP},m_P) \in \mathbb{R}^3_+ / \zeta_4(k_{\RC},k_{\CP}) > m_p > \zeta_2(k_{\RC},k_{\CP}) \}
+\end{equation}
+
+De donde la region de invasibilidad mutua $Z_{IM} := Z(I_{\C \to \PP-\R}) \cap Z(I_{\PP \to \C-\R})$ , resulta:
+
+
+\begin{equation}
+\mathbf{Z_{IM}} := \{ (k_{\RC},k_{\CP},m_P) \in \mathbb{R}^3_+ / \zeta_4(k_{\RC},k_{\CP}) > m_p > \max \{ \zeta_2(k_{\RC},k_{\CP}) , \zeta_1(k_{\RC},k_{\CP}) , \zeta_3(k_{\RC},k_{\CP}) \}
+\end{equation}
+
+Adem\'as tenemos que la regi\'on de $k_{\RC} \times k_{\CP} \times m_P$ asociada a $E_1$ denotada por $R(E_1)$ esta determinada por
+\begin{equation}
+  R(E_1) := \{ (k_{\RC},k_{\CP},m_P) \in \mathbb{R}^3_+ / \zeta_4(k_{\RC},k_{\CP}) > m_p > \zeta_3(k_{\RC},k_{\CP}) \}
+\end{equation}
+
+
+
+
+

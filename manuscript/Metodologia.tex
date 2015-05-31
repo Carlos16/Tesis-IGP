@@ -191,7 +191,7 @@ Dada la parametrizaci\'on empleada el espacio param\'etrico se reduce a tres eje
 \end{enumerate}
 
 \improvement{agregar un diagrama de todas las combinacione usadas}
-\subsubsection{Criterios de Invasibilidad}
+\subsubsection{Criterios de Invasibilidad}\label{subsubsec:Inv}
 Se delimitaron zonas dentro del espacio param\'etrico donde era posible la invasi\'on de una de las especies sobre un sistema receptor(debido a esto se les denomina \emph{criterios de invasibilidad}), para el sistema que estamos analizando los siguientes escenarios son posibles: \improvement{agregar figuras de cada escenario}
 \begin{itemize}
 \item $R$ invade un sistema \emph{vac\'io}.
@@ -232,7 +232,7 @@ Donde:
 \subsubsection{Zonas de Coexistencia}
 Se delimitaron zonas dentro del espacio param\'etrico donde el triple equilibrio $\mathbf{X} = (R^*,C^*,P^*)$ fuese positivo, $\mathbf{X}$ tiene la propiedad de que $N(\mathbf{X}) = 0$. Para ambos modelos lo que se obtiene es :
 \begin{equation}\label{eq:Equilibrio}
-D:= \{ (R,C,P) \in \mathbf{R}^3_+ / N((R,C,P)) = 0 \}
+E:= \{ (R,C,P) \in \mathbf{R}^3_+ / N((R,C,P)) = 0 \}
 \end{equation}
 
 En nuestro caso las expresiones para el equilibrio son(el c\'alculo se detalla en \ref{subsec:equil}):
@@ -245,12 +245,19 @@ Donde:
 \begin{equation}
 D = K \alpha_1 \alpha_2 (\epsilon_1 \epsilon_3 - \epsilon_2 ) + \alpha_3 \epsilon_3 m_C r
 \end{equation}
-Manipulando algebraicamente $C^*$ y $P^*$ se deriva que la condici\'on para que $R^*,C^*,P^*$ pertenzca a $R^3_+$ es que se cumplan $I_{\C \to \PP-\R}$ y $I_{\PP \to \C-\R}$ en el caso que $D >0$ y que no se cumplan ambos en caso que $D<0$. Si $D = 0$ el sistema no posee equilibrio.
+Manipulando algebraicamente $C^*$ y $P^*$ se deriva que la condici\'on para que $R^*,C^*,P^*$ pertenzca a $R^3_+$ es que se cumplan $I_{\C \to \PP-\R}$ y $I_{\PP \to \C-\R}$ en el caso que $D >0$ y que no se cumplan ambos en caso que $D<0$. Si $D = 0$ el sistema no posee equilibrio no trivial. \\
+Dado lo descrito anteriormente en el caso que $D <0$ el equilibrio no puede formarse mediante ning\'un camino de ensamblaje con los supuestos hechos en \ref{subsubsec:Inv}. Denotamos :
+\begin{equation}
+  \begin{aligned}
+    E_1 &= \{ n \in E / D >0 \}  \\
+    E_2 &= \{ n \in E / D <0 \}
+  \end{aligned}
+\end{equation}
 
 \subsubsection{Estabilidad Din\'amica}
 En cada regi\'on de coexistencia se distinguieron entre puntos estables e inestables,el procedimiento se detalla en \ref{subsec:stab},y se determin\'o :
 \begin{equation}\label{eq:estabreg}
-D_{estab} = \{ (R,C,P) \in D / (R,C,P) \mbox{ es localmente estable} \}
+E_{estab} = \{ (R,C,P) \in E / (R,C,P) \mbox{ es localmente estable} \}
 \end{equation}
 
 \subsubsection{M\'axima longitud y grado de Omnivorismo}

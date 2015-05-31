@@ -148,6 +148,27 @@ def Convert(X,Y):
             dist = MyTuple((0,0))
     return new_array,dist
 
+def EditData(Header,BoundDict):
+    NewBoundDict =[]
+    for key in Header:
+        NewBoundDict.append(FormatD(BoundDict[key]))
+    return NewBoundDict
+
+def FormatD(BoundData):
+    newData=[]
+    for z in BoundData:
+        newData.append(convert(z))
+    return newData
+
+def convert(z):
+    if len(z)>0:
+        if len(z)==1:
+            return MyTuple([MyFloat(z[0]),'N'])
+        else:
+            return MyTuple([MyFloat(x) for x in z])
+    else:
+        return MyTuple([0,0])
+
 def ConstructArray(List_Arrays):
     """Reads in a list of arrays, calculates the one with the largest number of elements an storage it in the value Max_length
        completes all the other arrays to that number by filling the missing elements with NaN, after that appends all of them

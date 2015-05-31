@@ -85,7 +85,7 @@ Dir ='C:/Users/Carlos/Documents/Tesis-IGP/Data/VariantSR/'
 
 k0 = {'2D': '1e-01','3D':r'3e\+01'}
 params = {'fmPR':['Grazing']}
-Types = ['Zones']
+Types = ['Inv']
 if __name__== '__main__':
     D = GetDataSets(Dir,params,['Zones'],p1,p2,p3,{},k0)
     print D

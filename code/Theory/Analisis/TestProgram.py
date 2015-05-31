@@ -15,22 +15,23 @@ params2={'w':0.75,'pd':0.2,'pv':0.26,'Er':0.,'Ek':0.,'ER':0.,
         'hC0':1.,'hP0':1.,'formPC':2,'formPR':2,'formC':2,'a':1.,'b':0.02,'c':0}
 
 DirInv = 'c:/Users/Carlos/Documents/Thesis/Tesis/modules/InvPrueba.csv'
+DirUnEInv = 'c:/Users/Carlos/Documents/Thesis/Tesis/modules/UnEditInvPrueba.csv'
 DirZB = 'c:/Users/Carlos/Documents/Thesis/Tesis/modules/ZBPrueba.csv'
 DirW = 'c:/Users/Carlos/Documents/Thesis/Tesis/modules/WidthsPrueba.csv'
 
-def Test(params,ksim,xRange,DirInv,DirZB,DirW,type='LV',mass=1e+05):
+def Test(params,ksim,xRange,DirUnEInv,DirInv,DirZB,DirW,type='LV',mass=1e+05):
     params['massP'] = mass
     Prueba = BSR(params,type,xRange,ksim)
     Prueba.setfDict()
     HeaderInv = ['Inv C2','Inv P3','Inv P4','Inv C5']
     Inv  = InvBoundaries(Prueba)
-    Inv.setAndWriteInvBoundaries(HeaderInv,DirInv) 
+    Inv.setAndWriteInvBoundaries(HeaderInv,DirInv,DirUnEInv) 
     Inv.setPositiveBoundaries()
     Inv.setAndWriteWidthsZones(DirW,DirZB)
 
 
 if __name__== '__main__':
-    Test(params2,False,[-10,5],DirInv,DirZB,DirW,type='LV',mass=1e-10)
+    Test(params2,False,[-10,5],DirUnEInv,DirInv,DirZB,DirW,type='LV',mass=1e-10)
 
 
     

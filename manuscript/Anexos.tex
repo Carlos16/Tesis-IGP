@@ -86,6 +86,7 @@ Donde:
 
 El c\'alculo expl\'icito de los bordes de cada zona, se reduce a calcular los zeros de las funciones asociadas a ellos; para llevar a cabo esto se uso el algoritmo de optimizaci\'on brentq el cual esta incorporado en el paquete SciPy de Python.
 
+\input{ExplicitBoundaries.tex}
 
 \subsection{Calculo de Equilibrio para un modelo Lotka-Volterra}\label{subsec:equil}
 El c\'alculo del equilibrio se reduce a la soluci\'on del siguiente sistema linear:
@@ -147,7 +148,7 @@ Par\'ametros & Valores usados \\
 $a$ & 1 \\
 $\phi$ & 0.02 , 0.2 , 2 \\
 \hline
-k0 & 3D : 3 , 30,300 \\
+$\kappa_0$ & 3D : 3 , 30,300 \\
    & 2D : 0.01,0.1,1 \\
 \hline
 & $Ac-Ac-Ac$ \\
