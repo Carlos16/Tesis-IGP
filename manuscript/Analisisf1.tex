@@ -1,0 +1,22 @@
+\subsection{Influencia de $k_{ij}$ sobre $f$}
+
+Sin importar la estrategia de forrajeo tenemos que :
+\begin{enumerate}[label=(\alph*)]
+\item \begin{equation}
+  \lim_{k_{ij} \to  0 }f(k_{ij}) = \lim_{k_{ij} \to 0 }\frac{g(k_{ij}) a}{1+k_{ij}^\phi} = 0 
+\end{equation}
+ya que $ g(k_{ij}) \to (k_{ij} \to 0)$ y $\frac{a}{1+k_{ij}^\phi} < a$  para todo $k_{ij}$
+\item 
+\begin{equation}
+\lim_{k_{ij} \to  0 }f(k_{ij}) - ag(k_{ij}) = 0
+\end{equation}
+y por lo tanto $f \approx a g(k_{ij})$ para $k_{ij}$ suficientemente peque\~no , donde $g(k_{ij}) = f(k_{ij})\Pi(k_{ij})$.
+\item $f_{3D} > f_{2D} \iff k_{ij} > 1$ donde $f_{nD}$ representa al valor de $f$ para espacios de b\'usqueda \emph{n-dimensionales}
+\end{enumerate}
+
+A continuaci\'on se analizan propiedades de $f$ que a nivel \emph{cuantitativo} difieren entre las distintas estrategias de forrajeo
+
+\input{f1Grazing}
+\input{f1Sit}
+\input{f1Active}
+

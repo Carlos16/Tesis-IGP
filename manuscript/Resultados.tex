@@ -1,15 +1,47 @@
 \section{RESULTADOS}
 
+
 \subsection{Invasibilidad}
+Dada la parametrizaci\'on usada y asumiendo :
+\begin{enumerate}
+\item $\beta_R = \beta_C = \beta_P = \beta$
+\end{enumerate}
 
-Para una zona $Z$ en particular definimos la \emph{zona relativa} al tipo de comunidad $n$ como $Z_n = Z \cap C_n$. \\
-A continuaci\'on se describen resultados para la combinaci\'on de estrategias de forrajeo \emph{Grazing-Grazing-Active}. Dado que en los otros dos casos se obtiene una respuesta cualitativa similar estos no ser\'an detallados.
+Derivamos expl\'icitamente las siguientes condiciones para cada criterio de invasibilidad \textbf{I} y zona \textbf{Z(I)} asociada a \textbf{I} en funci\'on a $k_{\RC},k_{\CP}$ y $m_P$.
 
-\subsubsection{$ C \to R$}
-Se observa un aumento en el \'area total de $Z(I_{\C \to \R})$ con respecto a aumentos en $m_P$ y $k_0$ teniendo ambos una respuesta cualitativa similar(i.e cualitativamente el cambio respecto a aumentos en $k_0$ para un valor fijo de $m_P$ es similar al cambio respecto a aumentos en $m_P$ para un valor fijo de $k_0$)\\
-Adem\'as dicho aumento se debe principalmente a aumentos en el \'area de las zonas relativas $1 , 2 y 6$ es decir conforme aumenta la masa del depredador tope, la proporci\'on de comunidades con $k_{\RP} <1 : C_1,C_2$ y $C_6$ donde se da este tipo de invasi\'on aumenta.\\ 
-El par\'ametro $\phi$ controla principalmente el borde superior de la zona, restringuiendo valores elevados de $k_{\RC}$ a valores altos de $\phi$, para el valor de $2$ obtenemos una forma de $V$ centrada alrededor de $k_0 = 0$ donde el l\'imite superior aumenta con $k_{\CP}$.\\
-La dimensi\'on del \'area de busqueda afecta el \'area total de las zonas, siendo mayor en el caso $3D$. 
+\subsubsection{C $\to$ R}
+
+\begin{equation}
+  \frac{dC}{dt} >0 \iff  m_P > \zeta_1(k_{\RC},k_{\CP}) = k_{\CP}^{-1}(\frac{\chi_1}{\chi_0})^{\frac{1}{h_R +1 - 2\beta }}
+\end{equation}
+Donde:
+\begin{equation}
+  \begin{aligned}
+    h_R &= p_v + 2(D_R - 1)p_d \\
+    \chi_0 &= \varepsilon_1 \kappa_0\alpha_{0,1} g(k_{\RC}) \\
+    g(k_\RC) = f_1(k_{\RC})k_{\RC}^{1-\beta}\\
+    \chi_1 &= q_{0,1} 
+  \end{aligned}
+\end{equation}
+Entonces:
+\begin{equation}
+\mathbf{Z(I_{\C\to \R})} := \{ (k_{\RC},k_{\CP},m_P) \in \mathbb{R}^3_+ / m_p > \zeta_1(k_{\RC},k_{\CP}) \}
+\end{equation}
+
+
+Dada la relaci\'on anterior, podemos deducir la influencia de los par\'ametros del modelo sobre la invasibilidad de $C$.\\
+
+En particular dado que $f_1(k_{\RC}) \to 0 (k_{\RC} \to 0)$ y $\beta <1$ tenemos que $\chi_0 \to 0 (k_{\RC} \to 0)$,para un valor acotado de $\kappa_0$ y por lo tanto valores extremadamente peque\~nos de $k_{\RC}$ siempre ser\'an exclu\'idos de $\mathbf{Z(I_{\C\to \R})}$ si mantenemos $k_{\CP}$ constante, dicho esto al aumentar $k_{\CP}$, $\kappa_0$ y $m_P$ el m\'inimo $k_{\RC}$ disminuye. \\
+
+Para valores fijos de $k_{\CP}, \kappa_0 ,m_P$,el valor m\'aximo de $k_{\RC}$ en $\mathbf{Z(I_{\C\to \R})}$ depender\'a del valor de $\phi$ y $fm$. Sin embargo para los distintos $fm$ tenemos un comportamiento cualitativo similar , debido a la similitud existente entre $f_1$ para distintos $fm$(v\'ease anexos). Dado la similitud entre $g$ y $f_1$ por un tratamiento similar al descrito en anexos podemos observar que para $\phi$ \emph{suficientemente peque\~no} $\chi_0$ crece mon\'otonamente con respecto a $k_\RC$ por lo tanto se observa la presencia de un valor umbral $k$ tal que por encima de \'el la invasi\'on de $C$ es posible. A su vez para valores de $\phi$ \emph{suficientemente grandes} tenemos que $\chi_0$ presenta un valor m\'aximo por encima del cual decrece mon\'otonamente, es m\'as $\chi_0 \approx c k_{RC}^{h - \phi}$ para valores de $k_\RC$ elevados(donde $h$ depende de $fm$) y por tanto estos ser\'ian exclu\'idos de $\mathbf{Z(I_{\C\to \R})}$ dado que al mantener $m_P$ y $k_\CP$ fijos cambios en $k_\RC$ simplemente indican aumentos en la masa de $m_R$ podemos interpretar estos resultados de la siguiente manera, sin importar $\phi$, $m_R$ tiene que tener un tama\~no m\'inimo el cual permita a $C$ invadir, esto debido al hecho que $m_R$ influencia la capacidad de carga de $R$, y por ende la energ\'ia disponible a $C$ al momento de la invasi\'on, sin embargo valores elevados de $m_R$ son inviables para $C$ para $\phi$ \emph{suficientemente grandes} ya que estos a pesar de presentar una gran cantidad de energ\'ia disponible, debido a su baja probabilidad de captura por parte de $C$ no se traducen en aumentos en biomasa de $C$, es decir lo importante para $C$ al momento de la invasi\'on no solamente es la energ\'ia total presente en el sistema sino que \'esta se encuentre en una \emph{forma} que pueda ser explotada por $C$.
+
+
+De esta relaci\'on se observa que la tasa de productividad basal $\kappa_0$ tiene un efecto positivo sobre la invasibilidad de $C$ ya que aumenta $\chi_0$ , de un modo similar al aumentar $m_P$ es mas plausible encontrar valores de $k_\CP$ y $k_\RC$ que cumplan esta condici\'on. \\
+Adem\'as esta relaci\'on se puede ver analizar desde distintos puntos,considerando el par\'ametro $m_P$ como una constante normalizadora de la biomasa total presente en el m\'odulo ,esta relaci\'on nos dice que para un valor de $k_\CP$ y $k_\RC$ fijos, existe un tama\~no  de $C$ y $R$ por encima del cual la invasi\'on de $C$ es posible, estos aumentos de $C$ y $R$ se traducen en mayor capacidad de carga de $R$, mayor tasa de ataque y menor mortalidad de $C$.\\
+A su vez para un $m_P$ fijo observamos que al aumentar $k_\CP$ aumenta el rango de valores de $k_\RC$ para los cuales esta restricci\'on se cumple, la forma en que cambios en el valor de $k_\RC$ afectan esta relaci\'on a nivel cualitativo son independientes de la estrategia de forrajeo y dependen del valor de $\phi$, para valores de $\phi$  menores a $h_R$ tenemos que $f_1$ crece mon\'otonamente con $k_\RC$ y en este caso se observar\'ia la existencia de un valor umbral de $k_\RC$ por encima del cual este criterio siempre se cumplir\'ia. En el caso que $ \phi$ sea mayor que $h_R$ , $f_1$ posee un valor m\'aximo para $k_\RC^*$(alrededor de 1) del cual se aleja mon\'otonamente, es decir que valores elevados de $k_\RC$, $\xi_0$ disminuir\'ia tanto que esta relaci\'on ya no se cumplir\'ia.\\ Sin embargo irrespectivamente de $\phi$ ,$f_1$ disminuye cuando $k_\RC$ se acerca a 0, por lo tanto la inclusi\'on de valores peque\~nos esta condicionada a aumentos en $m_P, \kappa_0$ o $k_\CP$.\\
+
+Sin considerar cambios en la productividad basal $\kappa_0$ , la dimensi\'on de b\'usqueda afecta positivamente a la invasibilidad de C en caso que $k_\RC > 1$ y negativamente en caso contrario, 
+
 
 \begin{figure}
   \centering
@@ -17,6 +49,88 @@ La dimensi\'on del \'area de busqueda afecta el \'area total de las zonas, siend
   \caption[Env $Z(IC2)$]{\emph{Envolturas de Invasibilidad} para el caso de el depredador intermedio $C$ como invasor frente a una comunidad receptora formada por $R$. La fila superior es para espacios de b\'usqueda bidimensionales y la inferior tridimensionales, las columnas de izquierda a derecha aumentan el valor de $\phi$, siendo $0.02,0.2$ y $2$ respectivamente.Las diferentes lineas implican distintas masas de depredador $m_P$ :({\hwplotR}) $10^5 kg$,  ({\hwplotY}) $1kg$, ({\hwplotG}) $10^{-5}kg$ y ({\hwplotB}) para $10^{-10}kg$. ({\hwplotK}) separa las zonas donde $K_{RC},K_{CP},k_{RP}$ son mayores o menores que 1 respectivamente. $k_0 = 0.1$ y $k_0 = 30$ para el caso $2D$ y $3D$ respectivamente, los valores de los otros par\'ametros son los descritos en el anexo \ref{subsec:params}}
   \label{fig:Z(IC2)}
 \end{figure}
+
+\subsubsection{P $\to$ R}
+
+\begin{equation}
+  \frac{dP}{dt} >0 \iff  m_P > \zeta_2(k_{\RC},k_{\CP}) = (\frac{q_{0,2}}{\eta_0})^{\frac{1}{h_R +1 - 2\beta}}
+\end{equation}
+Donde:
+\begin{equation}
+  \begin{aligned}
+    \eta_0 &= \varepsilon_2 \kappa_0\alpha_{0,2} f_2(k_{\RP})k_{\RP}^{1-\beta} \\
+  \end{aligned}
+\end{equation}
+
+
+\begin{equation}
+\mathbf{Z(I_{\PP \to \R})} := \{ (k_{\RC},k_{\CP},m_P) \in \mathbb{R}^3_+ / m_p > \zeta_2(k_{\RC},k_{\CP}) \}
+\end{equation}
+
+Asumiendo a su vez que $D_R = D_C = D$
+
+Definamos:
+\begin{equation}
+  h = p_v + 2(D-1)p_d
+\end{equation}
+
+\subsubsection{P $\to$ C-R}
+\begin{equation}
+  \frac{dP}{dt}  >0 \iff m_P > \zeta_3(k_{\RC},k_{\CP}) = (\frac{\xi_4\xi_2}{\xi_3 + \xi_4 - q_{0,2}})^{\frac{1}{h + 1 - 2\beta}}
+\end{equation}
+
+Donde:
+\begin{equation}
+  \begin{aligned}
+    \xi_0 &= \frac{q_{0,1} k_{\CP}^{\beta - h}}{\epsilon_1 \alpha_{0,1} f_1(k_{\RC})}\\
+    \xi_1 &= \frac{r_0 k_{\RC}^{\beta -1}k_{\CP}^{\beta-h}}{\alpha_{0,1} f_1(k_{\RC})}\\
+    \xi_2 &= \frac{\xi_0}{k_0 k_{\RP}^{1-\beta}} \\
+    \xi_3 &= \epsilon_2 \alpha_{0,2} f_2(k_{\RP}) \xi_0\\
+    \xi_4 &=\epsilon_3 \alpha_{0,3} f_3(k_{\CP}) \xi_1
+  \end{aligned}
+\end{equation}
+
+Por lo tanto 
+\begin{equation}
+\mathbf{Z(I_{\PP \to \C-\R})} := \{ (k_{\RC},k_{\CP},m_P) \in \mathbb{R}^3_+ / m_p > \max\{\zeta_1(k_{\RC},k_{\CP}),\zeta_3(k_{\RC},k_{\CP})\} \}
+\end{equation}
+
+\subsubsection{C $\to$ P-R}
+\begin{equation}
+  \frac{dC}{dt}  >0 \iff m_P < \zeta_4(k_{\RC},k_{\CP}) = (\frac{\gamma_4\gamma_2}{\gamma_5 + \gamma_4 - \gamma_3})^{\frac{1}{h + 1 - 2\beta}}
+\end{equation}
+
+Donde:
+\begin{equation}
+  \begin{aligned}
+    \gamma_0 &= \frac{q_{0,2}}{\varepsilon_2 \alpha_{0,2} f_2(k_{\RP})}\\
+    \gamma_1 &= \frac{r_0 k_{\RP}^{\beta -1}}{\alpha_{0,2} f_2(k_{\RC})}\\
+    \gamma_2 &= \frac{\gamma_0}{\kappa_0 k_{\RP}^{1-\beta}} \\
+    \gamma_3 &= \varepsilon_1\alpha_{0,1} f_1(k_{\RP}) k_{\CP}^{h -1} \gamma_0\\
+    \gamma_4 &=\alpha_{0,3} f_3(k_{\CP}) \gamma_1 \\
+    \gamma_5 &= q_{0,1} k_{\CP}^{\beta-1}
+  \end{aligned}
+\end{equation}
+
+Por lo tanto tenemos que:
+
+\begin{equation}
+\mathbf{Z(I_{\C \to \PP-\R})} := \{ (k_{\RC},k_{\CP},m_P) \in \mathbb{R}^3_+ / \zeta_4(k_{\RC},k_{\CP}) > m_p > \zeta_2(k_{\RC},k_{\CP}) \}
+\end{equation}
+
+Juntando ambas zonas anteriores tenemos que la region de \emph{invasibilidad mutua} $Z_{IM} := Z(I_{\C \to \PP-\R}) \cap Z(I_{\PP \to \C-\R})$ , resulta:
+
+
+\begin{equation}
+\mathbf{Z_{IM}} := \{ (k_{\RC},k_{\CP},m_P) \in \mathbb{R}^3_+ / \zeta_4(k_{\RC},k_{\CP}) > m_p > \max \{ \zeta_2(k_{\RC},k_{\CP}) , \zeta_1(k_{\RC},k_{\CP}) , \zeta_3(k_{\RC},k_{\CP}) \}
+\end{equation}
+
+
+
+Para una zona $Z$ en particular definimos la \emph{zona relativa} al tipo de comunidad $n$ como $Z_n = Z \cap C_n$. \\
+A continuaci\'on se describen resultados para la combinaci\'on de estrategias de forrajeo \emph{Grazing-Grazing-Active}. Dado que en los otros dos casos se obtiene una respuesta cualitativa similar estos no ser\'an detallados.
+
+
 
 \subsubsection{$ P  \to R$}
 

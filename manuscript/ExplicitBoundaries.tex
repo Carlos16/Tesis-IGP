@@ -10,14 +10,14 @@ En esta secci\'on derivamos los criterios de invasibilidad en funci\'on de la ra
 \subsubsection{C $\to$ R}
 
 \begin{equation}
-  \frac{dC}{dt} >0 \iff  m_P > \zeta_1(k_{\RC},k_{\CP}) = (\frac{\chi_1}{\chi_0})^{\frac{1}{h_R +1 - 2\beta }}
+  \frac{dC}{dt} >0 \iff  m_P > \zeta_1(k_{\RC},k_{\CP}) = k_{\CP}^{-1}(\frac{\chi_1}{\chi_0})^{\frac{1}{h_R +1 - 2\beta }}
 \end{equation}
 Donde:
 \begin{equation}
   \begin{aligned}
     h_R &= p_v + 2(D_R - 1)p_d \\
-    \chi_0 &= \varepsilon_1 \kappa_0\alpha_{0,1} f_1(k_{\RC})k_{\CP}^{h_R -1} k_{\RP}^{1-\beta} \\
-    \chi_1 &= q_{0,1} k_{\CP}^{\beta-1} 
+    \chi_0 &= \varepsilon_1 \kappa_0\alpha_{0,1} f_1(k_{\RC})k_{\RC}^{1-\beta} \\
+    \chi_1 &= q_{0,1} 
   \end{aligned}
 \end{equation}
 Entonces:
@@ -57,7 +57,7 @@ Donde:
 \begin{equation}
   \begin{aligned}
     \xi_0 &= \frac{q_{0,1} k_{\CP}^{\beta - h}}{\epsilon_1 \alpha_{0,1} f_1(k_{\RC})}\\
-    \xi_1 &= \frac{r_0 k_{\RP}^{\beta -1}}{\alpha_{0,1} f_1(k_{\RC}) k_{\CP}^{h - 1}}\\
+    \xi_1 &= \frac{r_0 k_{\RC}^{\beta -1}k_{\CP}^{\beta-h}}{\alpha_{0,1} f_1(k_{\RC})}\\
     \xi_2 &= \frac{\xi_0}{k_0 k_{\RP}^{1-\beta}} \\
     \xi_3 &= \epsilon_2 \alpha_{0,2} f_2(k_{\RP}) \xi_0\\
     \xi_4 &=\epsilon_3 \alpha_{0,3} f_3(k_{\CP}) \xi_1
@@ -79,7 +79,7 @@ Donde:
   \begin{aligned}
     \gamma_0 &= \frac{q_{0,2}}{\varepsilon_2 \alpha_{0,2} f_2(k_{\RP})}\\
     \gamma_1 &= \frac{r_0 k_{\RP}^{\beta -1}}{\alpha_{0,2} f_2(k_{\RC})}\\
-    \gamma_2 &= \frac{\gamma_0}{k_0 k_{\RP}^{1-\beta}} \\
+    \gamma_2 &= \frac{\gamma_0}{\kappa_0 k_{\RP}^{1-\beta}} \\
     \gamma_3 &= \varepsilon_1\alpha_{0,1} f_1(k_{\RP}) k_{\CP}^{h -1} \gamma_0\\
     \gamma_4 &=\alpha_{0,3} f_3(k_{\CP}) \gamma_1 \\
     \gamma_5 &= q_{0,1} k_{\CP}^{\beta-1}
@@ -104,7 +104,22 @@ Adem\'as tenemos que la regi\'on de $k_{\RC} \times k_{\CP} \times m_P$ asociada
   R(E_1) := \{ (k_{\RC},k_{\CP},m_P) \in \mathbb{R}^3_+ / \zeta_4(k_{\RC},k_{\CP}) > m_p > \zeta_3(k_{\RC},k_{\CP}) \}
 \end{equation}
 
-
+Definimos:
+\begin{equation}
+  \Delta_\varepsilon = \varepsilon_1 \varepsilon_3 - \varepsilon_2
+\end{equation}
+Para $\Delta_\varepsilon <0$ tenemos que la regi\'on para $D >0$ esta definida por:
+\begin{equation}
+    D >0  \iff  m_P < (\frac{\gamma_0}{\gamma_1})^{\frac{1}{2h_R - h_C + 1 - 2 \beta}}
+\end{equation}
+Donde:
+\begin{equation}
+  \begin{aligned}
+    \gamma_ 0 &= \varepsilon_3 r_0\alpha_{0,3}k_{\RP}^{\beta-1}f_3(k_{\CP})\\
+    \gamma_1 &= -\Delta_\varepsilon \kappa_0 \alpha_{0,1}\alpha_{0,2}f_1(k_{\RC})f_2(k_{\RP}) k_{\CP}^{h_R - 1}    
+  \end{aligned}
+\end{equation}
+Notamos que el exponente se simplifica al encontrado en casos anteriores para $h_R  = h_C$.
 
 
 
