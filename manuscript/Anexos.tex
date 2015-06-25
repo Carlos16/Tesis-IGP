@@ -1,4 +1,6 @@
 \input{Analisisf1}
+\input{AnalisisSubsystems}
+
 \subsection{Derivaci\'on de Criterios y Zonas de Invasibilidad}\label{subsec:CI}
 
 En lo sucesivo $\mathbf{A}$ denota toda la zona par\'ametrica explorada,en nuestro caso 
@@ -84,10 +86,6 @@ Donde:
 \mathbf{Z(I_{\C \to \PP-\R})} := \{v \in Z(I_{\PP \to \R}) / \dot{C}(v) > 0\}
 \end{equation}
 
-
-El c\'alculo expl\'icito de los bordes de cada zona, se reduce a calcular los zeros de las funciones asociadas a ellos; para llevar a cabo esto se uso el algoritmo de optimizaci\'on brentq el cual esta incorporado en el paquete SciPy de Python.
-
-\input{ExplicitBoundaries.tex}
 
 \subsection{Calculo de Equilibrio para un modelo Lotka-Volterra}\label{subsec:equil}
 El c\'alculo del equilibrio se reduce a la soluci\'on del siguiente sistema linear:

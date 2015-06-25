@@ -36,17 +36,17 @@ def f(k_,form,a,b,c):
 
 
 
-pd1 = 0.21
-pd2 = 0.2
+pd1 = 0.2
+pd2 = 0.21
 pv = 0.26
 b1 = 0.1
-b2 = 0.6
+b2 = 1.
 KRC =10**(np.arange(-13,6,0.01))
 
-fc = 'Active'
-
+fc = 'Grazing'
+"""
 fig,axes = plt.subplots(ncols=2,sharex = True)
-#mpl.rcParams['text.usetex']= True
+mpl.rcParams['text.usetex']= True
 
 axes[0].plot(np.log10(KRC),g(KRC,pv,pd1,1.,1.,0.,0.,3,1.,1.,fc,'Ecto','Ecto',1.)*f(KRC,2,1,b1,0),'b-')
 axes[0].plot(np.log10(KRC),g(KRC,pv,pd2,1.,1.,0.,0.,2,1.,1.,fc,'Ecto','Ecto',1.)*f(KRC,2,1,b1,0),'r-')
@@ -62,5 +62,6 @@ axes[1].plot(np.log10(KRC),g(KRC,pv,pd2,1.,1.,0.,0.,2,1.,1.,fc,'Ecto','Ecto',1.)
 axes[1].set_xlabel(r'$\log_{10}(k_{ij})$')
 axes[0].set_xlim([-10,6])
 
-plt.show()
-#plt.savefig('./Plots/f1Sit.pdf')
+#plt.show()
+plt.savefig('./Plots/f1Grazing.pdf')
+"""
