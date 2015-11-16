@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib as m
 
 
 def g(k_,pv,pd,T1,T2,E1,E2,D,v01,v02,fm,thermy1,thermy2,k):

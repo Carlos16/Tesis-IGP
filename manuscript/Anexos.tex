@@ -3,12 +3,6 @@
 
 \subsection{Derivaci\'on de Criterios y Zonas de Invasibilidad}\label{subsec:CI}
 
-En lo sucesivo $\mathbf{A}$ denota toda la zona par\'ametrica explorada,en nuestro caso 
-\begin{enumerate}
-\item $\mathbf{A} = [-14,6] \times [-10,5]$ , $k_{\CP} = k_{\RC}$
-\item $\mathbf{A} = [-10,5] \times [-10,5]$ , $k_{\CP} \not= k_{\RC}$
-\end{enumerate}
-
 \subsubsection{R}
 El sistema se reduce a:
 \begin{equation}
@@ -22,22 +16,22 @@ Por lo tanto el criterio de invasibilidad para R , $\mathbf{IC_\R}$ es:
 \end{equation}
 
 \begin{equation}
-\mathbf{Z(I_{\R})} := \{ v \in \mathbf{A} / \dot{R}(v)>0 \}
+\mathbf{Z(I_{\R})} := \{ v \in \mathbb{R}^3_+ / \dot{R}(v)>0 \}
 \end{equation}
 
 \subsubsection{C $\to$ R}
 El sistema se reduce a :
 \begin{equation}
 \begin{aligned}
-\dot{R} &= R\left[r(1-R/K)- (\alpha_{1}/m_C) C \right] \\
-\dot{C} &= C \left[\epsilon_1 (\alpha_{1}/m_C) R  -q_1 \right]
+\dot{R} &= R\left[r(1-R/K)- (\alpha_{1}) C \right] \\
+\dot{C} &= C \left[\epsilon_1 (\alpha_{1}) R  -q_1 \right]
 \end{aligned}
 \end{equation}
 
 
-\begin{equation} \mathbf{IC_{\C \to \R}} := \dot{C} >0 \iff \epsilon_1(\alpha_1/m_C)\hat{R}_1 > q_1  \end{equation}
+\begin{equation} \mathbf{IC_{\C \to \R}} := \dot{C} >0 \iff \epsilon_1(\alpha_1)\hat{R}_1 > q_1  \end{equation}
 Donde $\hat{R}_1 = K$ entonces:
-\begin{equation} \mathbf{IC_{\C \to \R}} := \epsilon_1(\alpha_1/m_C) K > q_1 \end{equation}
+\begin{equation} \mathbf{IC_{\C \to \R}} := \epsilon_1(\alpha_1) K > q_1 \end{equation}
             
 \begin{equation}
 \mathbf{Z(I_{\C \to \R})} := \{v \in Z(I_{\R}) / \dot{C}(v) > 0\}
@@ -47,7 +41,7 @@ Donde $\hat{R}_1 = K$ entonces:
 \subsubsection{P $\to$ R}
 El sistema es similar al caso anterior, intercambiando $P$ por $C$.
 
-\begin{equation} \mathbf{IC_{\PP \to \R}} := \dot{P}>0 \iff \epsilon_2(\alpha_2/m_P) K > q_2 \end{equation}
+\begin{equation} \mathbf{IC_{\PP \to \R}} := \dot{P}>0 \iff \epsilon_2(\alpha_2) K > q_2 \end{equation}
 
 \begin{equation}
 \mathbf{Z(I_{\PP \to \R})} := \{v \in Z(I_{\R}) / \dot{P}(v) > 0\}
@@ -56,13 +50,13 @@ El sistema es similar al caso anterior, intercambiando $P$ por $C$.
             
 \subsubsection{P $\to$ C-R}
 
-\begin{equation} \mathbf{IC_{\PP \to \C-\R}} := \dot{P} >0 \iff \epsilon_2\alpha_2\hat{R}_2 + \epsilon_3\alpha_3\hat{C}_2 > q_2 m_P \end{equation}
+\begin{equation} \mathbf{IC_{\PP \to \C-\R}} := \dot{P} >0 \iff \epsilon_2\alpha_2\hat{R}_2 + \epsilon_3\alpha_3\hat{C}_2 > q_2 \end{equation}
 
 Donde:
 \begin{equation}
 \begin{aligned}
-\hat{R}_2 &= \frac{q_1 m_C}{\epsilon_1 \alpha_1} \\
-\hat{C}_2 &=  r(\frac{m_C}{\alpha_1}) \left[ 1 - \frac{q_1 m_C}{\epsilon_1 \alpha_1 K} \right] 
+\hat{R}_2 &= \frac{q_1}{\epsilon_1 \alpha_1} \\
+\hat{C}_2 &=  (\frac{r}{\alpha_1}) \left[ 1 - \frac{q_1}{\epsilon_1 \alpha_1 K} \right] 
 \end{aligned}
 \end{equation}
 
@@ -73,12 +67,12 @@ Donde:
 
 \subsubsection{C $\to$ P-R}
 
-\begin{equation} \mathbf{IC_{\C \to \PP-\R}} := \dot{C}>0 \iff \epsilon_1(\alpha_1/m_C)\hat{R} - (\alpha_3/m_P)\hat{P}> q_1 \end{equation}
+\begin{equation} \mathbf{IC_{\C \to \PP-\R}} := \dot{C}>0 \iff \epsilon_1(\alpha_1)\hat{R} - (\alpha_3)\hat{P}> q_1 \end{equation}
 Donde:
 \begin{equation}
 \begin{aligned}
-\hat{R} & = \frac{q_2 m_P}{\epsilon_2 \alpha_2} \\
-\hat{P} & = r(\frac{m_P}{\alpha_2}) \left[ 1- \frac{q_2 m_P}{\epsilon_2 \alpha_2 K} \right]
+\hat{R} & = \frac{q_2}{\epsilon_2 \alpha_2} \\
+\hat{P} & = \frac{r}{\alpha_2}\left[ 1- \frac{q_2}{\epsilon_2 \alpha_2 K} \right]
 \end{aligned}
 \end{equation}
 
@@ -91,8 +85,8 @@ Donde:
 El c\'alculo del equilibrio se reduce a la soluci\'on del siguiente sistema linear:
 \begin{equation}
 \begin{pmatrix}
-r/K & \alpha_1/m_c & \alpha_2/m_p \\
-(\alpha_1/m_c)\epsilon_1& 0 & -\alpha_3/m_p \\
+r/K & \alpha_1 & \alpha_2 \\
+(\alpha_1\epsilon_1& 0 & -\alpha_3 \\
 \alpha_2 \epsilon_2 & \alpha_3 \epsilon_3 & 0
 \end{pmatrix}
 \begin{pmatrix}
@@ -104,7 +98,7 @@ P^*
 \begin{pmatrix}
 r \\
 q_1 \\
-q_2 m_p
+q_2
 \end{pmatrix}
 \end{equation}
 
@@ -139,7 +133,7 @@ El sistema se considera localmente estable \citep{yodzis1989introduction} si :
 \end{equation}
 
 \subsection{Par\'ametros usados}\label{subsec:params}
-
+\begin{table}
 \begin{longtable}{|c|c|}
 \hline
 Par\'ametros & Valores usados \\
@@ -150,8 +144,22 @@ $\phi$ & 0.02 , 0.2 , 2 \\
 $\kappa_0$ & 3D : 3 , 30,300 \\
    & 2D : 0.01,0.1,1 \\
 \hline
+$\beta$ & 0.75\\
+\hline
+$p_V$ & 0.26 \\
+$p_d$ & 0.21 (2D) \\
+      & 0.20 (3D) \\
+\hline
+$\alpha_0$ & $10^{-3.08}$(2D) \\
+         & $10^{-1.77}$(3D) \\
+\hline
+$r_0$ & $1.71 \times 10^{-6}$ \\
+\hline
+$q_0$ & $4.15 \times 10^{-8}$\\
+\hline
 & $Ac-Ac-Ac$ \\
 Estrategias de forrajeo& $Gr-Gr-Ac$ \\
 & $Ac-Sw-Sw$ \\
 \hline
 \end{longtable}
+\end{table}

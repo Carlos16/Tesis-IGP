@@ -1,3 +1,35 @@
+\documentclass [12pt]{article}
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{arrows,calc}
+\newenvironment{customlegend}[1][]{%
+    \begingroup
+    % inits/clears the lists (which might be populated from previous
+    % axes):
+    \csname pgfplots@init@cleared@structures\endcsname
+    \pgfplotsset{#1}%
+}{%
+    % draws the legend:
+    \csname pgfplots@createlegend\endcsname
+    \endgroup
+}%
+
+% makes \addlegendimage available (typically only available within an
+% axis environment):
+\def\addlegendimage{\csname pgfplots@addlegendimage\endcsname}
+
+%%--------------------------------
+
+% definition to insert numbers
+\pgfkeys{/pgfplots/number in legend/.style={%
+        /pgfplots/legend image code/.code={%
+            \node at (0.295,-0.0225){#1};
+        },%
+    },
+}
+%%===================================
+
+\begin{document}
+
 \begin{center}
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,
   thick,main node/.style={circle,fill=blue!20,draw,font=\sffamily\Large\bfseries}]
@@ -10,7 +42,7 @@
 \node[main node](R3) at ($(R2) + (3,0)$){R};
 \node[main node](C3) at ($(R3) + (1,2)$){C};
 \node[main node](P3) at ($(R3) + (0,4)$){P};
-\node[font = \fontsize{15}{15}\selectfont](A1) at (-4,0) {$S_1$};
+\node[font = \fontsize{15}{15}\selectfont](A1) at (-4,0) {Path 1};
 
 \path
 (C1) edge[bend left,dotted] (R1)
@@ -37,7 +69,7 @@ $\left. \right.$\\
 \node[main node](R3) at ($(R2) + (3,0)$){R};
 \node[main node](C3) at ($(R3) + (1,2)$){C};
 \node[main node](P3) at ($(R3) + (0,4)$){P};
-\node[font = \fontsize{15}{15}\selectfont](A1) at (-4,0) {$S_2$};
+\node[font = \fontsize{15}{15}\selectfont](A1) at (-4,0) {Path 2};
 
 \path
 (P1) edge[bend left,dotted] (R1)
@@ -52,3 +84,4 @@ $\left. \right.$\\
 
 \end{tikzpicture}
 \end{center}
+\end{document}

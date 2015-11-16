@@ -16,6 +16,7 @@
 \usepackage{amssymb}
 \usepackage{enumitem}
 \usepackage{array}
+\usepackage{caption} 
 \numberwithin{equation}{section}
 %\renewcommand{\theequation}{\thesection\arabic{equation}}
 
@@ -30,8 +31,6 @@
 \newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
 \newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
 \newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
-
-
 
 
 \definecolor{gold(metallic)}{rgb}{0.83, 0.69, 0.22}
@@ -70,6 +69,7 @@
 \renewcommand\contentsname{Contenido}
 \renewcommand{\figurename}{Fig.}
 \renewcommand{\listfigurename}{Lista de Figuras}
+\renewcommand{\listtablename}{Lista de Tablas}
 \usepackage{tikz}
 %\usetikzlibrary{arrows,shapes,trees,..}
 %\usepackage{pgflibraryarrows}
@@ -134,11 +134,9 @@
 \setcounter{tocdepth}{3}
 \tableofcontents
 \listoffigures
-\section{Abstract}
+\listoftables
 
-The body mass of a species due to its connection with metabolic rate(@Brown1) is a key trait which determine a lot of the species functionality, in this work we extend this line of thinking further by exploring how the body mass of the species which compose an Intraguild predation module influence the maximum trophic position observed in the system and its structuration path (sequence of \textit{plausible} invasions).
-
-\section{INTRODUCCION}
+\input{Abstract}
 \input{Introduccion}
 
 \section{MARCO TEORICO}
@@ -149,17 +147,17 @@ The body mass of a species due to its connection with metabolic rate(@Brown1) is
 Desarrollar un mejor entendimiento de los mecanismos que regulan la longitud de las cadenas tr\'oficas.
 \subsection{Objetivos Espec\'ificos}
 \begin{itemize}
-\item Derivar condiciones necesarias y suficientes para la expresi\'on de los mecanismos responsables de la variaci\'on en la longitud de las cadenas tr\'oficas(e.g. inserci\'on, adici\'on y  grado omnivor\'ismo); dependientes de la raz\'on de masas depredador-presa presentes en la comunidad.
-\item Evaluar la influencia de factores como la dimensi\'on del ecosistema, la estrategia de forrajeo de los depredadores presentes y el nivel de productividad basal del ambiente, sobre dichas condiciones.
+\item Derivar condiciones necesarias y suficientes para la expresi\'on de los mecanismos responsables de la variaci\'on en la longitud de las cadenas tr\'oficas(e.g. inserci\'on, adici\'on y  grado de omnivor\'ismo); dependientes de la raz\'on de masas depredador-presa presentes en la comunidad.
+\item Evaluar la influencia de factores como la dimensi\'on del ecosistema, la estrategia de forrajeo de los depredadores presentes y el nivel de productividad basal del ecosistema, sobre dichas condiciones.
 \end{itemize}
 
 \section{HIPOTESIS}
 \begin{itemize}
-\item[$H_{o1}:$] La longitud de las cadenas tr\'oficas es invariante respecto a cambios en los valores de raz\'on de masas presa-depredador presentes en la comunidad.
-\item[$H_{11}:$] La longitud de las cadenas tr\'oficas es dependiente de los valores de raz\'on de masas presa-depredador presentes, debido a las limitaciones que estos imponen sobre los mecanismos de inserci\'on, adici\'on y omnivorismo.
+\item[$H_{o1}:$] La longitud de las cadenas tr\'oficas es invariante respecto a cambios en los valores de la raz\'on de masas presa-depredador presentes en la comunidad.
+\item[$H_{11}:$] La longitud de las cadenas tr\'oficas es dependiente de los valores de la raz\'on de masas presa-depredador presentes, debido a las limitaciones que estos imponen sobre los mecanismos de inserci\'on, adici\'on y omnivorismo.
 
-\item[$H_{o2}:$] Las limitaciones impuestas sobre la longitud de las cadenas tr\'oficas por los  valores de raz\'on de masas presa-depredador presentes en la comunidad es independiente de la dimensi\'on del ecosistema, la estrategia de forrajeo de los depredadores presentes y el nivel de productividad basal del ambiente.
-\item[$H_{12}:$] La dimensi\'on del ecosistema, la estrategia de forrajeo de los depredadores presentes y el nivel de productividad basal del ambiente influencian las limitaciones que impone sobre la longitud de las cadenas tr\'oficas los valores de raz\'on de masas presa-depredador presentes en la comunidad,debido a que modulan sus relaciones con los mecanimos de inserci\'on,adici\'on y omnivorismo.
+\item[$H_{o2}:$] Las limitaciones impuestas sobre la longitud de las cadenas tr\'oficas por los  valores de la raz\'on de masas presa-depredador presentes en la comunidad es independiente de la dimensi\'on del ecosistema, la estrategia de forrajeo de los depredadores presentes y el nivel de productividad basal del ambiente.
+\item[$H_{12}:$] La dimensi\'on del ecosistema, la estrategia de forrajeo de los depredadores presentes y el nivel de productividad basal del ambiente influencian las limitaciones que impone sobre la longitud de las cadenas tr\'oficas los valores de la raz\'on de masas presa-depredador presentes en la comunidad,debido a que modulan sus relaciones con los mecanimos de inserci\'on,adici\'on y omnivorismo.
 
 \end{itemize}
 
@@ -170,8 +168,7 @@ Desarrollar un mejor entendimiento de los mecanismos que regulan la longitud de 
 
 \input{Discusion}
 
-\section{CONCLUSIONES}
-
+\input{Conclusiones}
 \bibliographystyle{abbrvnat}
 \bibliography{BibliografiaTesis}
 
@@ -179,8 +176,6 @@ Desarrollar un mejor entendimiento de los mecanismos que regulan la longitud de 
 \section{ANEXOS}
 \input{Anexos}
 
-\section{GLOSARIO}
-
 \newpage
-\listoftodos[Notes]
+%%\listoftodos[Notes]
 \end{document}

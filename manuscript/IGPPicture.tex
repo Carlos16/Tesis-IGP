@@ -8,9 +8,9 @@
 
  \path[every node/.style={font=\sffamily\small}]
 
-(R) edge [red] (C)
-(R) edge [red] (P)
-(P) edge [red] (C)
+(R) edge [<-,red] (C)
+(R) edge [<-,red] (P)
+(P) edge [->,red] (C)
 (P) edge [bend right , dotted, blue] (R) 
 (P) edge [bend left , dotted, green]  (C)
 (R) edge [bend right ,dotted , black] (C);
