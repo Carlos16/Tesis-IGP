@@ -2,7 +2,7 @@
 
 \subsection{Modelaci\'on matem\'atica}
 
-Tomando como base el m\'odulo de tres especies  IGP - \emph{depredaci\'on dentro del clan}-(descrito en \citealt{polis1989ecology,polis1992intraguild}),usamos un modelo matem\'atico \citep{holt1997theoretical} para describir las interacciones entre las especies componentes (recurso, consumidor intermedio(IG presa) y depredador tope(IG depredador) ). Este m\'odulo ha sido sugerido como un sistema de complejidad suficiente para incorporar distintos mecanimos que provocan variaci\'on en la longitud de las cadenas tr\'oficas : Inserci\'on, Adici\'on y Omnivorismo \citep{TP2007proximate}.
+Tomando como base el m\'odulo de tres especies  IGP - \emph{depredaci\'on intragremial}-(descrito en \citealt{polis1989ecology,polis1992intraguild}),usamos un modelo matem\'atico \citep{holt1997theoretical} para describir las interacciones entre las especies componentes (recurso, consumidor intermedio(IG presa) y depredador tope(IG depredador) ). Este m\'odulo ha sido sugerido como un sistema de complejidad suficiente para incorporar distintos mecanimos que provocan variaci\'on en la longitud de las cadenas tr\'oficas : Inserci\'on, Adici\'on y Omnivorismo \citep{TP2007proximate}.
 
 \subsubsection{Forma general}
 La din\'amica del systema est\'a gobernada ,de forma general,por el siguiente sistema de ecuaciones diferenciales: \\
@@ -30,7 +30,7 @@ $q_1$\ &  Tasa de p\'erdida de biomasa por unidad de masa del consumidor interme
 $q_2$\ &  Tasa de p\'erdida de biomasa por unidad de masa del depredador tope $P$.\\
 \end{tabular}
 \subsubsection{Forma espec\'ifica  \emph{Lotka-Volterra}}
-En este caso asumimos que el recurso tiene un crecimiento log\'istico y que la tasa de consumci\'on per c\'apita de biomasa escala linearmente con la densidad de biomasa del recurso, i.e., usamos una respuesta funcional Tipo I \citep{gotelliprimer}, la cual es una modificaci\'on del modelo Lotka-Volterra \citep{gotelliprimer}.\\
+En este caso asumimos que el recurso tiene un crecimiento log\'istico y que la tasa de consumo per c\'apita de biomasa escala linearmente con la densidad de biomasa del recurso, i.e., usamos una respuesta funcional Tipo I \citep{gotelliprimer}, la cual es una modificaci\'on del modelo Lotka-Volterra \citep{gotelliprimer}.\\
 \mbox{}\\
 Definimos:
 \begin{equation}\label{eq:p1}
@@ -61,7 +61,7 @@ Reemplazando \eqref{eq:p1} en \eqref{eq:Gsystem} tenemos:
 \end{equation}
 
 \subsubsection*{Donde:}
-\begin{longtable}{l@{:}p{5.8in}}
+\begin{tabular}{l@{:}p{5.8in}}
 $r$  \ & Tasa intr\'inseca de producci\'on de biomasa del Recurso $R$.\\
 $K$  \  &Capacidad de carga (en biomasa) del recurso $R$.\\
 $\alpha_1$  \ & Tasa por unidad de masa de b\'usqueda y captura de biomasa del depredador intermedio $C$ sobre  el recurso basal $R$.\\
@@ -76,7 +76,7 @@ $D_J$  \ & Dimensi\'on del espacio en el cual se desarrola depredaci\'on sobre l
 $f_1$ \ & Estrategia de forrajeo de la consumidor intermedio $C$ .\\
 $f_2$ \ & Estrategia de forrajeo del depredador tope $P$ sobre $R$ .\\
 $f_3$ \ & Estrategia de forrajeo del depredador tope $P$ sobre $C$ .\\
-\end{longtable}
+\end{tabular}
 
 Los par\'ametros y funciones no mencionados mantienen la descripci\'on dada en el caso general.
 \subsubsection{Parametrizaci\'on}
@@ -119,7 +119,7 @@ En \cite{pawar2012dimensionality} describen la variaci\'on de la velocidad para 
 &v = v_0m^{\beta - \beta_F}
 \end{aligned}
 \end{equation}
-$v_0$ es una constante que depende de la taxa y del modo de locomoci\'on y la constante metab\'olica $B_0$.\\ \improvement{mejorar que poner, considerar referir anexos}
+$v_0$ es una constante que depende de la taxa y del modo de locomoci\'on y la constante metab\'olica $B_0$.\\
 
 $k_{ij}= m_i/m_j$ es el raz\'on de la masa del recurso con respecto al depredador , y $\Pi \in [0,1]$ y  puede tomar distintas formas\citep{weitz2006size}, en este trabajo se us\'o la siguiente(figura \ref{fig:efficiency}): 
 \begin{equation}\label{eq:sr}

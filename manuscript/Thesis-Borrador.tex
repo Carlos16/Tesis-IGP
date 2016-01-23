@@ -1,13 +1,21 @@
-\documentclass [12pt]{article}
-\setlength{\textwidth}{6.25in}
-\setlength{\textheight}{8.5in}
-\setlength{\evensidemargin}{0in}
-\setlength{\oddsidemargin}{0in}
-\setlength{\topmargin}{-0.1in}
-\setlength{\parskip}{.1in}  
-\setlength{\parindent}{0.0in}  
-\usepackage[left=3.5cm,right=2.5cm]{geometry}
+\documentclass [11pt]{article}
+%\setlength{\textwidth}{6.25in}
+%\setlength{\textheight}{8.5in}
+%\setlength{\evensidemargin}{0in}
+%\setlength{\oddsidemargin}{0in}
+%\setlength{\topmargin}{-0.1in}
+%\setlength{\parskip}{.1in}  
+%\setlength{\parindent}{0.0in}  
+\usepackage{setspace}
+\doublespacing
+\usepackage[left=3.5cm,right=2.5cm, top=2.5cm,bottom=2.5cm]{geometry}
 
+
+\providecommand{\keywords}[1]{\textbf{Keywords:\ } #1}
+\providecommand{\palabrasclave}[1]{\textbf{Palabras clave:\ } #1}
+
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
 
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{4}
@@ -56,8 +64,8 @@
 
 
 \usepackage{amsthm}
-\newtheorem{prop}{Proposition}
-
+\newtheorem{prop}{Proposici\'on}
+\renewcommand*{\proofname}{Prueba}
 
 
 
@@ -132,12 +140,15 @@
 %%===================================
 
 \begin{document}
-\setcounter{tocdepth}{3}
+%\setcounter{tocdepth}{3}
+\pagenumbering{gobble}
 \tableofcontents
 \listoffigures
 \listoftables
-
+\input{Resumen}
 \input{Abstract}
+\clearpage
+\pagenumbering{arabic}
 \input{Introduccion}
 
 \section{MARCO TEORICO}
