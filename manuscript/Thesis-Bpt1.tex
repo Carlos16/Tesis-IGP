@@ -1,0 +1,179 @@
+\documentclass [11pt]{article}
+%\setlength{\textwidth}{6.25in}
+%\setlength{\textheight}{8.5in}
+%\setlength{\evensidemargin}{0in}
+%\setlength{\oddsidemargin}{0in}
+%\setlength{\topmargin}{-0.1in}
+%\setlength{\parskip}{.1in}  
+%\setlength{\parindent}{0.0in}  
+\usepackage{setspace}
+\doublespacing
+\usepackage[left=3.5cm,right=2.5cm, top=2.5cm,bottom=2.5cm]{geometry}
+
+
+\providecommand{\keywords}[1]{\textbf{Keywords:\ } #1}
+\providecommand{\palabrasclave}[1]{\textbf{Palabras clave:\ } #1}
+
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+   
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{caption} 
+\numberwithin{equation}{section}
+%\renewcommand{\theequation}{\thesection\arabic{equation}}
+
+%NOTES
+
+\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
+% 
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+
+\definecolor{gold(metallic)}{rgb}{0.83, 0.69, 0.22}
+
+\newcommand{\hwplotR}{\raisebox{2pt}{\tikz{\draw[red,solid,line width=0.9pt](0,0) -- (5mm,0);}}}
+\newcommand{\hwplotY}{\raisebox{2pt}{\tikz{\draw[gold(metallic),solid,line width=0.9pt](0,0) -- (5mm,0);}}}
+\newcommand{\hwplotG}{\raisebox{2pt}{\tikz{\draw[green,solid,line width=0.9pt](0,0) -- (5mm,0);}}}
+\newcommand{\hwplotB}{\raisebox{2pt}{\tikz{\draw[blue,solid,line width=0.9pt](0,0) -- (5mm,0);}}}
+\newcommand{\hwplotK}{\raisebox{2pt}{\tikz{\draw[black,dashed,line width=1.2pt](0,0) -- (5mm,0);}}}
+\newcommand{\hwplotT}{\raisebox{2pt}{\tikz{\draw[black,solid,line width=1.2pt](0,0) -- (5mm,0);}}}
+
+
+\usepackage{graphicx} % Used to insert images
+\usepackage{adjustbox} % Used to constrain images to a maximum size 
+
+\usepackage{bm}
+%\usepackage[textsize=scriptsize]{todonotes}
+\usepackage[hypcap]{caption}
+
+\usepackage[hidelinks]{hyperref}
+
+
+
+
+\usepackage{amsthm}
+\newtheorem{prop}{Proposici\'on}
+\renewcommand*{\proofname}{Prueba}
+
+
+
+%\usepackage{fontspec}
+%\setmainfont{Times New Roman}
+\setlength{\parskip}{.1in}  
+\setlength{\parindent}{0.0in}  
+\renewcommand{\baselinestretch}{1.5}
+\renewcommand\contentsname{Contenido}
+\renewcommand{\figurename}{Fig.}
+\renewcommand{\listfigurename}{Lista de Figuras}
+\renewcommand{\listtablename}{Lista de Tablas}
+\renewcommand{\tablename}{Tabla}
+\usepackage{tikz}
+%\usetikzlibrary{arrows,shapes,trees,..}
+%\usepackage{pgflibraryarrows}
+%\usepackage{pgflibrarysnakes}
+
+\usepackage{longtable}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage[round,sort]{natbib}
+\renewcommand\refname{Referencias}
+
+\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+\newcommand{\PP}{\textit{\tiny P}}
+\newcommand{\C}{\textit{\tiny C}}
+\newcommand{\R}{\textit{\tiny R}}
+\newcommand{\CR}{\textit{\tiny CR}}
+\newcommand{\PC}{\textit{\tiny PC}}
+\newcommand{\PR}{\textit{\tiny PR}}
+\newcommand{\CP}{\textit{\tiny CP}}
+\newcommand{\RC}{\textit{\tiny RC}}
+\newcommand{\RP}{\textit{\tiny RP}}
+
+
+%AMSMATH environment
+
+\makeatletter
+\newcommand{\mathleft}{\@fleqntrue}
+\newcommand{\mathcenter}{\@fleqnfalse}
+\makeatother
+
+%Tikz===========================================
+
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{arrows,calc}
+\newenvironment{customlegend}[1][]{%
+    \begingroup
+    % inits/clears the lists (which might be populated from previous
+    % axes):
+    \csname pgfplots@init@cleared@structures\endcsname
+    \pgfplotsset{#1}%
+}{%
+    % draws the legend:
+    \csname pgfplots@createlegend\endcsname
+    \endgroup
+}%
+
+% makes \addlegendimage available (typically only available within an
+% axis environment):
+\def\addlegendimage{\csname pgfplots@addlegendimage\endcsname}
+
+%%--------------------------------
+
+% definition to insert numbers
+\pgfkeys{/pgfplots/number in legend/.style={%
+        /pgfplots/legend image code/.code={%
+            \node at (0.295,-0.0225){#1};
+        },%
+    },
+}
+%%===================================
+
+\begin{document}
+%\setcounter{tocdepth}{3}
+\pagenumbering{gobble}
+\tableofcontents
+\listoffigures
+\listoftables
+\input{Resumen}
+\input{Abstract}
+\clearpage
+\pagenumbering{arabic}
+\input{Introduccion}
+
+\section{MARCO TEORICO}
+\input{MarcoTeorico}
+
+\section{OBJETIVOS GENERALES Y ESPEC\'IFICOS}
+\subsection{Objetivo General}
+Desarrollar un mejor entendimiento de los mecanismos que regulan la longitud de las cadenas tr\'oficas.
+\subsection{Objetivos Espec\'ificos}
+\begin{itemize}
+\item Derivar condiciones necesarias y suficientes para la expresi\'on de los mecanismos responsables de la variaci\'on en la longitud de las cadenas tr\'oficas(e.g. inserci\'on, adici\'on y  grado de omnivor\'ismo); dependientes de la raz\'on de masas depredador-presa presentes en la comunidad.
+\item Evaluar la influencia de factores como la dimensi\'on del ecosistema, la estrategia de forrajeo de los depredadores presentes y el nivel de productividad basal del ecosistema, sobre dichas condiciones.
+\end{itemize}
+
+\section{HIPOTESIS}
+\begin{itemize}
+\item[$H_{o1}:$] La longitud de las cadenas tr\'oficas es invariante respecto a cambios en los valores de la raz\'on de masas presa-depredador presentes en la comunidad.
+\item[$H_{11}:$] La longitud de las cadenas tr\'oficas es dependiente de los valores de la raz\'on de masas presa-depredador presentes, debido a las limitaciones que estos imponen sobre los mecanismos de inserci\'on, adici\'on y omnivorismo.
+
+\item[$H_{o2}:$] Las limitaciones impuestas sobre la longitud de las cadenas tr\'oficas por los  valores de la raz\'on de masas presa-depredador presentes en la comunidad es independiente de la dimensi\'on del ecosistema, la estrategia de forrajeo de los depredadores presentes y el nivel de productividad basal del ambiente.
+\item[$H_{12}:$] La dimensi\'on del ecosistema, la estrategia de forrajeo de los depredadores presentes y el nivel de productividad basal del ambiente influencian las limitaciones que impone sobre la longitud de las cadenas tr\'oficas los valores de la raz\'on de masas presa-depredador presentes en la comunidad,debido a que modulan sus relaciones con los mecanimos de inserci\'on,adici\'on y omnivorismo.
+
+\end{itemize}
+
+
+\input{Metodologia}
+
+\end{document}
