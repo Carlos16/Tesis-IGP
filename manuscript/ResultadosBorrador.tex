@@ -10,22 +10,12 @@
 \doublespacing
 \usepackage[left=3.5cm,right=2.5cm, top=2.5cm,bottom=2.5cm]{geometry}
 
-%\usepackage[english]{babel}
-\usepackage{csquotes}
-\usepackage [
-   backend=bibtex
-   ,style=iso-authoryear
-   ,natbib=true
-  ,autolang=other
-]{biblatex}
-\addbibresource{BibliografiaTesis.bib}
-
 
 \providecommand{\keywords}[1]{\textbf{Keywords:\ } #1}
 \providecommand{\palabrasclave}[1]{\textbf{Palabras clave:\ } #1}
 
 \usepackage{helvet}
-\renewcommand{\familydefault}{\sfdefault}
+%\renewcommand{\familydefault}{\sfdefault}
 
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{4}
@@ -67,6 +57,7 @@
 \usepackage{bm}
 %\usepackage[textsize=scriptsize]{todonotes}
 \usepackage[hypcap]{caption}
+
 \usepackage[hidelinks]{hyperref}
 
 
@@ -95,8 +86,8 @@
 
 \usepackage{longtable}
 \usepackage[nottoc,numbib]{tocbibind}
-%\usepackage[round,sort]{natbib}
-%\renewcommand\refname{Referencias}
+\usepackage[round,sort]{natbib}
+\renewcommand\refname{Referencias}
 
 \newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
 \newcommand{\PP}{\textit{\tiny P}}
@@ -158,42 +149,14 @@
 \input{Abstract}
 \clearpage
 \pagenumbering{arabic}
-\input{Introduccion}
-
-\section{MARCO TEORICO}
-\input{MarcoTeorico}
-
-\section{OBJETIVOS GENERALES Y ESPEC\'IFICOS}
-\subsection{Objetivo General}
-Desarrollar un mejor entendimiento de la relaci\'on existente entre los mecanismos que regulan la longitud de las cadenas tr\'oficas y la distribuci\'on de masas presente en la comunidad.
-\subsection{Objetivos Espec\'ificos}
-\begin{itemize}
-\item Derivar condiciones necesarias y suficientes para la expresi\'on de los mecanismos responsables de la variaci\'on en la longitud de las cadenas tr\'oficas(e.g. inserci\'on, adici\'on y  grado de omnivor\'ismo); en funci\'on de la raz\'on de masas depredador-presa presentes en la comunidad, bajo el estudio de los mecanismos de coexistencia y ensamblaje del m\'odulo \emph{Intraguild predation}.
-\item Evaluar la influencia de factores como la dimensi\'on del ecosistema, la estrategia de forrajeo de los depredadores presentes y el nivel de productividad basal del ecosistema, sobre dichas condiciones.
-\end{itemize}
-
-\section{HIPOTESIS}
-\begin{itemize}
-\item[$H_{o1}:$] La longitud de las cadenas tr\'oficas es invariante respecto a cambios en los valores de la raz\'on de masas presa-depredador presentes en la comunidad.
-\item[$H_{11}:$] La longitud de las cadenas tr\'oficas es dependiente de los valores de la raz\'on de masas presa-depredador presentes, debido a las limitaciones que estos imponen sobre los mecanismos de inserci\'on, adici\'on y omnivorismo.
-
-\item[$H_{o2}:$] Las limitaciones impuestas sobre la longitud de las cadenas tr\'oficas por los  valores de la raz\'on de masas presa-depredador presentes en la comunidad es independiente de la dimensi\'on del ecosistema, la estrategia de forrajeo de los depredadores presentes y el nivel de productividad basal del ambiente.
-\item[$H_{12}:$] La dimensi\'on del ecosistema, la estrategia de forrajeo de los depredadores presentes y el nivel de productividad basal del ambiente influencian las limitaciones que impone sobre la longitud de las cadenas tr\'oficas los valores de la raz\'on de masas presa-depredador presentes en la comunidad,debido a que modulan sus relaciones con los mecanimos de inserci\'on,adici\'on y omnivorismo.
-
-\end{itemize}
-
 
 \input{Metodologia}
 
 \input{Resultados}
 
-\input{Discusion}
+\bibliographystyle{abbrvnat}
+\bibliography{BibliografiaTesis}
 
-\input{Conclusiones}
-%\bibliographystyle{plainnat}
-%\bibliography{BibliografiaTesis}
-
-\printbibliography
 \newpage
 \section{ANEXOS}
 \input{Anexos}

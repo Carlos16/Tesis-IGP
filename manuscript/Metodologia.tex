@@ -41,7 +41,7 @@ Definimos:
 &\alpha_{2} := \alpha_{2}(m_\R,m_\PP,T_\R,T_\PP,D_\R,f_2,\vartheta_\R,\vartheta_\PP)&\\
 &\alpha_{3} := \alpha_{3}(m_\C,m_\PP,T_\C,T_\PP,D_\C,f_3,\vartheta_\C,\vartheta_\PP)& \\
 &q_1 := q_1(m_\C,T_\C,\vartheta_\C)& \\ 
-&q_2 := q_2(m_\P,T_\PP,\vartheta_\PP)&\\
+&q_2 := q_2(m_\PP,T_\PP,\vartheta_\PP)&\\
 &F(R):= rR(1-R/K)& \\
 &G(R,C):= \alpha_1 RC &\\ 
 &H_{\R}(R,C,P):= \alpha_2PR&\\
@@ -89,12 +89,12 @@ Usando las relaciones definidas en \cite{savage2004effects} tenemos:
 &r = r_0m_\R^{\beta_\R - 1} \\
 &q_1=q_{0,1}m_\C^{\beta_\C - 1} \\
 &q_2= q_{0,2}m_\PP^{\beta_\PP -1}\\
-&K= K_{0}m_\R^{1-\beta_\R}
+&K= \kappa_{0}m_\R^{1-\beta_\R}
 \end{aligned}
 \end{equation}
 
 $\beta_J$ es el exponente que describe la variaci\'on de la tasa metab\'olica a nivel de individuo con la masa de la especie $J$, cuyo valor ha sido descrito entre $2/3 - 1$ siendo $3/4$ el asociado a una tasa metab\'olica basal y valores superiores a tasas metab\'olicas en actividad\citep{pawar2012dimensionality,west1997general,savage2004predominance}. \\
-$r_0,q_{0,1},q_{0,2}$ y $K_0$ son constantes que dependen de la temperatura y la clase metab\'olica de las especies( e.g., endotermos o ectotermos) , $K_0$ a su ves depende de la productividad del ecosistema \citep{pawar2012dimensionality}.
+$r_0,q_{0,1},q_{0,2}$ y $\kappa_0$ son constantes que dependen de la temperatura y la clase metab\'olica de las especies( e.g., endotermos o ectotermos) , $\kappa_0$ a su ves depende de la productividad del ecosistema \citep{pawar2012dimensionality}.
 \subsubsection{Par\'amatros inter-poblacionales}
 Usando las relaciones definidas en \citep{pawar2012dimensionality,kiltie2000scaling,mcgill2006allometric,bejan2006unifying} tenemos una relaci\'on para $m_j\alpha$  la tasa p\'ercapita de b\'usqueda(tasa de encuentro potencial) y captura de biomasa de recurso $i$ por parte de un depredador $j$, la cual depende del \'area buscada $S_A$ y la tasa de \'exito en la captura $\aleph$ : 
 
@@ -173,13 +173,12 @@ La funci\'on $f$ incorpora tanto los cambios sobre $S_A$ como $\aleph$ respecto 
 f(k_{ij}) = 
 \begin{cases}
 \sqrt{1+k_{ij}^{2p_v}}k_{ij}^{(D_j-1)p_d} \Pi(k_{ij}) & Fm = Ac\\
-k_{ij}^{p_v+(D_j-1)p_d}\Pi(k_{ij}) & Fm =Gr\\
-k_{ij}^{(D_j-1)p_d}\Pi(k_{ij}) & Fm = Sw\\
+k_{ij}^{p_v+(D_j-1)p_d}\Pi(k_{ij}) & Fm = Sw\\
+k_{ij}^{(D_j-1)p_d}\Pi(k_{ij}) & Fm = Gr\\
 \end{cases}
 \end{equation}
 
 Un an\'alisis del comportamiento de estas funciones se detalla en anexos \ref{subsec:funcf}.
-
 
 \subsection{An\'alisis}
 Todos los an\'alisis descritos a continuaci\'on se desarrollar\'an para el modelo descrito y con distintas combinaciones de dimensi\'on del habitat, estrategia de forrajeo,nivel de productividad ambiental basal y $\Pi$, las combinaciones usadas se especifican en Anexo \ref{subsec:params} .\\
@@ -204,7 +203,7 @@ En los 3 primeros escenarios la variaci\'on de la longitud de la cadena tr\'ofic
 
 La derivaci\'on de estos criterios asume lo siguiente:
 \begin{itemize}
-\item \emph{El sistema receptor se ha encontrado aislado por suficiente tiempo como para alcanzar un estado asimpt\'otico y que dicho estado es un punto de equilibrio}.\\Esta suposici\'on es plausible ya que se espera que los eventos de inmigraci\'on de $C$ y $P$ no coincidan y que la separaci\'on entre ambos sea \emph{suficientemente} larga. M\'as a\'un en el modelo usado, en cualquier subsistema de dos especies(e.g $R-C$) la condición inicial (e.g. $(R_0,C_0) \in R_2^+$) pertenece al dominio de atracci\'on del punto de equilibrio.(Un simple an\'alisis gr\'afico del plano de fases da ese resultado \citep{gotelliprimer}).
+\item \emph{El sistema receptor se ha encontrado aislado por suficiente tiempo como para alcanzar un estado asimpt\'otico y que dicho estado es un punto de equilibrio}.\\Esta suposici\'on es plausible ya que se espera que los eventos de inmigraci\'on de $C$ y $P$ no coincidan y que la separaci\'on entre ambos sea \emph{suficientemente} larga. M\'as a\'un en el modelo usado, en cualquier subsistema de dos especies(e.g $R-C$) la condición inicial (e.g. $(R_0,C_0) \in R_2^+$) pertenece al dominio de atracci\'on del punto de equilibrio.(Dado que el sistema es \emph{volterra dissipative})
 \item \emph{La invasi\'on se considera exitosa si es que existe un crecimiento por parte del invasor en los instantes posteriores a la invasi\'on}. *En el caso del sistema tridimensional esta condición es necesaria para la invasión.
 \end{itemize}
 
@@ -245,13 +244,13 @@ Donde:
 \begin{equation}
 A = K \alpha_1 \alpha_2 (\epsilon_1 \epsilon_3 - \epsilon_2 ) + \alpha_3 \epsilon_3 r
 \end{equation}
-Manipulando algebraicamente $C^*$ y $P^*$ se deriva que la condici\'on para que $(R^*,C^*,P^*)$ pertenzca a $R^3_+$ es que se cumplan $I_{\C \to \PP-\R}$ y $I_{\PP \to \C-\R}$ en el caso que $A >0$ y que no se cumplan ambos en caso que $A<0$. Si $A = 0$ el sistema no posee equilibrio no trivial. \\
+Manipulando algebraicamente $C^*$ y $P^*$ se deriva que la condici\'on para que $(R^*,C^*,P^*)$ pertenzca a $R^3_+$ es que se cumplan $I_{\C \to \PP-\R}$ y $I_{\PP \to \C-\R}$ en el caso que $A > 0$ y que no se cumplan ambos en caso que $A < 0$. Si $A = 0$ el sistema no posee equilibrio no trivial. \\
 Dado lo descrito anteriormente en el caso que $A <0$ el equilibrio no puede formarse mediante ning\'un camino de ensamblaje con los supuestos hechos en \ref{subsubsec:Inv}.\\
  Denotamos :
 \begin{equation}
   \begin{aligned}
-    E_1 &= \{ n \in E / A >0 \}  \\
-    E_2 &= \{ n \in E / A <0 \}
+    E_1 &= \{ n \in E / A > 0 \}  \\
+    E_2 &= \{ n \in E / A < 0 \}
   \end{aligned}
 \end{equation}
 
@@ -270,8 +269,26 @@ Con la parametrizaci\'on usada para una masa de depredador tope $m_P$ dada esta 
 Donde $ h = p_v + 2(D_R -1) p_d$.
 
 \subsubsection{Estabilidad Din\'amica}
-En cada regi\'on de coexistencia se distingui\'o entre puntos \emph{localmente estables e inestables},el procedimiento se detalla en \ref{subsec:stab},y se determin\'o la influencia sobre:
-\begin{equation}\label{eq:estabreg}
-E_{estab} = \{ (R,C,P) \in E / (R,C,P) \mbox{ es localmente estable} \}
+Se determin\'o la influencia sobre la estabilidad local del punto de equilibrio dentro de la zona de coexistencia, el procedimiento se detalla en \ref{subsec:stab}.
+
+
+\subsubsection{Longitud de cadena tr\'ofica}
+
+Dentro de la zona de coexistencia, calculamos el valor de la m\'axima posici\'on tr\'ofica $MTP$ para el punto de equilibrio, esto es:
+\begin{equation}
+  MTP = \frac{ 2 \varepsilon_2 \alpha_2 R^* + 3 \varepsilon_3 \alpha_3 C^*}{ \varepsilon_2 \alpha_2 R^* + \varepsilon_3 \alpha_3 C^*} = 2 + \frac{\varepsilon_3 \alpha_3 C^*}{q_2}
 \end{equation}
+
+\subsection{An\'alisis da datos}
+
+En base a la red tr\'ofica de Benguela \citep{yodzis1998:localTD} y los datos de masas coporarles publicados en \citet{brose2006:bodysizecr}. Extraemos de la red todos los triples de especies que conformen un m\'odulo IGP y para una gradiente de valores de $\kappa_0$ calculamos la proporci\'on de m\'odulos cumpliendo alguno de los criterios de invasibilidad o coexistencia respectivamente. 
+
+\begin{figure}
+  \centering
+  \includegraphics[width = 0.99\textwidth]{./Plots/Benguela.pdf}
+  \caption[Benguela]{Red tr\'ofica de Benguela \citep{yodzis1998:localTD}}
+  \label{fig:Benguela}
+\end{figure}
+
+
 

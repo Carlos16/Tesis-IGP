@@ -12,12 +12,13 @@ Derivamos expl\'icitamente las siguientes condiciones para cada criterio de inva
 \subsubsection{C $\to$ R}
 
 \begin{equation}
-  \frac{dC}{dt} >0 \iff  \mu_1 := (m_P^{h_R +1 - 2\beta} > \zeta_1(k_{\RC},k_{\CP}) = k_{\CP}^{2\beta -1 -h_R}\frac{q_{0,1}}{\chi_1})
+  \frac{dC}{dt} > 0 \iff  \mu_1 := (m_P^w > \zeta_1(k_{\CP},k_{\RC}) = k_\CP^{-w}\frac{q_{0,1}}{\chi_1})
 \end{equation}
 Donde:
 \begin{equation}
   \begin{aligned}
     h_R &= p_v + 2(D_R - 1)p_d \\
+    w &= h_R + 1 - 2 \beta \\
     \chi_1 &= \varepsilon_1 \kappa_0\alpha_{0,1} g(k_{\RC}) \\
     g(k_\RC) &= f_1(k_{\RC})k_{\RC}^{1-\beta}\\
   \end{aligned}
@@ -26,25 +27,38 @@ Entonces:
 \begin{equation}
 \mathbf{Z(I_{\C\to \R})} := \{ (k_{\RC},k_{\CP},m_P) \in \mathbb{R}^3_+ / m_p^{h_R + 1 - 2\beta} > \zeta_1(k_{\RC},k_{\CP}) \}
 \end{equation}
-
+Denotando $m_c = m_pk_\RC$, tomando logaritmo tenemos:
+\begin{equation}\label{eq:CONDIC-RLog}
+ w \log m_C > \log{q_{0,1}} - \log \chi_1 = \log{q_{0,1}} -\log(\varepsilon_1\kappa_0 \alpha_{0,1}) - \log{g(k_\RC)} 
+\end{equation}
 
 Dada la relaci\'on anterior, podemos deducir la influencia de los par\'ametros del modelo sobre la invasibilidad de $C$.\\
+Asumiendo $w > 0$ ( lo cual se cumple para los valores usados de $\beta, p_d, p_v$): \\
+Tenemos que aumentos en productividad basal $\kappa_0$, eficiencia de conversi\'on $\varepsilon_1$ y constante de tasa de b\'usqueda $\alpha_{0,1}$ disminuyen el valor \emph{m\'inimo} de $m_C$ para el cual la invasi\'on es posible. Siendo m\'as precisos estos cambios se manifiestan simplemente en traslaciones verticales del l\'imite de invasibilidad.\\
+Para un valor de $k_\RC$ fijo siempre existir\'a un valor de $m_C$ para la cual la invasi\'on es posible.\\
+La influencia de $k_\RC$ depender\'a en principio de la estrategia de forrajeo usada por el depredador y el valor de $\phi$ en la probabilidad de captura. Para ilustrar tomamos el caso particular de una estrategia de forrajeo de pastoreo:\\
+En este caso tenemos:
+\[ g(k_\RC) = k_\RC^{(D_R -1)p_d} \frac{a}{1+k_\RC^\phi} \]
+Reemplazando en ~\eqref{eq:CONDIC-RLog} tenemos:
+\begin{equation}
+  \label{eq:CONIC-RLOGGRAZING}
+  w \log m_C > \log{t_0} - h'_R\log{k_\RC} + \log(1+k_\RC^\phi)
+\end{equation}
+Donde $t_0 = q_{0,1} / (a \kappa_0 \varepsilon_1 \alpha_{0,1})$ y $h'_R = (D_R -1)p_d$
+Para un valor fijo de $m_C$, tenemos que valores muy peque\~nos de $k_\RC$ imposibilitan la invasi\'on: $\log(k_\RC) \to -\infty$ y los dem\'as t\'erminos de la parte derecha son finitos. El m\'aximo valor de $k_\RC$ para el cual la invasi\'on es posible depende del valor de $\phi$, la parte derecha de la ecuaci\'on sera creciente respecto a incrementos en $k_\RC$ siempre que
+\begin{equation}
+  \label{eq:ROCKRCIC-R}
+  k_\RC^\phi(\phi - h'_R) > h'_R
+\end{equation}
+Es decir siempre que $\phi - h'_R > 0$ existir\'a un valor de $k_\RC$ a partir del cual la parte derecha de la ecuaci\'on es creciente con lo cual para un $m_C$ fijo existir\'a un valor de $k_\RC$ sobre el cual la invasi\'on no es posible. M\'as a\'un para $k_\RC = (\frac{h'_R}{\phi - h'_R})^{1/\phi}$ el valor de $m_C$ necesario para invadir es \emph{m\'inimo}.
 
-En particular dado que $f_1(k_{\RC}) \to 0 (cuando k_{\RC} \to 0)$ y $\beta <1$ tenemos que $\chi_1 \to 0 (k_{\RC} \to 0)$,para un valor acotado de $\kappa_0$,y por lo tanto valores extremadamente peque\~nos de $k_{\RC}$ siempre ser\'an exclu\'idos de $\mathbf{Z(I_{\C\to \R})}$ si mantenemos $m_P$ y $k_{\CP}$ constante(un comportamiento an\'alogo se observa para $k_\CP$ peque\~nos), dicho esto al aumentar $k_{\CP}$, $\kappa_0$ y $m_P$ el m\'inimo $k_{\RC}$ disminuye, asu vez dado que el impacto de $m_P$ y $k_\CP$ esta influenciado por la dimensi\'on del espacio de b\'usqueda esta disminuci\'on es mas fuerte para ambientes $3D$.\\
-
-Para valores fijos de $k_{\CP}, \kappa_0 ,m_P$,el valor m\'aximo de $k_{\RC}$ en $\mathbf{Z(I_{\C\to \R})}$ depender\'a del valor de $\phi$ y $fm$. Sin embargo para los distintos $fm$ tenemos un comportamiento cualitativo similar , debido a la similitud existente entre $f_1$ para distintos $fm$(v\'ease anexo \ref{subsec:funcf}). Dada la similitud entre $g$ y $f_1$ por un tratamiento similar al descrito en anexos \ref{subsec:funcf} podemos observar que para $\phi$ \emph{suficientemente peque\~no} $\chi_1$ crece mon\'otonamente con respecto a $k_\RC$ por lo tanto se observa la presencia de un valor umbral $k$ tal que por encima de \'el la invasi\'on de $C$ es posible. A su vez para valores de $\phi$ \emph{suficientemente grandes} tenemos que $\chi_1$ presenta un valor m\'aximo por encima del cual decrece mon\'otonamente, es m\'as $\chi_1 \approx c k_{RC}^{h - \phi}$ para valores de $k_\RC$ elevados (donde $h$ depende de $fm$) y por tanto estos ser\'ian exclu\'idos de $\mathbf{Z(I_{\C\to \R})}$ dado que al mantener $m_P$ y $k_\CP$ fijos cambios en $k_\RC$ simplemente indican cambios en la masa de $m_R$ podemos interpretar estos resultados de la siguiente manera, sin importar $\phi$, $m_R$ tiene que tener un tama\~no m\'inimo el cual permita a $C$ invadir, esto debido al hecho que $m_R$ influencia la capacidad de carga de $R$, y por ende la energ\'ia disponible a $C$ al momento de la invasi\'on, sin embargo valores elevados de $m_R$ son inviables para $C$ para $\phi$ \emph{suficientemente grandes} ya que en estos casos a pesar de que el sistema presenta una gran cantidad de energ\'ia disponible, debido a la baja probabilidad de captura de $R$ por parte de $C$ no se traducen en aumentos en biomasa de $C$, es decir lo importante para $C$ al momento de la invasi\'on no solamente es la energ\'ia total presente en el sistema sino que \'esta se encuentre en una \emph{forma} que pueda ser explotada por $C$.\\
-
-
-Si mantenemos $\kappa_0,k_\CP$ y $k_\RP$ fijos, observamos que para que sea posible la invasi\'on de $C$, $m_P$ tiene que superar un valor dado. Dado que aumentos en $m_P$ para raz\'on de masas fijos implican aumentos en las masas de $R$ y $C$ respectivamente, esto nos dice que existe un tama\~no de $C$ y$R$ por encima del cual la invasi\'on de $C$ es posible.
-
-La dimensi\'on del espacio de b\'usqueda afecta positivamente en la mayoria de los casos a $\chi_1$(si asociamos cambios en $\kappa_0$, y con $k_\RC > 10^{-30}$), sin embargo debido a que tambi\'en influencia positivamente a $h_R$ su impacto total sobre la invasibilidad puede ser negativo para valores elevados de $k_\RC$(i.e., cuando el m\'inimo $k_\RC$ necesario para la invasi\'on es elevado, como se da para $k_\CP$ y $m_P$ peque\~nos), siendo m\'as precisos siempre que $\frac{q_{0,1}}{\chi_1} >1$ en ambientes $2D$ tenemos que el impacto es positivo, pero para $\frac{q_{0,1}}{\chi_1} < 1$ el impacto es negativo si $ (\frac{q_{0,1}}{\chi_1})_{3D}^\frac{1 + h_{2D} - 2 \beta}{1 + h_{3D} - 2 \beta} >  (\frac{q_{0,1}}{\chi_1})_{2D} $.\\ La figura \ref{fig:Z(IC2)} muestra las distintas zonas de invasibilidad que se forman, para las distintas combinaciones de par\'ametros explorados.
-
+La figura \ref{fig:R-CInv} muestra que el comportamiento es similar para las otras estrategias de forrajeo. Un tratamiento m\'as riguroso sobre esta similitud se detalla en \ref{subsec:funcf}.  De la figura tambi\'en se observa que el comportamiento es similar tanto para ambientes de b\'usqueda 3D y 2D, y salvo para $\phi$ elevados las diferencias cuantitativas no son notorias. Una descripci\'on general se detalla en  \ref{subsec:InvCR}
 
 \begin{figure}
   \centering
-  \includegraphics[width = 0.99\textwidth]{./Plots/Z(IC2)AcGrGr.pdf}
-  \caption[Env $Z(IC2)$]{\emph{Envolturas de Invasibilidad} para el caso de el depredador intermedio $C$ como invasor frente a una comunidad receptora formada por $R$. La fila superior es para espacios de b\'usqueda bidimensionales y la inferior tridimensionales, las columnas de izquierda a derecha aumentan el valor de $\phi$, siendo $0.02,0.2$ y $2$ respectivamente.Las diferentes lineas implican distintas masas de depredador $m_P$ :({\hwplotR}) $10^5 kg$,  ({\hwplotY}) $1kg$, ({\hwplotG}) $10^{-5}kg$ y ({\hwplotB}) para $10^{-10}kg$. ({\hwplotK}) separa las zonas donde $K_{RC},K_{CP},k_{RP}$ son mayores o menores que 1 respectivamente. $k_0 = 0.1$ y $k_0 = 30$ para el caso $2D$ y $3D$ respectivamente, los valores de los otros par\'ametros son los descritos en el anexo \ref{subsec:params}}
-  \label{fig:Z(IC2)}
+  \includegraphics[width = 0.99\textwidth]{./Plots/R-CInv.pdf}
+  \caption[Invasibilidad R-C]{\emph{Envolturas de Invasibilidad} para el caso de el depredador intermedio $C$ como invasor frente a una comunidad receptora formada por $R$. La fila superior es para espacios de b\'usqueda bidimensionales y la inferior tridimensionales, las columnas de izquierda a derecha cambian la estrategia de forrajeo. $k_0 = 0.1$ y $k_0 = 30$ para el caso $2D$ y $3D$ respectivamente, los valores de los otros par\'ametros son los descritos en el anexo \ref{subsec:params}}
+  \label{fig:R-CInv}
 \end{figure}
 
 \subsubsection{P $\to$ R}
@@ -63,17 +77,17 @@ Donde:
 \mathbf{Z(I_{\PP \to \R})} := \{ (k_{\RC},k_{\CP},m_P) \in \mathbb{R}^3_+ / m_p^{h_R + 1 - 2\beta} > \zeta_2(k_{\RC},k_{\CP}) \}
 \end{equation}
 
-El comportamiento es similar al descrito anteriormente, reemplazando $k_\RC$ por $k_\RP$ (note que $k_\RP = k_\RC k_\CP$) en nuestra discusi\'on anterior.La distintas zonas de invasibilidad se grafican en la figura \ref{fig:Z(IC3)}.
+El comportamiento es similar al descrito anteriormente, reemplazando $k_\RC$ por $k_\RP$ (note que $k_\RP = k_\RC k_\CP$) en nuestra discusi\'on anterior. La distintas zonas de invasibilidad se grafican en la figura \ref{fig:Z(IC3)}.
 
 
 \begin{figure}
   \centering
   \includegraphics[width = 0.99\textwidth]{./Plots/Z(IC3)AcGrGr.pdf}
-  \caption[Env $Z(IC2)$]{\emph{Envolturas de Invasibilidad} para el caso de el depredador intermedio $P$ como invasor frente a una comunidad receptora formada por $R$.Las dem\'as especificaciones se comparten con la figura ~\ref{fig:Z(IC2)}}
+  \caption[Env $Z(IC2)$]{\emph{Envolturas de Invasibilidad} para el caso de el depredador intermedio $P$ como invasor frente a una comunidad receptora formada por $R$. La fila superior es para espacios de b\'usqueda bidimensionales y la inferior tridimensionales, las columnas de izquierda a derecha aumentan el valor de $\phi$, siendo $0.02,0.2$ y $2$ respectivamente.Las diferentes lineas implican distintas masas de depredador $m_P$ :({\hwplotR}) $10^5 kg$,  ({\hwplotY}) $1kg$, ({\hwplotG}) $10^{-5}kg$ y ({\hwplotB}) para $10^{-10}kg$. ({\hwplotK}) separa las zonas donde $K_{RC},K_{CP},k_{RP}$ son mayores o menores que 1 respectivamente. $\kappa_0 = 0.1$ y $\kappa_0 = 30$ para el caso $2D$ y $3D$ respectivamente, los valores de los otros par\'ametros son los descritos en el anexo \ref{subsec:params}}
   \label{fig:Z(IC3)}
 \end{figure}
 
-En los dos casos siguentes al supuesto anterior le sumamos que la dimensi\'on del espacio donde se distribuye tanto la recurso $R$ y el consumidor intermedio $C$ son el mismo, es decir: $D_R = D_C = D$.
+En los dos casos siguentes al supuesto anterior le sumamos que la dimensi\'on del espacio donde se distribuye tanto la recurso $R$ y el consumidor intermedio $C$ son el mismo, es decir: $D_R = D_C = D$ y $\alpha_{0,1} = \alpha_{0,2} = \alpha_{0,3} = \alpha$.
 
 Definamos:
 \begin{equation}
@@ -109,7 +123,12 @@ La primera de las condiciones es:
   \chi_3 + \chi_4 > q_{0,2}
 \end{equation}
 
-Dado que $\chi_3$ esta relacionado con la tasa de consumo del recurso basal y $\chi_4$ con la tasa m\'axima de consumo sobre el consumidor intermedio(i.e la tasa de consumo a la m\'axima abundancia para $C$) esta relaci\'on concuerda con la intuici\'on de la existencia de un nivel de energ\'ia m\'inimo para la invasi\'on de $P$, y donde $\chi_3 + \chi_4$ esta relacionado con la maxima energ\'ia disponible para el invasor $P$.
+Multiplicando la desigualdad anterior por $m_P^{\beta - 1}$ tenemos:
+\begin{equation}
+ \varepsilon_2 \alpha_2 R_2^* + \varepsilon_3 \alpha_3 \frac{r}{\alpha_1} > q_2
+\end{equation}
+Donde $R_2^*$ es el valor de equilibrio del recurso basal en el subsistema $C-R$, y para cualquier equilibrio $C_2^*$ de dicho sistema tenemos que $C_2^* < \frac{r}{\alpha_1}$. Por lo tanto la expresi\'on anterior nos da una tasa m\'axima de consumo por parte del invasor $P$, esta relaci\'on concuerda con la intuici\'on de la existencia de un nivel de energ\'ia m\'inimo para la invasi\'on de $P$, y donde $\chi_3 + \chi_4$ esta relacionado con la maxima energ\'ia disponible para el invasor $P$.
+
 En general tenemos, reemplazando en \eqref{eq:3rdCond}.
 \begin{equation}
   \begin{aligned}
@@ -126,7 +145,8 @@ Donde :
   \end{aligned}
 \end{equation}
 
-Definiendo $g_1:= f_1 k_\RC^{1-\beta} g_2:= f_2 k_\CP^{\beta- h} , g_3 := f_3 k_\CP^{\beta-h} $ , para $\phi$ \emph{suficientemente peque\~no} tenemos que las tres funciones son mon\'otonas y para $\phi$ \emph{suficientemente grande} tenemos que son \emph{unimodales}.\\
+
+Definiendo $g_1:= f_1 k_\RC^{1-\beta}, g_2:= f_2 k_\CP^{\beta- h} , g_3 := f_3 k_\CP^{\beta-h} $ , para $\phi$ \emph{suficientemente peque\~no} tenemos que las tres funciones son mon\'otonas y para $\phi$ \emph{suficientemente grande} tenemos que son \emph{unimodales}.\\
 
 En el siguiente argumento siempre que nos referimos al comportamiento respecto a una raz\'on de masas, mantenemos el otro fijo.\\
 
@@ -156,18 +176,18 @@ A su vez tenemos:
   \lim_{k_\RC \to \infty} \chi_3 = a_0 k_\CP^{\beta - h - \phi} \lim_{k_\RC \to \infty} \frac{h_2(k_\RP)}{h_1(k_\RP)} 
 \end{equation}
 
-Donde $h_i = \frac{f_i}{\Pi_i}$ y en el caso espec\'ifico de la combinaci\'on de estrategias $Gr-Gr-Ac$ tenemos: $\lim_{k_\RC \to +\infty} \chi_3 = a_0 k_\CP^{\beta -h + (D-1)p_d - \phi}$ luego para funciones mon\'otonas la condici\'on se cumple para $k_\RC$ \emph{suficientemente grande} y $k_\CP$ fijo siempre que $k_\CP^{\beta - h + (D-1)p_d - \phi} > \frac{q_{2,0}}{a_0}$, esta \'ultima condici\'on esta influenciada por la dimensi\'on del espacio de b\'usqueda ya que $ \beta - h + (D-1)p_d - \phi >0$ para espacios $2D$ y menor que cero para espacios $3D$. Las otras dos combinaciones de estrategias se comportan de forma similar.\\
+Donde $h_i = \frac{f_i}{\Pi_i}$ y en el caso espec\'ifico de la combinaci\'on de estrategias $Gr-Gr-Ac$ tenemos: $\lim_{k_\RC \to +\infty} \chi_3 = a_0 k_\CP^{\beta -h + (D-1)p_d - \phi}$ luego para funciones mon\'otonas la condici\'on se cumple para $k_\RC$ \emph{suficientemente grande} y $k_\CP$ fijo siempre que $k_\CP^{\beta - h + (D-1)p_d - \phi} > \frac{q_{2,0}}{a_0}$, esta \'ultima condici\'on esta influenciada por la dimensi\'on del espacio de b\'usqueda ya que existen valores de $\phi$ ( $\phi \in ]0.09, 0.28[$) para los que $ \beta - h + (D-1)p_d - \phi >0$ en espacios $2D$ y menor que cero para espacios $3D$. Las otras dos combinaciones de estrategias se comportan de forma similar.\\
 
-Para valores intermedios la situaci\'on es m\'as dif\'icil de describir y nos referimos a la figura  ~\ref{fig:NC_PCR}, donde se observa que el comportamiento asint\'otico en cierta manera se manifiesta a este nivel, teniendo para valores peque\~nos de $\phi$ y $k_\RC$ fijo un valor de $k_\CP$ a partir del cual la condici\'on se cumple, y caso contrario a valores altos de $\phi$, a su vez para $k_\CP$ fijo tenemos un valor de $k_\RC$ debajo del cual la condici\'on se cumple.Para $\phi$ elevado y $k_\RC$ elevado tenemos que la condici\'on se cumple a\'un para $k_\CP$ peque\~nos. A su vez se observan las diferencias existentes entre espacios de b\'usqueda de diferente dimensi\'on y distintas estrategias de forrajeo las cuales como se mencion\'o previamente comparten en gran medida el comportamiento cualitativo respecto a cambios en la raz\'on de masas.
+Para valores intermedios la situaci\'on es m\'as dif\'icil de describir y nos referimos a la figura  ~\ref{fig:NC_PCR}, donde se observa que el comportamiento asint\'otico en cierta manera se manifiesta a este nivel, teniendo para valores peque\~nos de $\phi$ y $k_\RC$ fijo un valor de $k_\CP$ a partir del cual la condici\'on se cumple, y caso contrario a valores altos de $\phi$, a su vez para $k_\CP$ fijo tenemos un valor de $k_\RC$ debajo del cual la condici\'on se cumple.Para $\phi$ elevado y $k_\RC$ elevado tenemos que la condici\'on se cumple a\'un para $k_\CP$ peque\~nos. A su vez se observan las diferencias cuantitativas existentes entre espacios de b\'usqueda de diferente dimensi\'on y distintas estrategias de forrajeo las cuales como se mencion\'o previamente comparten en gran medida el comportamiento cualitativo respecto a cambios en la raz\'on de masas.
 
 \begin{figure}
   \centering
-  \includegraphics[width = 0.99\textwidth]{./Plots/NecessityPCR.pdf}
-  \caption[Condiciones Necesarias $P \to C-R$]{Condiciones necesarias para la invasibilidad del depredador tope $P$ sobre el subsistema $C-R$.Para las estrategias de forrajeo:({\hwplotR}) $Ac-Sw-Sw$, ({\hwplotG}) $Gr-Gr-Ac$ y ({\hwplotB}) $Ac-Ac-Ac$. La fila superior se refiere a ambientes $2D$ y la inferior a $3D$, de izquierda a derecha tenemos $\phi : 0.02,0.2 y 2$. $k_0= 0.1,30$ en ambientes $2D$ y $3D$ respectivamente.}
+  \includegraphics[width = 0.99\textwidth]{./Plots/NecPCR.pdf}
+  \caption[Condiciones Necesarias $P \to C-R$]{Condiciones necesarias para la invasibilidad del depredador tope $P$ sobre el subsistema $C-R$. La fila superior se refiere a ambientes $2D$ y la inferior a $3D$. De derecha a izquierda tenemos cambios en las combinaciones de estrategia de forrageo: Gr-Gr-Ac, Ac-Sw-Sw y Ac-Ac-AC. Distintos colores de l\'ineas indican distinto valor de $\phi$.$\kappa_0= 0.1,30$ en ambientes $2D$ y $3D$ respectivamente. }
   \label{fig:NC_PCR}
 \end{figure}
 
-En el caso de la segunda condici\'on, dado que $\mu_1$ es una condici\'on necesaria, tenemos que los valores de $k_\RC , k_\CP , m_P$ son tales que es posible la invasi\'on de $C$(es decir todas las restricciones descritas para la invasibilidad de $C$ ya se aplican, en particular $\kappa_0$ afecta positivamente el cumplimiento de esta condici\'on), reescribiendo la condici\'on anterior observamos que $\chi_2$ es justamente $\zeta_1(k_{\RC},k_{\CP})$ y por ende tenemos que $m_P^{1 + h - 2\beta} > \chi_2$ , y en este caso tendr\'iamos que la condic\'on se seguir\'ia cumpliendo siempre que $\frac{\chi_4}{\chi_3 + \chi_4 - q_{0,2}} \leq 1$ y una condici\'on suficiente para que se cumpla es $ \chi_3 \geq q_{0,2}$, lo que se traduce biol\'ogicamente a que todas las necesidades energ\'eticas del invasor son cubiertas por el recurso $R$.\\
+En el caso de la segunda condici\'on, dado que $\mu_1$ es una condici\'on necesaria, tenemos que los valores de $k_\RC , k_\CP , m_P$ son tales que es posible la invasi\'on de $C$(es decir todas las restricciones descritas para la invasibilidad de $C$ ya se aplican, en particular $\kappa_0$ afecta positivamente el cumplimiento de esta condici\'on), es decir $m_P^{1 + h - 2\beta} > \zeta_1$ , y en este caso tendr\'iamos que la condic\'on se seguir\'ia cumpliendo siempre que $\frac{\chi_4}{\chi_3 + \chi_4 - q_{0,2}} \leq 1$ y una condici\'on suficiente para que se cumpla es $ \chi_3 \geq q_{0,2}$, lo que se traduce biol\'ogicamente a que todas las necesidades energ\'eticas del invasor son cubiertas por el recurso $R$.\\
 
 Usando la tabla desarrollada anteriormente vemos que dependiendo de la forma de las funciones, se seleccionan distintos valores de $k_\CP$ y $k_\RC$. Para funciones mon\'otonas para $k_\RC$ fijo existe un $k_\CP$ a partir del cual la condici\'on se cumple , y en el caso de funciones unimodales la condici\'on no se cumple para $k_\CP$ \emph{suficientemente grande o peque\~no}. Tomando igual que en el caso anterior la combinaci\'on de estrategias de forrajeo $Gr-Gr-Ac$ tenemos que 
 \begin{equation}
@@ -182,7 +202,7 @@ Este criterio comparte una propiedad cualitativa con los dos anteriores, siempre
 \begin{figure}
   \centering
   \includegraphics[width = 0.99\textwidth]{./Plots/Z(IC4)AcGrGr.pdf}
-  \caption[Env $Z(IC4)$]{\emph{Envolturas de Invasibilidad} para el caso de el depredador tope $P$ como invasor frente a una comunidad receptora formada por $R-C$ .Las dem\'as especificaciones se comparten con la figura ~\ref{fig:Z(IC2)}}
+  \caption[Env $Z(IC4)$]{\emph{Envolturas de Invasibilidad} para el caso de el depredador tope $P$ como invasor frente a una comunidad receptora formada por $C-R$. Las dem\'as especificaciones se comparten con la figura ~\ref{fig:Z(IC2)}}
   \label{fig:Z(IC4)}
 \end{figure}
 
@@ -194,7 +214,7 @@ An\'alogamente al caso anterior tenemos que una condici\'on necesaria es $\mu_2$
 \end{equation}
 
 \begin{equation}
-\frac{dC}{dt}  >0 \ sss \ \mu_4 := (\gamma_2 = \chi_3 + c_\varepsilon \chi_4 - q_{0,2} < 0 \ \lor \  m_P^{h + 1 - 2\beta} < \zeta_4(k_{\RC},k_{\CP}) = \frac{\chi_4}{\chi_3 + c_\varepsilon \chi_4 - q_{0,2}} \zeta_2 )
+\frac{dC}{dt}  >0 \ sss \ \mu_4 := (\gamma_2 = \chi_3 + c_\varepsilon \chi_4 - q_{0,2} < 0 \ \lor \  m_P^{h + 1 - 2\beta} < \zeta_4(k_{\RC},k_{\CP}) = \frac{c_\varepsilon \chi_4}{\chi_3 + c_\varepsilon \chi_4 - q_{0,2}} \zeta_2 )
 \end{equation}
 
 
@@ -206,7 +226,7 @@ Por lo tanto:
 
 La primera de las condiciones es :
 \begin{equation}
-  \chi_3 + c \chi_4 < q_{2,0}
+  \chi_3 + c \chi_4 < q_{0,2}
 \end{equation}
 
 Por lo tanto el comportamiento de esta condici\'on respecto a cambios en los raz\'on de masas es an\'alogo al descrito para el caso anterior(invirtiendo las zonas de cumplimiento y no cumplimiento de la condici\'on). A su vez si $c>1$ el cumplimiento de esta condici\'on implica el incumplimiento del criterio anterior.\\
@@ -220,8 +240,8 @@ Por lo tanto el comportamiento es el contrario al descrito para el criterio ante
 
 \begin{figure}
   \centering
-  \includegraphics[width = 0.99\textwidth]{./Plots/NecessityCPR.pdf}
-  \caption[Condiciones Necesarias $C \to P-R$]{Condiciones necesarias para la invasibilidad del depredador intermedio $C$ sobre el subsistema $P-R$. Las especificaciones se comparten con la figura ~\ref{fig:NC_PCR}}
+  \includegraphics[width = 0.99\textwidth]{./Plots/NecCPR.pdf}
+  \caption[Condiciones Necesarias $C \to P-R$]{Condiciones necesarias para la invasibilidad del depredador intermedio $C$ sobre el subsistema $P-R$. La fila superior se refiere a ambientes $2D$ y la inferior a $3D$. De derecha a izquierda tenemos cambios en el valor de $\phi$. Distintos colores indican disintas combinaciones de estrategia de forrajeo. Los valores de $\kappa_0$ se comparten con \ref{fig:NC_PCR}.}
   \label{fig:NC_CPR}
 \end{figure}
 
@@ -280,7 +300,7 @@ En cualquiera de los dos casos una condici\'on necesaria para la existencia del 
 Recobramos nuevamente la condici\'on $q_{0,2} > \chi_3$, por tanto comparte las propiedades ya descritas previamente. \\
 
 
-Para $A>0$ el equilibrio es positivo si y solo si $\frac{dP}{dt} >0 $ y $\frac{dC}{dt} >0$ , por tanto en este caso tenemos que la zona de coexistencia hereda varias de las propiedades descritas en los dos casos anteriores, m\'as a\'un para $A <0$ tenemos que el equilibrio no puede formarse por una secuencia de invasiones con los supuestos dados en ~\ref{subsubsec:Inv}, y a su vez el equilibrio es inestable (criterio de \emph{Ruth-Hurwtiz}\citep{holt1997theoretical}), por lo que el valor de $A$ influencia en gran medida las propiedades de la zona de coexistencia.\\
+Para $A>0$ el equilibrio es positivo si y solo si $\frac{dP}{dt} >0 $ y $\frac{dC}{dt} >0$ , por tanto en este caso tenemos que la zona de coexistencia hereda varias de las propiedades descritas en los dos casos anteriores, m\'as a\'un para $A < 0$ tenemos que el equilibrio no puede formarse por una secuencia de invasiones con los supuestos dados en ~\ref{subsubsec:Inv}, y a su vez el equilibrio es inestable (criterio de \emph{Ruth-Hurwtiz}\citep{holt1997theoretical}), por lo que el valor de $A$ influencia en gran medida las propiedades de la zona de coexistencia.\\
 
 
 \begin{equation}
@@ -292,14 +312,14 @@ En el caso que $C_\varepsilon > 1 $ y $ A  > 0$ tenemos que de existir el equili
 Adem\'as el comportamiento de esta relaci\'on respecto a cambios en raz\'on de masas tiene similitudes con los descritos previamente, es dependiente de la forma de las funciones(mon\'otonas o unimodales), en el caso de funciones mon\'otonas y para $k_\CP$ fijo $\mu_0/\mu_1$ se hace extremadamente peque\~no para $k_\RC$ muy elevados y por tanto existe una mayor restricci\'on sobre el valor $m_p$ que da $A>0$. En ambos casos la restricci\'on se relaja para $k_\RC$ peque\~nos, y adem\'as en el caso de funciones unimodales para $k_\RC$ elevados.\\
 Para ilustrar el comportamiento respecto a $k_\CP$ usamos la combinaci\'on de estrategias $Gr-Gr-Ac$ y para un $k_\RC$ fijo tenemos irrespectivamente de la forma de las funciones:
 \begin{equation}
-      \lim_{k_\CP \to 0} \frac{\mu_0}{\mu_1} 
+  \lim_{k_\CP \to 0} \frac{\chi_4}{\chi_2} 
   \begin{cases}
      0 & \beta > h \\
      \infty & \beta + p_v < h\\ 
   \end{cases}
 \end{equation}
 \begin{equation}
-  \lim_{k_\CP \to \infty} \frac{\mu_0}{\mu_1}
+  \lim_{k_\CP \to \infty} \frac{\chi_4}{\chi_2}
   \begin{cases}
     \infty & \beta > h\\ 
     0 & \beta + p_v < h\\
@@ -309,7 +329,7 @@ Para ilustrar el comportamiento respecto a $k_\CP$ usamos la combinaci\'on de es
 Donde el primero de los casos se da en espacios de b\'usqueda $2D$ y el segundo en $3D$(comportamientos similares se observan para otras combinaciones de forrajeo). Por lo que para espacios de b\'usqueda $2D$ y $k_\RC$ fijos la condici\'on sobre $m_P$ se relaja para $k_\CP$ elevados y lo contrario ocurre para $k_\CP$ peque\~nos. En espacios $3D$ tenemos el comportamiento opuesto.\\
 Este comportamiento respecto a cambios en los raz\'on de masas se puede interpretar biol\'ogicamente de la siguiente manera, si tenemos una combinaci\'on de $m_P,k_\RC$ y $k_\CP$ que coexisten de forma estable incrementos(disminuciones) de $k_\CP$, a partir de un valor determinado conllevar\'ian a la desestabilizaci\'on del equilibrio para espacios $3D$($2D$).\\
 
-En la figura  ~\ref{fig:PSCoexistence} se muestran distintas curvas de nivel para la zonas de coexistencia con $A>0(E_1)$, debido a que en este caso las condiciones son menores que para la zona de invasilibidad mutua se observa que el \'area total aumenta, sin embargo como se esperaba tienen formas similares. Es de mencionar la presencia, para un valor de $m_P$ fijo y $\phi$ elevado, de dos zonas distintas de combinaciones de raz\'on de masas que promueven coexistencia las cuales se diferencian por tener una mayor o menor intersecci\'on con la regi\'on $k_\CP > 1$. \\
+En la figura  ~\ref{fig:PSCoexistence} se muestran distintas curvas de nivel para la zonas de coexistencia con $A > 0(E_1)$, debido a que en este caso las condiciones son menores que para la zona de invasilibidad mutua se observa que el \'area total aumenta, sin embargo como se esperaba tienen formas similares. Es de mencionar la presencia, para un valor de $m_P$ fijo y $\phi$ elevado, de dos zonas distintas de combinaciones de raz\'on de masas que promueven coexistencia las cuales se diferencian por tener una mayor o menor intersecci\'on con la regi\'on $k_\CP > 1$. \\
 
 \begin{figure}
   \centering
@@ -318,24 +338,89 @@ En la figura  ~\ref{fig:PSCoexistence} se muestran distintas curvas de nivel par
   \label{fig:PSCoexistence}
 \end{figure}
 
+En el caso de $ A > 0 $, tenemos que una condici\'on para que el equilibrio sea localmente estable es:
+\begin{equation}
+  a_1 a_2 > a_3
+\end{equation}
 
+Donde:
+\begin{equation}
+  \begin{aligned}
+    a_1 &= \frac{r}{K}R^* \\
+    a_2 &= \alpha_2^2 \varepsilon_2 R^* P^*  + \alpha_1^2 \varepsilon_1 R^* N^*  + \alpha_3^2 \varepsilon_3 N^* P^*\\
+    a_3 &= \frac{\alpha R^* N^* P^* A}{K} 
+  \end{aligned}
+\end{equation}
+Como se dijo anteriormente si $c_\varepsilon > 1$, esta condici\'on siempre se cumple. Caso contrario:
 
+Con la parametrizaci\'on usada y manipulando algebraicamente esta expresi\'on tenemos:
+\begin{equation}
+  B_0 [ \frac{\alpha_2}{\alpha_1}(m_P^{h - 2 \beta + 1} B_3 - B_4) + \frac{\alpha_1}{\alpha_2}(B_2 - B_1m_P^{h - 2 \beta + 1})]  +\frac{K}{r} (m_P^{h-2 \beta + 1} B_3 - B_4) (m_p^{2 \beta - 1 - h} B_2 - B_1)  > 0
+\end{equation}
 
+Donde:
+\begin{equation}
+  \begin{aligned}
+    B_0 &= \alpha_{0,1}f_1(k_\RC)k_\CP^{h - 1} ( \frac{\chi_3}{c_\varepsilon} + \chi_4 - q_{0,2})\\
+    B_1 &= \frac{\varepsilon_1 \alpha_1 \alpha_{0,2} f_2(k_\RP)}{\alpha_3}(\chi_3 + c_\varepsilon \chi_4 - q_{0,2}) \\
+    B_2 &= \frac{r_0 q_{0,2} k_\RP^{2(\beta - 1)} }{\kappa_0} \\
+    B_3 &= \frac{\alpha_1}{\alpha_3} \varepsilon_1 \alpha_{0,1} f_1(k_\RC) k_\CP^{h - 1}(\chi_3 + \chi_4 - q_{0,2})\\
+    B_4 &= \frac{\varepsilon_3 q_{0,1} r_0 k_\RP^{2(\beta - 1)} k_\CP^{\beta - 1}}{\kappa_0}
+  \end{aligned}
+\end{equation}
 
+Observe que:
+\begin{equation}
+  \begin{aligned}
+    \frac{B_4}{B_3} &= \zeta_3(k_\RC,k_\CP) \\
+    \frac{B_2}{B_1} &= \zeta_4(k_\RC,k_\CP)
+  \end{aligned}
+\end{equation}
 
+Por lo tanto bajo la parametrizaci\'on usada, si existe equilibrio positivo con $c_\varepsilon < 1$(i.e.,  $\mu_3$ y $\mu_4$ se cumplen) el equilibrio es localmente estable.\\
 
+\subsection{Longitud de Cadena tr\'ofica}
 
+Dentro de la zona de coexistencia, la MTP en el punto de equilibrio esta dada por:
+\begin{equation}
+  MTP = 2 + \frac{\varepsilon_3 \alpha_3 C^*}{q_2}
+\end{equation}
 
+Donde:
+\begin{equation}
+  \frac{\varepsilon_3 \alpha_3 C^*}{q_2} = \frac{K \alpha_1 \alpha_2 \varepsilon_3 \varepsilon_1 - K \alpha_2 \varepsilon_2 (\varepsilon_3/q_2) (\alpha_2 q_1 + \alpha_3 r) + \varepsilon_3 \alpha_3 r}{ K \alpha_1\alpha_2 \varepsilon_1 \varepsilon_3 - K \alpha_1\alpha_2 \varepsilon_2 + \varepsilon_3 \alpha_3 r}
+\end{equation}
+Por lo que desv\'ios del valor 3(el cual se obtiene en una cadena lineal) se da debido a la diferencia entre $(\varepsilon_3)(\alpha_2 q_1 + \alpha_3 r) >  q_2 \alpha_1 $. Reescribiendo en nuestra parametrizaci\'on tenemos:
+\begin{equation}\label{eq:MTP}
+  \frac{1}{c_\varepsilon} \chi_3 + \chi_4  > q_{0,2}
+\end{equation}
+Es decir, mientras m\'as cerca est\'en ambos lados de la desigualdad, siempre que permanezcamos en la zona de coexistencia tenemos que la $MTP$ se aproxima al valor $3$(es de mencionar que dentro de la zona de coexistencia el valor 3, nunca es alcanzado, dado que \eqref{eq:MTP} es necesario para que $R^* > 0$.\\
 
+En la figura \ref{fig:MTPvar} se observa la variac\'on de esta diferencia respecto a cambios en las razones de masas que cumplan la condici\'on necesaria para coexistencia $q_{0,2} > \chi_3$. Se observa que la variaci\'on es cualitativamente similar tanto para ambientes de b\'usqueda 2D y 3D; sin embargo para $\phi = 2$ observamos que la cadena de acortar\'ia  para valores elevados de $k_\RC$. Observamos adem\'as que para gran porcentaje de valores la diferencia es ``intermedia''.
 
+\begin{figure}
+  \centering
+  \includegraphics[width = 0.99\textwidth]{./Plots/MTPvar.pdf}
+  \caption[MTP]{Influencia de la raz\'on de masas sobre la MTP en el punto de equilibrio dentro de la zona de coexistencia, $\omega = \frac{1}{c_\varepsilon} \chi_3 + \chi_4  - q_{0,2}$. Se observa que en los l\'imites de la potencial zona de coexistencia el m\'odulo se volver\'ia lineal y para $k_\RC$ elevados con $k_\CP$ intermedio y $\phi = 2$, el m\'odulo se ``ensanchar\'ia''}
+  \label{fig:MTPvar}
+\end{figure}
 
+\subsection{An\'alisis de Datos}
+En base a los m\'odulos IGP extra\'idos de la red tr\'ofica de Benguela, observamos que existe una relaci\'on con respecto al nivel de productividad basal $\kappa_0$ de la proporci\'on de m\'odulos cumpliendo alguna de nuestras condiciones, m\'as a\'un esta relaci\'on no se ve afectada cualitativamente por cambios en $\phi$. Esto se representa en la figura \ref{fig:DataAna} . \\
+Tenemos que para $\mu_1, \mu_2 , \mu_3$  la proporci\'on crece con aumentos en $\kappa_0$ y para $\mu_4$ pasa lo opuesto. La proporci\'on cumpliendo el criterio de invasi\'on de $P$ a $C-R$ y de $C$ a $P-R$ tambi\'en aumenta con la productividad, con la diferencia que el segundo crece con mucha menor magnitud. La proporci\'on para coexistencia e invasibilidad mutua tiene un pico a valores intermedios de $\kappa_0$. La existencia de una baja cantidad de m\'odulos cumpliendo la condici\'on de coexistencia a niveles de $\kappa_0$ ``elevados'' puede tener muchas interpretaciones:
+\begin{itemize}
+\item  El modelo no cubre todos los particulares de un grupo dado de especies y por ende ajustes en los coeficientes del modelo podr\'ian hacer que cumplan el criterio de coexistencia.
+\item El modelo no implementa heterogenidad espacial. Esto es, a pesar de no existir coexistencia dentro de un parche de h\'abitat, al considerar un conjunto de parches como una metacomunidad, las tres especies podr\'ian coexistir a nivel de \emph{todo} el conjunto de parches de h\'abitat.
+\item El modelo no considera posibles presas adicionales para alguno de los depredadores\citep{holt2007alternative}.
+\item Si bien no coexisten en un atractor de punto, lo hacen en otro tipo de atractor(e.g ciclo l\'imite). Simulaciones num\'ericas indican que este no ser\'ia el caso, y siempre que el depredador tope puede invadir lo que causa es la extinci\'on del consumidor intermedio; sin embargo se necesita explorar m\'as este punto. 
+\end{itemize}
 
-
-
-
-
-
-
+\begin{figure}
+  \centering
+  \includegraphics[width = 0.99\textwidth]{./Plots/DataAna.pdf}
+  \caption[Empirica]{Proporci\'on de m\'odulos IGP extra\'idos de la Red tr\'ofica de Benguela para los cuales las distintas condiciones se cumplen, se observa un patr\'on unimodal sobre la Invasibilidad mutua y coexistencia.}
+  \label{fig:DataAna}
+\end{figure}
 
 
 

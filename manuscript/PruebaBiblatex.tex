@@ -1,0 +1,79 @@
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\documentstyle[psfig,twoside]{chithesis}
+\documentclass{article}
+%
+% The following two lines double space the document which is as the
+% thesis office demands it should be
+\newcommand{\spacing}[1]{\renewcommand{\baselinestretch}{#1}\large\normalsize}
+\spacing{2}
+%
+\title{Assembly of Ecological Networks, Mathematical and Ecological perspectives}
+\author{Carlos Andres Marcelo Servan}
+\university{The University of Chicago}
+\faculty{The Faculty of The Cluster of Darwinian Sciences}
+\department{Department of Ecology and Evolution} 
+\degreename{Doctor of Philosophy}
+\placename{Chicago, Illinois}
+\degreedate{June 2020}  % Convocation date
+%
+\begin{document}                   % Note order of topmatter items!
+\maketitle			   % Generates title page
+\makecopyright			   % Makes copyright page
+% The following lines make a dedication page
+\newpage
+\thispagestyle{empty}
+\setcounter{page}{3}
+\null\vfil
+\centerline{\it your dedication here}
+\vspace{1.5in}
+% End of dedication page
+%%%%% IMPORTANT %%%%%%
+% If you don't use both the dedication page and the copyright page, the
+% page numbering of the topmatter will be INCORRECT!!!  Change the number
+% in the \setcounter command above to make it right.
+%%%%%%%%%%%%%%%%%%%%%%
+%
+\topmatter{Acknowledgments}        % Like \chapter for preliminary material
+% Put the text here for the acknowledgments
+% 
+\tableofcontents
+\listoffigures
+%\listoftables
+% 
+\topmatter{Abstract}               % Like \chapter for preliminary material
+% Put the text here for your abstract
+%
+%% The following lines are for two sided printing where the page numbers
+%% and the margins are different for the even numbered and odd numbered
+%% pages.  If your front matter does not contain an even number of pages 
+%% you need an extra blank page so that page one of the text is a right 
+%% handed page.  Please note that depending on your printer and how you 
+%% print out your thesis, you may need to add an extra piece of paper here 
+%% when you put the first sided copies back in the printer. 
+%\newpage
+%\thispagestyle{empty}
+%\null\vfill
+%\newpage
+%% End of two sided printing kludge
+%
+%need a tex file for each of these below:
+%\include{intro}   % each of these is just a LaTex file starting with the
+%\include{chap2}   % command \chapter{Chapter Title Here}
+%\include{chap3}   % the \section and \subsection commands
+%\include{chap4}   % are also quite useful.
+%\include{chap5}
+%\include{chap6}
+%\include{concl}
+%
+%\begin{appendix}
+%\begin{myappendix_tex_file}
+%\end{appendix}
+%
+% Use bibtex for the references.  Bibtex conveniently creates a list of
+% \bibitems from a reference database called refs.bib.  The style file 
+% refsty.bst formats the references in the physical review style.
+\spacing{1}
+%\bibliographystyle{refsty}
+%\bibliography{refs}  %references are located in a files refs.bib
+\end{document}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
