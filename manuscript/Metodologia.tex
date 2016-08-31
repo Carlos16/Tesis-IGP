@@ -2,7 +2,7 @@
 
 \subsection{Modelaci\'on matem\'atica}
 
-Tomando como base el m\'odulo de tres especies  IGP - \emph{depredaci\'on intragremial}-(descrito en \citealt{polis1989ecology,polis1992intraguild}),usamos un modelo matem\'atico \citep{holt1997theoretical} para describir las interacciones entre las especies componentes (recurso, consumidor intermedio(IG presa) y depredador tope(IG depredador) ). Este m\'odulo ha sido sugerido como un sistema de complejidad suficiente para incorporar distintos mecanimos que provocan variaci\'on en la longitud de las cadenas tr\'oficas : Inserci\'on, Adici\'on y Omnivorismo \citep{TP2007proximate}.
+Tomando como base el m\'odulo de tres especies \emph{depredaci\'on intragremial}-(descrito en \citealt{polis1989ecology,polis1992intraguild}),usamos un modelo matem\'atico \citep{holt1997theoretical} para describir las interacciones entre las especies componentes (recurso, consumidor intermedio(IG presa) y depredador tope(IG depredador) ). Este m\'odulo ha sido sugerido como un sistema de complejidad suficiente para incorporar distintos mecanimos que provocan variaci\'on en la longitud de las cadenas tr\'oficas : Inserci\'on, Adici\'on y Omnivorismo \citep{TP2007proximate}.
 
 \subsubsection{Forma general}
 La din\'amica del systema est\'a gobernada ,de forma general,por el siguiente sistema de ecuaciones diferenciales: \\
@@ -15,7 +15,7 @@ Sea $ N= (N_1,N_2,N_3) = (\dot{R} , \dot{C} , \dot{P}) : \mathbb{R}^3 \to \mathb
 \end{aligned}
 \end{equation}
 \subsubsection*{Donde:}
-\begin{tabular}{l@{:}p{5.8in}}
+\begin{longtable}{l@{: }p{5.8in}}
 $R$\ &   Densidad de biomasa del recurso $R$.\\
 $C$\ &  Densidad de biomasa del consumidor intermedio(IG prey) $C$.\\
 $P$\ &  Densidad de biomasa del depredador tope(IG predator) $P$.\\
@@ -28,7 +28,7 @@ $\epsilon_2$\ &  Eficiencia de conversi\'on de biomasa del recurso $R$ en biomas
 $\epsilon_3$\ &  Eficiencia de conversi\'on de biomasa del consumidor $C$ en biomasa del depredador tope $P$.\\
 $q_1$\ &  Tasa de p\'erdida de biomasa por unidad de masa del consumidor intermedio $C$.\\
 $q_2$\ &  Tasa de p\'erdida de biomasa por unidad de masa del depredador tope $P$.\\
-\end{tabular}
+\end{longtable}
 \subsubsection{Forma espec\'ifica  \emph{Lotka-Volterra}}
 En este caso asumimos que el recurso tiene un crecimiento log\'istico y que la tasa de consumo per c\'apita de biomasa escala linearmente con la densidad de biomasa del recurso, i.e., usamos una respuesta funcional Tipo I \citep{gotelliprimer}, la cual es una modificaci\'on del modelo Lotka-Volterra \citep{gotelliprimer}.\\
 \mbox{}\\
@@ -61,7 +61,7 @@ Reemplazando \eqref{eq:p1} en \eqref{eq:Gsystem} tenemos:
 \end{equation}
 
 \subsubsection*{Donde:}
-\begin{tabular}{l@{:}p{5.8in}}
+\begin{longtable}{l@{: }p{5.8in}}
 $r$  \ & Tasa intr\'inseca de producci\'on de biomasa del Recurso $R$.\\
 $K$  \  &Capacidad de carga (en biomasa) del recurso $R$.\\
 $\alpha_1$  \ & Tasa por unidad de masa de b\'usqueda y captura de biomasa del depredador intermedio $C$ sobre  el recurso basal $R$.\\
@@ -76,7 +76,7 @@ $D_J$  \ & Dimensi\'on del espacio en el cual se desarrola depredaci\'on sobre l
 $f_1$ \ & Estrategia de forrajeo de la consumidor intermedio $C$ .\\
 $f_2$ \ & Estrategia de forrajeo del depredador tope $P$ sobre $R$ .\\
 $f_3$ \ & Estrategia de forrajeo del depredador tope $P$ sobre $C$ .\\
-\end{tabular}
+\end{longtable}
 
 Los par\'ametros y funciones no mencionados mantienen la descripci\'on dada en el caso general.
 \subsubsection{Parametrizaci\'on}
@@ -93,7 +93,7 @@ Usando las relaciones definidas en \cite{savage2004effects} tenemos:
 \end{aligned}
 \end{equation}
 
-$\beta_J$ es el exponente que describe la variaci\'on de la tasa metab\'olica a nivel de individuo con la masa de la especie $J$, cuyo valor ha sido descrito entre $2/3 - 1$ siendo $3/4$ el asociado a una tasa metab\'olica basal y valores superiores a tasas metab\'olicas en actividad\citep{pawar2012dimensionality,west1997general,savage2004predominance}. \\
+$\beta_J$ es el exponente que describe la variaci\'on de la tasa metab\'olica a nivel de individuo con la masa de la especie $J$, cuyo valor ha sido descrito entre $2/3$ y $1$ siendo $3/4$ el asociado a una tasa metab\'olica basal y valores superiores a tasas metab\'olicas en actividad\citep{pawar2012dimensionality,west1997general,savage2004predominance}. \\
 $r_0,q_{0,1},q_{0,2}$ y $\kappa_0$ son constantes que dependen de la temperatura y la clase metab\'olica de las especies( e.g., endotermos o ectotermos) , $\kappa_0$ a su ves depende de la productividad del ecosistema \citep{pawar2012dimensionality}.
 \subsubsection{Par\'amatros inter-poblacionales}
 Usando las relaciones definidas en \citep{pawar2012dimensionality,kiltie2000scaling,mcgill2006allometric,bejan2006unifying} tenemos una relaci\'on para $m_j\alpha$  la tasa p\'ercapita de b\'usqueda(tasa de encuentro potencial) y captura de biomasa de recurso $i$ por parte de un depredador $j$, la cual depende del \'area buscada $S_A$ y la tasa de \'exito en la captura $\aleph$ : 
@@ -119,7 +119,7 @@ En \cite{pawar2012dimensionality} describen la variaci\'on de la velocidad para 
 &v = v_0m^{\beta - \beta_F}
 \end{aligned}
 \end{equation}
-$v_0$ es una constante que depende de la taxa y del modo de locomoci\'on y la constante metab\'olica $B_0$.\\
+$v_0$ es una constante que depende del taxa y el modo de locomoci\'on y la constante metab\'olica $B_0$. La fuerza es proporcional al \'area de la secci\'on transversal del cuerpo y los m\'usculos de los ap\'endices, la cual escala con el tama\~no corporal con el exponente $\beta_F$.\\
 
 $k_{ij}= m_i/m_j$ es el raz\'on de la masa del recurso con respecto al depredador , y $\Pi \in [0,1]$ y  puede tomar distintas formas\citep{weitz2006size}, en este trabajo se us\'o la siguiente(figura \ref{fig:efficiency}): 
 \begin{equation}\label{eq:sr}
@@ -203,8 +203,8 @@ En los 3 primeros escenarios la variaci\'on de la longitud de la cadena tr\'ofic
 
 La derivaci\'on de estos criterios asume lo siguiente:
 \begin{itemize}
-\item \emph{El sistema receptor se ha encontrado aislado por suficiente tiempo como para alcanzar un estado asimpt\'otico y que dicho estado es un punto de equilibrio}.\\Esta suposici\'on es plausible ya que se espera que los eventos de inmigraci\'on de $C$ y $P$ no coincidan y que la separaci\'on entre ambos sea \emph{suficientemente} larga. M\'as a\'un en el modelo usado, en cualquier subsistema de dos especies(e.g $R-C$) la condición inicial (e.g. $(R_0,C_0) \in R_2^+$) pertenece al dominio de atracci\'on del punto de equilibrio.(Dado que el sistema es \emph{volterra dissipative})
-\item \emph{La invasi\'on se considera exitosa si es que existe un crecimiento por parte del invasor en los instantes posteriores a la invasi\'on}. *En el caso del sistema tridimensional esta condición es necesaria para la invasión.
+\item \emph{El sistema receptor se ha encontrado aislado por suficiente tiempo como para alcanzar un estado asimpt\'otico y que dicho estado es un punto de equilibrio}.\\Esta suposici\'on es plausible ya que se espera que los eventos de inmigraci\'on de $C$ y $P$ no coincidan y que la separaci\'on entre ambos sea \emph{suficientemente} larga. M\'as a\'un en el modelo usado, en cualquier subsistema de dos especies(e.g $R-C$) la condici\'on inicial (e.g. $(R_0,C_0) \in R_2^+$) pertenece al dominio de atracci\'on del punto de equilibrio.(Dado que el sistema es \emph{volterra dissipative})
+\item \emph{La invasi\'on se considera exitosa si es que existe un crecimiento por parte del invasor en los instantes posteriores a la invasi\'on}. *En el caso del sistema tridimensional esta condici\'on es necesaria para la invasi\'on.
 \end{itemize}
 
 Se calcularon 5 criterios de invasibilidad $\mathbf{I_{\R},I_{\C \to \R},I_{\PP \to \R},I_{\PP \to \C-\R},I_{\C \to \PP-\R}}$ y se asoci\'o a cada uno la zona del espacio param\'etrico explorado donde se cumplen, la zona asociada al criterio $I$ se denota por $\mathbf{Z(I)}$ .\\
@@ -283,7 +283,7 @@ Dentro de la zona de coexistencia, calculamos el valor de la m\'axima posici\'on
 
 En base a la red tr\'ofica de Benguela \citep{yodzis1998:localTD} y los datos de masas coporarles publicados en \citet{brose2006:bodysizecr}. Extraemos de la red todos los triples de especies que conformen un m\'odulo IGP y para una gradiente de valores de $\kappa_0$ calculamos la proporci\'on de m\'odulos cumpliendo alguno de los criterios de invasibilidad o coexistencia respectivamente. 
 
-\begin{figure}
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width = 0.99\textwidth]{./Plots/Benguela.pdf}
   \caption[Benguela]{Red tr\'ofica de Benguela \citep{yodzis1998:localTD}}

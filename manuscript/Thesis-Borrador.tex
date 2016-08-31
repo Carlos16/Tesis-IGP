@@ -1,4 +1,5 @@
-\documentclass [11pt]{article}
+\documentclass [11pt,a4paper]{article}
+\setlength{\textfloatsep}{5pt}
 %\setlength{\textwidth}{6.25in}
 %\setlength{\textheight}{8.5in}
 %\setlength{\evensidemargin}{0in}
@@ -9,17 +10,20 @@
 \usepackage{setspace}
 \doublespacing
 \usepackage[left=3.5cm,right=2.5cm, top=2.5cm,bottom=2.5cm]{geometry}
+\setlength{\textfloatsep}{7pt}
 
-%\usepackage[english]{babel}
+\usepackage[english,spanish, es-tabla]{babel}
 \usepackage{csquotes}
+
 \usepackage [
    backend=bibtex
-   ,style=iso-authoryear
+   ,style=authoryear
+   ,citestyle=authoryear
    ,natbib=true
   ,autolang=other
 ]{biblatex}
 \addbibresource{BibliografiaTesis.bib}
-
+%\addbibresource{TesisIGP2.bib}
 
 \providecommand{\keywords}[1]{\textbf{Keywords:\ } #1}
 \providecommand{\palabrasclave}[1]{\textbf{Palabras clave:\ } #1}
@@ -38,7 +42,7 @@
 \numberwithin{equation}{section}
 %\renewcommand{\theequation}{\thesection\arabic{equation}}
 
-%NOTES
+
 
 \usepackage{xargs}                      % Use more than one optional parameter in a new commands
 \usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
@@ -58,19 +62,29 @@
 \newcommand{\hwplotG}{\raisebox{2pt}{\tikz{\draw[green,solid,line width=0.9pt](0,0) -- (5mm,0);}}}
 \newcommand{\hwplotB}{\raisebox{2pt}{\tikz{\draw[blue,solid,line width=0.9pt](0,0) -- (5mm,0);}}}
 \newcommand{\hwplotK}{\raisebox{2pt}{\tikz{\draw[black,dashed,line width=1.2pt](0,0) -- (5mm,0);}}}
-\newcommand{\hwplotT}{\raisebox{2pt}{\tikz{\draw[black,solid,line width=1.2pt](0,0) -- (5mm,0);}}}
+\newcommand{\hwplotT}{\raisebox{2pt}{\tikz{\draw[->,black,solid,line width=1.2pt](0,0) -- (5mm,0);}}}
+\newcommand{\hwplotQ}{\raisebox{2pt}{\tikz{\draw[->,black,dotted,line width=1.2pt](0,0) -- (5mm,0);}}}
+\newcommand{\hwplotW}{\raisebox{2pt}{\tikz{\draw[->,red,dotted,line width=1.2pt](0,0) -- (5mm,0);}}}
+
+
 
 
 \usepackage{graphicx} % Used to insert images
 \usepackage{adjustbox} % Used to constrain images to a maximum size 
 
 \usepackage{bm}
-%\usepackage[textsize=scriptsize]{todonotes}
 \usepackage[hypcap]{caption}
-\usepackage[hidelinks]{hyperref}
+\usepackage{hyperref}
+\usepackage[toc]{glossaries}
+\makeglossaries
 
-
-
+%\input{glossarithesis}
+\newglossaryentry{y}
+{ 
+  name = {\ensuremath{\land}},
+  description = {Conector l\'ogico ``y''},
+  sort = y
+}
 
 \usepackage{amsthm}
 \newtheorem{prop}{Proposici\'on}
@@ -88,15 +102,10 @@
 \renewcommand{\listfigurename}{Lista de Figuras}
 \renewcommand{\listtablename}{Lista de Tablas}
 \renewcommand{\tablename}{Tabla}
-\usepackage{tikz}
-%\usetikzlibrary{arrows,shapes,trees,..}
-%\usepackage{pgflibraryarrows}
-%\usepackage{pgflibrarysnakes}
+
 
 \usepackage{longtable}
 \usepackage[nottoc,numbib]{tocbibind}
-%\usepackage[round,sort]{natbib}
-%\renewcommand\refname{Referencias}
 
 \newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
 \newcommand{\PP}{\textit{\tiny P}}
@@ -110,7 +119,7 @@
 \newcommand{\RP}{\textit{\tiny RP}}
 
 
-%AMSMATH environment
+
 
 \makeatletter
 \newcommand{\mathleft}{\@fleqntrue}
@@ -121,6 +130,16 @@
 
 \usepackage{tikz,pgfplots}
 \usetikzlibrary{arrows,calc}
+\tikzset{
+every picture/.append style={
+  execute at begin picture={\deactivatequoting},
+  execute at end picture={\activatequoting}
+  }
+}
+
+\usepackage{etoolbox}
+\AtBeginEnvironment{tikzpicture}{\shorthandoff{>}\shorthandoff{<}}{}{}
+
 \newenvironment{customlegend}[1][]{%
     \begingroup
     % inits/clears the lists (which might be populated from previous
@@ -148,27 +167,29 @@
 }
 %%===================================
 
+
 \begin{document}
 %\setcounter{tocdepth}{3}
 \pagenumbering{gobble}
 \tableofcontents
 \listoffigures
 \listoftables
+\clearpage
 \input{Resumen}
 \input{Abstract}
 \clearpage
 \pagenumbering{arabic}
 \input{Introduccion}
 
-\section{MARCO TEORICO}
+\section{MARCO TE\'ORICO}
 \input{MarcoTeorico}
 
 \section{OBJETIVOS GENERALES Y ESPEC\'IFICOS}
 \subsection{Objetivo General}
-Desarrollar un mejor entendimiento de la relaci\'on existente entre los mecanismos que regulan la longitud de las cadenas tr\'oficas y la distribuci\'on de masas presente en la comunidad.
+Explorar la relaci\'on existente entre los mecanismos de variaci\'on de la longitud de las cadenas tr\'oficas y la distribuci\'on de masas presente en la comunidad.
 \subsection{Objetivos Espec\'ificos}
 \begin{itemize}
-\item Derivar condiciones necesarias y suficientes para la expresi\'on de los mecanismos responsables de la variaci\'on en la longitud de las cadenas tr\'oficas(e.g. inserci\'on, adici\'on y  grado de omnivor\'ismo); en funci\'on de la raz\'on de masas depredador-presa presentes en la comunidad, bajo el estudio de los mecanismos de coexistencia y ensamblaje del m\'odulo \emph{Intraguild predation}.
+\item Derivar condiciones necesarias y suficientes para la expresi\'on de los mecanismos responsables de la variaci\'on en la longitud de las cadenas tr\'oficas(e.g. inserci\'on, adici\'on y  grado de omnivorismo); en funci\'on de la raz\'on de masas depredador-presa presentes en la comunidad, bajo el estudio de los mecanismos de coexistencia y ensamblaje del m\'odulo de \emph{depredaci\'on intra-gremial}.
 \item Evaluar la influencia de factores como la dimensi\'on del ecosistema, la estrategia de forrajeo de los depredadores presentes y el nivel de productividad basal del ecosistema, sobre dichas condiciones.
 \end{itemize}
 
