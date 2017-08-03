@@ -1,0 +1,34 @@
+CondCoex <- function(krc, kcp, mp, D, k0, e1, e2, e3, f, fc, phi){
+    pd <- ifelse(D == 2, pd2D, pd3D)
+    a0 <- ifelse(D == 2, a02D, a03D)
+    fm1 <- ifelse(fc == 1, "Gr", "Ac")
+    fm2 <- ifelse(fc == 1, "Gr", ifelse(fc == 2, "Sw", "Ac"))
+    fm3 <- ifelse(fc == 1, "Ac", ifelse(fc == 2, "Sw", "Ac"))
+    h <- pv + 2*(D-1)*pd
+    w <- h + 1 - 2*b
+    c <-  e2/(e1 * e3)
+    ###############
+    c0 <- e2 * q0 / e1
+    c1 <- e3 * r0
+    krp <- krc * kcp
+    f1 <- f(krc, D, pv, pd, fm1, phi)
+    f2 <- f(krp, D, pv, pd, fm2, phi)
+    f3 <- f(kcp, D, pv, pd, fm3, phi)
+    chi1 <- e1 * k0 * a0 * f1 * krc**(1-b)
+    chi3 <- (c0 * f2 * kcp**(b - h)) / f1
+    chi4 <- (c1 * f3 * kcp**(b - h)) / ( f1 * krc**(1-b) )
+    gamma2 <- q0 / ( e2 * k0 * a0 * f2 * krp**(1-b))
+    gamma1 <- kcp**(-w) *q0 / chi1
+    condPCR <- chi3 + chi4 - q0
+    condCPR <- chi3 + c*chi4 - q0
+    gamma3 <- chi4/condPCR * gamma1
+    gamma4 <- c*chi4/condCPR * gamma2
+    Am <- ((c/(c-1)) * chi4 / chi2)**(1/w)
+    ################
+    FulCond <- list(mp > gamma1**(1/w), mp > gamma2**(1/w) , mp > gamma3**(1/w) , condPCR > 0 , condCPR < 0, mp < gamma4**(1/w), c > 1, mp < Am)
+
+    return(FulCond)
+}
+
+
+

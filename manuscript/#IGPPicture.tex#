@@ -1,0 +1,35 @@
+\begin{tikzpicture}[<->,>=stealth',shorten >=1pt,auto,thick,main node/.style={circle,fill=blue!20,draw,font=\sffamily\Large\bfseries}]
+
+
+\node[main node] (R) at (0,-3){R};
+\node[main node] (C) at (3,0) {C};
+\node[main node] (P) at (0,3) {P};
+
+ \path[every node/.style={font=\sffamily\small}]
+
+(R) edge [<-,red] (C)
+(R) edge [<-,red] (P)
+(P) edge [->,red] (C)
+(P) edge [bend right , dotted, blue] (R) 
+(P) edge [bend left , dotted, green]  (C)
+(R) edge [bend right ,dotted , black] (C);
+
+
+
+\begin{customlegend}[legend cell align=left,
+legend entries={ % <= in the following there are the entries
+Depredaci\'on,
+Competencia por explotaci\'on,
+Competencia aparente, 
+Mutualismo indirecto
+},
+legend style={at={(-1.5,3.5)},font=\footnotesize}] % <= to define position and font legend
+% the following are the "images" and numbers in the legend
+    \addlegendimage{-stealth,red}
+    \addlegendimage{stealth-stealth,dotted,green}
+    \addlegendimage{stealth-stealth,dotted,black}
+    \addlegendimage{stealth-stealth,dotted,blue}
+    
+\end{customlegend}
+
+\end{tikzpicture}

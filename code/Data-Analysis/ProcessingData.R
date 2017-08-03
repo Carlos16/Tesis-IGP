@@ -1,4 +1,3 @@
-setwd("C:\\Users\\Carlos\\Documents\\Thesis\\Tesis\\DataAnalysis")
 
 #Read data
 bodysizes<-read.delim('bodysizes_2008.txt')
@@ -23,13 +22,39 @@ ReorderColumns<-function(DF,icols){
   return(DF)
 }
 
+# adding foraging mode
+
+SetForagingMode <- function(Prey_Pred, MovData){
+    Prey <-  Prey_Pred[1]
+    Pred <- Prey_Pred[2]
+    M.Pred<- MovData[MovData[1] == Pred , 2]
+    M.Prey <- MovData[MovData[1] == Prey , 2]
+    return(ifelse(M.Pred == "A", ifelse(M.Prey == "A", "Ac", "Gr"), ifelse(M.Prey == "A", "Sw", NA)))
+}
+
+Mov.data <- read.csv("MovdataBenguela.csv")
 icols <- c("Common.name.s..resource","Common.name.s..consumer")
-benguela<-read.csv('benguela.csv')
+benguela<-read.csv('benguela.csv',as.is = T)
 benguela<-ReorderColumns(benguela,icols)
+FM <- apply(benguela[,1:2], 1, SetForagingMode , Mov.data)
+benguela$FM <- FM
 
 G <- graph.data.frame(benguela)
-plot(G,label= V(G))
 
+
+
+E(G)$color <- ifelse(E(G)$FM == "Ac", "darkred", "darkgreen")
+V(G)$size <- degree(G)/2.5
+
+layout <- layout.fruchterman.reingold(G, circular = T)
+plot(G, layout = layout ,  vertex.label.cex = 0.7 , vertex.label.color = "black" , edge.arrow.size = 0.3, vertex.color = "lightblue")
+pdf("Benguela.pdf")
+dev.off()
+library(ggplot2)
+ggsave("Benguela.pdf",limitsize=FALSE, height = 8, width = 12)  
+G2 <-  network(benguela, directed =  TRUE)
+
+ggnet2(G2, size = 6, color = "Metabolic.category.resource")
 ##Function for finding IGP modules
 
 findIGPs<-function(G){
@@ -46,18 +71,18 @@ findModules<-function(V,G){
   return(Modules)
 }  
 IGPmod<-function(G,resource){
-  Predators <- neighborhood(G,1,nodes = resource,mode ="out")
+  Predators <- neighborhood(G, 1, nodes = resource, mode ="out")
   IGPs <- c()
   n <- length(Predators[[1]])
   for(i in 2:n){
-    IGPs<-append(IGPs,findIGPrey(resource,i,Predators,G))
+    IGPs<-append(IGPs,findIGPrey(resource, i, Predators, G))
   }
   return(IGPs)
 }
 
-findIGPrey<-function(resource,predindex,Predators,G){
+findIGPrey<-function(resource, predindex,Predators,G){
   pIGPs<-c()
-  NeighPred <- neighborhood(G,1, nodes = Predators[[1]][predindex],mode="out")
+  NeighPred <- neighborhood(G, 1, nodes = Predators[[1]][predindex], mode="out")
   for(p in Predators[[1]][-c(1,predindex)]){
     if(p %in% NeighPred[[1]]){
       pIGPs<-append(pIGPs,list(c(resource,Predators[[1]][predindex],p)))
@@ -70,33 +95,41 @@ findIGPrey<-function(resource,predindex,Predators,G){
 IGPs<-findIGPs(G)
 ##Finding size ratios for the IGP modules
 
-findIGPsizeRatios <- function(IGPs,G){
+findIGPsizeRatiosFM <- function(IGPs,G){
   K_RC<-c()
   K_CP<-c()
   m_P <-c()
+  fm1 <- c()
+  fm2 <- c()
+  fm3 <- c()
   for(i in 1:length(IGPs)){
-    SR <- getsizeRatios(G,IGPs[i][[1]])
-    K_RC[i] = log10(SR[1])
-    K_CP[i] = log10(SR[2])
-    m_P[i] = log10(SR[3])
+      SRFM <- getsizeRatiosFM(G,IGPs[i][[1]])
+      SR <- SRFM[[1]]
+      FM <- SRFM[[2]]
+      K_RC[i] = SR[1]
+      K_CP[i] = SR[2]
+      m_P[i] = SR[3]
+      fm1[i] = FM[1]
+      fm2[i] = FM[3]
+      fm3[i] = FM[2]
   }
   
-  return(data.frame(K_RC,K_CP,m_P))
+  return(data.frame(K_RC, K_CP, m_P, fm1, fm2, fm3))
 }
 
-getsizeRatios<-function(G,igpL){
+getsizeRatiosFM<-function(G,igpL){
   SR<-c()
+  fm <- c()
   igpEdges = getIGPedges(G,igpL)
-  for(edge in igpEdges){
+  for(edge in igpEdges[1:2]){
     E <- E(G)[edge]
-    
     SR<-append(SR,c(1/E$Consumer.resource.body.mass.ratio))
+    fm <- append(fm,c(E$FM))
   }
-  
+  fm <- c(fm,E(G)[igpEdges[3]]$FM)
   m_P =E(G)[igpEdges[2]]$Mean.mass..g..consumer
   SR[3] <- m_P
-  return(SR)
-  
+  return(list(SR,fm))
 }
 
 getIGPedges<-function(G,igpL){
@@ -104,12 +137,19 @@ getIGPedges<-function(G,igpL){
   for(i in 1:2){
     edgeInd<-append(edgeInd,c(igpL[i],igpL[i+1]))
   }
+  edgeInd <-c(edgeInd,c(igpL[1], igpL[3]))
   edges<-get.edge.ids(G,edgeInd)
   return(edges)
 }
 
-SR <- findIGPsizeRatios(IGPs,G)
-
+SR <- findIGPsizeRatiosFM(IGPs,G)
+Res <- names(sapply(IGPs, function(x) V(G)[x][1]))
+IGPreys <- names(sapply(IGPs, function(x) V(G)[x][2]))
+IGPreds <- names(sapply(IGPs, function(x) V(G)[x][3]))
+SR$Res <- Res
+SR$IGPreys <- IGPreys
+SR$IGPreds <- IGPreds
+write.csv(SR,"BenguellaIGPS.csv",row.names = FALSE)
 #Exploratory plots
 
 #equation function
