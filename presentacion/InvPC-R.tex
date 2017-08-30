@@ -1,0 +1,13 @@
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,
+  thick,main node/.style={circle,fill=blue!20,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node](R1) at (1,0) { R};
+\node[main node](C1) at (0,2) {C};
+\node[main node](P1) at (1,4){P};
+
+\path
+(R1) edge (C1)
+(P1) edge[bend right,dotted] (C1)
+(P1) edge[bend left,dotted] (R1);
+\end{tikzpicture}
+
